@@ -1,0 +1,404 @@
+{
+  "version": 1,
+  "enabled": true,
+  "targetUser": "",
+  "themes": {
+    "user": {
+      "bg": "#1A1A22",
+      "avatarBg": "#000000",
+      "avatarText": "#A0A0C0",
+      "divider": "#A0A0C0",
+      "border": "#A0A0B4",
+      "nameText": "#E6E6F0",
+      "roleText": "#7878A0",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#d4c51c",
+        "#121212",
+        "#404040"
+      ],
+      "bgGradientAngle": 215
+    },
+    "admin": {
+      "bg": "#220E0E",
+      "avatarBg": "#2A1212",
+      "avatarText": "#FF6464",
+      "divider": "#FF6464",
+      "border": "#DC5050",
+      "nameText": "#FF8C8C",
+      "roleText": "#C83C3C",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#220E0E",
+        "#150808"
+      ],
+      "bgGradientAngle": 0
+    },
+    "owner": {
+      "bg": "#37be7f",
+      "avatarBg": "#121a26",
+      "avatarText": "#B87CFF",
+      "divider": "#B87CFF",
+      "border": "#AA64FF",
+      "nameText": "#ffffff",
+      "roleText": "#ffffff",
+      "bgGradient": true,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#37d2b3",
+        "#2f73a7",
+        "#3d2fa7"
+      ],
+      "bgGradientAngle": 133
+    },
+    "developer": {
+      "bg": "#0C1428",
+      "avatarBg": "#101A34",
+      "avatarText": "#64B4FF",
+      "divider": "#64B4FF",
+      "border": "#50A0F0",
+      "nameText": "#8CD2FF",
+      "roleText": "#3C82DC",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#0C1428",
+        "#060A18"
+      ],
+      "bgGradientAngle": 0
+    },
+    "advertising": {
+      "bg": "#1C0E24",
+      "avatarBg": "#24122E",
+      "avatarText": "#C878FF",
+      "divider": "#C878FF",
+      "border": "#B464F0",
+      "nameText": "#E6AAFF",
+      "roleText": "#A050D2",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#1C0E24",
+        "#100818"
+      ],
+      "bgGradientAngle": 0
+    },
+    "moderator": {
+      "bg": "#221C0A",
+      "avatarBg": "#2A220C",
+      "avatarText": "#FFC83C",
+      "divider": "#FFC83C",
+      "border": "#F0B428",
+      "nameText": "#FFDC64",
+      "roleText": "#DCA01E",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#221C0A",
+        "#141006"
+      ],
+      "bgGradientAngle": 0
+    }
+  },
+  "layout": {
+    "billboardWidth": 255,
+    "billboardHeight": 45,
+    "studsOffsetY": 2.5,
+    "avatarWidth": 44,
+    "cornerRadius": 8,
+    "innerCornerRadius": 5,
+    "borderThickness": 1,
+    "dividerWidth": 1,
+    "dividerHeightPct": 0.6,
+    "dividerTransparency": 0.75,
+    "nameTextSize": 13,
+    "nameFont": "GothamBold",
+    "roleTextSize": 9,
+    "roleFont": "GothamBold",
+    "initialsTextSize": 11,
+    "avatarTextGap": 10,
+    "textPaddingRight": 4,
+    "nameLabelHeight": 20,
+    "nameLabelY": 4,
+    "roleLabelHeight": 12,
+    "roleLabelY": 26,
+    "roleTextTransform": "upper",
+    "avatarImagePadding": 3,
+    "distanceScaleEnabled": true,
+    "distanceScaleNear": 10,
+    "distanceScaleFar": 60,
+    "distanceScaleMin": 0.35
+  },
+  "animations": {
+    "fadeInDuration": 0.2,
+    "fadeInEasing": "Back",
+    "cardTransparency": 0.2,
+    "borderTransparency": 0.85
+  },
+  "particles": {
+    "enabled": true,
+    "count": 4,
+    "minSize": 2,
+    "maxSize": 4,
+    "transparency": 0.5,
+    "moveDurationMin": 3,
+    "moveDurationMax": 5,
+    "colors": [
+      "#FFFFFF",
+      "#FFFFFF",
+      "#FFFFFF"
+    ]
+  },
+  "roleKeywords": {
+    "owner": [
+      "owner",
+      "vip"
+    ],
+    "developer": [
+      "developer",
+      "entwickler"
+    ],
+    "moderator": [
+      "moderator",
+      "mod"
+    ],
+    "admin": [
+      "admin",
+      "administrator"
+    ],
+    "advertising": [
+      "advertising",
+      "werbung"
+    ]
+  },
+  "roleUsers": {
+    "owner": [
+      "18372824",
+      "Swiftzian25",
+      "Starxflux16"
+    ],
+    "admin": [
+      "Lynxxcurrent2003",
+      "6363737299"
+    ],
+    "developer": [],
+    "moderator": [],
+    "advertising": [],
+    "user": [
+      "Maxblack006"
+    ]
+  },
+  "roleLabels": {
+    "18372824": "TL Owner",
+    "Lynxxcurrent2003": "TL Moderator",
+    "6363737299": "Oso",
+    "Swiftzian25": "TL Owner",
+    "innie_oderoutie88": "meow",
+    "Starxflux16": "TL Owner",
+    "Maxblack006": "TL"
+  },
+  "displayNames": {
+    "18372824": "telelumi",
+    "Lynxxcurrent2003": "Sec",
+    "6363737299": "TL Admin",
+    "Swiftzian25": "telelumi",
+    "innie_oderoutie88": "Pawsocks Enjoyer",
+    "Starxflux16": "telelumi",
+    "Maxblack006": "Straight"
+  },
+  "roleDisplayNames": {},
+  "gradients": {
+    "cardGradient": {
+      "enabled": false,
+      "type": "Linear",
+      "colors": [
+        "#B87CFF",
+        "#1A1A22"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
+      "rotation": 90,
+      "offset": [
+        0,
+        0
+      ]
+    },
+    "avatarGradient": {
+      "enabled": false,
+      "type": "Linear",
+      "colors": [
+        "#B87CFF",
+        "#160E1E"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
+      "rotation": 180,
+      "offset": [
+        0,
+        0
+      ]
+    },
+    "nameGradient": {
+      "enabled": false,
+      "type": "Linear",
+      "colors": [
+        "#FFFFFF",
+        "#B87CFF"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
+      "rotation": 0,
+      "offset": [
+        0,
+        0
+      ]
+    },
+    "roleGradient": {
+      "enabled": false,
+      "type": "Linear",
+      "colors": [
+        "#B87CFF",
+        "#8850CC"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
+      "rotation": 0,
+      "offset": [
+        0,
+        0
+      ]
+    },
+    "borderGradient": {
+      "enabled": false,
+      "type": "Linear",
+      "colors": [
+        "#B87CFF",
+        "#AA64FF"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
+      "rotation": 0,
+      "offset": [
+        0,
+        0
+      ]
+    }
+  },
+  "profilePictures": {
+    "owner": {
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png",
+      "file": "assets/TL-ROLE-PICS/TL-STAFF.png"
+    },
+    "user": {
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TLUSER-ROLE.png",
+      "file": "assets/TL-ROLE-PICS/TL-USER-ROLE.png"
+    },
+    "developer": {
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png",
+      "file": "assets/TL-ROLE-PICS/TL-STAFF.png"
+    },
+    "admin": {
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png",
+      "file": "assets/TL-ROLE-PICS/TL-STAFF.png"
+    },
+    "advertising": {
+      "file": "assets/TL-ROLE-PICS/TL-STAFF.png",
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png"
+    },
+    "moderator": {
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png",
+      "file": "assets/TL-ROLE-PICS/TL-STAFF.png"
+    }
+  },
+  "customAvatars": {
+    "Lynxxcurrent2003": {
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-Sec.png",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    },
+    "innie_oderoutie88": {
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/R5yn.png",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    },
+    "Maxblack006": {
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-Lenny.png",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    },
+    "Starxflux16": {
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-telelumi.png",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    }
+  },
+  "userColorOverrides": {
+    "innie_oderoutie88": {
+      "__enabled": true
+    },
+    "Maxblack006": {
+      "__enabled": true,
+      "bg": "#3b121c",
+      "avatarText": "transparent",
+      "avatarBg": "transparent",
+      "nameText": "#424242",
+      "roleText": "#6b6b6b"
+    }
+  },
+  "userGradientOverrides": {
+    "innie_oderoutie88": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#B87CFF",
+          "#1A1A22"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 90,
+        "offset": [
+          0,
+          0
+        ]
+      }
+    },
+    "Maxblack006": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#560b0f",
+          "#0e0e10"
+        ],
+        "transparency": [
+          0.5,
+          0
+        ],
+        "rotation": 198,
+        "offset": [
+          0,
+          0
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TLMenu — Roblox Script Menu</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/telelumi/TLASSETS/refs/heads/main/Icons/TL-Icon.png">
+<meta name="description" content="TLMenu — the all-in-one Roblox script menu. Categories, tools, and configurators in one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:    #05050a;
+  --bg1:   rgba(14, 14, 22, 0.65);
+  --bg2:   rgba(19, 19, 30, 0.8);
+  --bg3:   #1a1a28;
+  --bg4:   #232336;
+  --line:  rgba(255, 255, 255, 0.08);
+  --line2: rgba(255, 255, 255, 0.15);
+  --t1: #f8fafc;
+  --t2: #9b9bb0;
+  --t3: #54546b;
+
+  /* Logo-derived palette */
+  --blue:   #2f6fed;
+  --cyan:   #22d3ee;
+  --lime:   #c4f042;
+  --mint:   #34e5b0;
+  --amber:  #fbbf52;
+  --pink:   #ef4d9e;
+
+  --acc: var(--cyan);
+  --acc-hover: #4fe0f7;
+  --acc2: var(--pink);
+  --red: #ef4444;
+  --green: var(--mint);
+
+  --head: 'Geist', sans-serif;
+  --body: 'Geist', sans-serif;
+  --mono: 'Geist Mono', monospace;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+}
+
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+  background: var(--bg);
+  color: var(--t1);
+  font-family: var(--body);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── AMBIENT BG ── */
+.bg-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-orb { position: absolute; border-radius: 50%; filter: blur(110px); opacity: 0.5; will-change: transform; }
+.bg-orb.o1 { width: 650px; height: 650px; background: radial-gradient(circle, var(--blue), transparent 70%); top: -220px; left: -200px; animation: drift1 22s ease-in-out infinite alternate; }
+.bg-orb.o2 { width: 550px; height: 550px; background: radial-gradient(circle, var(--pink), transparent 70%); bottom: -150px; right: -120px; opacity: 0.35; animation: drift2 26s ease-in-out infinite alternate; }
+.bg-orb.o3 { width: 420px; height: 420px; background: radial-gradient(circle, var(--lime), transparent 70%); top: 38%; left: 52%; opacity: 0.22; animation: drift3 30s ease-in-out infinite alternate; }
+.bg-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 40px 40px; mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, transparent 75%); }
+
+@keyframes drift1 { 0% { transform: translate(0,0); } 100% { transform: translate(110px, 90px); } }
+@keyframes drift2 { 0% { transform: translate(0,0); } 100% { transform: translate(-100px, -90px); } }
+@keyframes drift3 { 0% { transform: translate(-50%,-50%) scale(1); } 100% { transform: translate(-40%,-55%) scale(1.15); } }
+
+main, nav, section, footer { position: relative; z-index: 1; }
+
+/* ── NAV ── */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; background: rgba(5, 5, 10, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.logo { display: flex; align-items: center; gap: 12px; font-family: var(--head); font-size: 18px; font-weight: 700; color: var(--t1); letter-spacing: -0.02em; text-decoration: none; cursor: pointer; background: none; border: none; }
+.logo-mark { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+
+.nav-cats { display: flex; gap: 4px; }
+.nav-cat { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--t2); background: transparent; border: none; padding: 10px 16px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s ease; position: relative; }
+.nav-cat:hover { color: var(--t1); background: rgba(255,255,255,0.04); }
+.nav-cat.active { color: var(--cyan); }
+.nav-cat.active::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 4px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--blue), var(--cyan)); box-shadow: 0 0 8px var(--cyan); }
+
+.nav-actions { display: flex; gap: 12px; align-items: center; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius-sm); font-family: var(--mono); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; text-transform: uppercase; letter-spacing: 0.05em; border: none; outline: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--blue), var(--cyan)); color: #06060c; box-shadow: 0 4px 14px rgba(34, 211, 238, 0.25); }
+.btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(34, 211, 238, 0.4); }
+.btn-secondary { background: rgba(255,255,255,0.05); color: var(--t1); border: 1px solid var(--line2); }
+.btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--t2); }
+
+.nav-burger { display: none; flex-direction: column; gap: 4px; background: transparent; border: none; cursor: pointer; padding: 8px; }
+.nav-burger span { width: 20px; height: 2px; background: var(--t1); border-radius: 2px; }
+
+/* ── MOBILE NAV SHEET ── */
+.mobile-cats { display: none; position: fixed; top: 64px; left: 0; right: 0; z-index: 199; background: rgba(8,8,14,0.97); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 8px 16px 16px; gap: 4px; }
+.mobile-cats.open { display: flex; }
+.mobile-cats .nav-cat { text-align: left; width: 100%; }
+
+@media (max-width: 860px) {
+  .nav-cats { display: none; }
+  .nav-burger { display: flex; }
+  .nav-actions .btn-secondary { display: none; }
+}
+
+/* ── MAIN CONTENT OFFSET ── */
+main { padding-top: 64px; }
+
+/* ── SECTION SHELL ── */
+.section { padding: 120px 32px 40px; max-width: 1180px; margin: 0 auto; scroll-margin-top: 80px; }
+.section + .section { padding-top: 100px; }
+.section-tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 18px; }
+.section-tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+.section-title { font-family: var(--head); font-size: clamp(32px, 5vw, 52px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 18px; }
+.section-sub { font-size: 16px; color: var(--t2); max-width: 620px; margin-bottom: 56px; }
+
+/* ── HERO ── */
+.hero { padding-top: 150px; text-align: left; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t2); background: rgba(255,255,255,0.04); border: 1px solid var(--line2); border-radius: 30px; padding: 8px 16px; margin-bottom: 28px; }
+.hero-eyebrow .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 10px var(--mint); animation: pulse 2s infinite; }
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+.hero-title { font-family: var(--head); font-size: clamp(40px, 7vw, 76px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.02; margin-bottom: 24px; max-width: 820px; }
+.hero-title .grad { background: linear-gradient(100deg, var(--blue), var(--cyan) 35%, var(--lime) 60%, var(--pink) 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero-sub { font-size: 17px; color: var(--t2); max-width: 560px; margin-bottom: 36px; }
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 64px; }
+.hero-actions .btn { padding: 14px 28px; font-size: 12px; }
+
+.hero-stats { display: flex; gap: 48px; flex-wrap: wrap; padding-top: 40px; border-top: 1px solid var(--line); }
+.hero-stat .num { font-family: var(--head); font-size: 30px; font-weight: 800; letter-spacing: -0.02em; background: linear-gradient(135deg, var(--t1), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero-stat .lbl { font-family: var(--mono); font-size: 11px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+/* ── CARD GRID ── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 900px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .card-grid { grid-template-columns: 1fr; } }
+
+.card {
+  position: relative;
+  background: var(--bg1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.card::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(34,211,238,0.10), transparent 60%);
+  opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+}
+.card:hover::before { opacity: 1; }
+.card:hover { transform: translateY(-4px); border-color: var(--line2); box-shadow: 0 20px 50px rgba(0,0,0,0.35); }
+
+.card-icon { width: 44px; height: 44px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--cyan); margin-bottom: 18px; background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.25); }
+.card h3 { font-family: var(--head); font-size: 17px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; }
+.card p { font-size: 13px; color: var(--t2); flex: 1; margin-bottom: 18px; }
+.card-status { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 10px; border-radius: 20px; align-self: flex-start; }
+.card-status.live { color: var(--mint); background: rgba(52,229,176,0.1); border: 1px solid rgba(52,229,176,0.25); }
+.card-status.soon { color: var(--t2); background: rgba(255,255,255,0.04); border: 1px solid var(--line2); }
+.card-status.locked { color: var(--amber); background: rgba(251,191,82,0.08); border: 1px solid rgba(251,191,82,0.25); }
+
+.card-link { position: absolute; inset: 0; z-index: 2; text-indent: -9999px; }
+.card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+.card-arrow { font-family: var(--mono); font-size: 13px; color: var(--t3); transition: transform 0.25s ease, color 0.25s ease; }
+.card:hover .card-arrow { color: var(--cyan); transform: translateX(3px); }
+.card.disabled { opacity: 0.55; cursor: not-allowed; }
+.card.disabled:hover { transform: none; box-shadow: none; }
+.card.disabled .card-link { pointer-events: none; }
+
+/* ── FEATURES SECTION ── */
+.feat-list { display: flex; flex-direction: column; gap: 14px; }
+.feat-row { display: flex; gap: 20px; align-items: flex-start; padding: 22px 24px; border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255,255,255,0.02); transition: border-color 0.2s, background 0.2s; }
+.feat-row:hover { border-color: var(--line2); background: rgba(255,255,255,0.035); }
+.feat-num { font-family: var(--mono); font-size: 12px; color: var(--t3); padding-top: 3px; flex-shrink: 0; width: 28px; }
+.feat-body h4 { font-family: var(--head); font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.feat-body p { font-size: 13px; color: var(--t2); }
+.feat-key { color: var(--lime); font-family: var(--mono); font-weight: 700; }
+
+/* ── SOCIALS ── */
+.social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 900px) { .social-grid { grid-template-columns: repeat(2, 1fr); } }
+.social-card { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--bg1); text-decoration: none; color: var(--t1); transition: all 0.2s ease; backdrop-filter: blur(10px); }
+.social-card:hover { border-color: var(--cyan); background: rgba(34,211,238,0.06); transform: translateY(-3px); }
+.social-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--cyan); background: rgba(34,211,238,0.08); border: 1px solid rgba(34,211,238,0.2); }
+.social-name { font-family: var(--head); font-weight: 700; font-size: 14px; }
+.social-sub { font-family: var(--mono); font-size: 11px; color: var(--t3); }
+
+/* ── NAMETAG SECTION ── */
+.nametag-entry { display: flex; flex-direction: column; align-items: flex-start; gap: 32px; padding: 48px; border: 1px solid var(--line); border-radius: var(--radius-xl); background: var(--bg1); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); position: relative; overflow: hidden; }
+.nametag-entry::before { content: ""; position: absolute; inset: 0; background: radial-gradient(600px circle at 20% 50%, rgba(34,211,238,0.07), transparent 65%); pointer-events: none; }
+.nametag-entry-label { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); }
+.nametag-entry-title { font-family: var(--head); font-size: clamp(24px, 3.5vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+.nametag-entry-desc { font-size: 15px; color: var(--t2); max-width: 540px; }
+.btn-entry { padding: 16px 36px; font-size: 13px; background: linear-gradient(135deg, var(--blue), var(--cyan)); color: #06060c; border-radius: var(--radius-sm); font-family: var(--mono); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; border: none; cursor: pointer; box-shadow: 0 4px 20px rgba(34,211,238,0.3); transition: all 0.2s ease; }
+.btn-entry:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(34,211,238,0.45); }
+.btn-entry .arr { font-size: 16px; transition: transform 0.2s ease; }
+.btn-entry:hover .arr { transform: translateX(4px); }
+
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--line); padding: 40px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; max-width: 1180px; margin: 0 auto; }
+footer .f-logo { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 12px; color: var(--t3); }
+footer .f-links { display: flex; gap: 24px; }
+footer .f-links a { font-family: var(--mono); font-size: 11px; color: var(--t3); text-decoration: none; text-transform: uppercase; letter-spacing: 0.06em; transition: color 0.2s; }
+footer .f-links a:hover { color: var(--t1); }
+</style>
+</head>
+<body>
+
+<div class="bg-fx">
+  <div class="bg-grid"></div>
+  <div class="bg-orb o1"></div>
+  <div class="bg-orb o2"></div>
+  <div class="bg-orb o3"></div>
+</div>
+
+<nav>
+  <button class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <img class="logo-mark" src="https://raw.githubusercontent.com/telelumi/TLASSETS/refs/heads/main/Icons/TL-Icon.png" alt="TLMenu Icon">
+    TLMenu
+  </button>
+
+  <div class="nav-cats">
+    <button class="nav-cat active" data-target="general">General</button>
+    <button class="nav-cat" data-target="features">Features</button>
+    <button class="nav-cat" data-target="socials">Socials</button>
+    <button class="nav-cat" data-target="nametag">Nametag Configurator</button>
+  </div>
+
+  <div class="nav-actions">
+    <a class="btn btn-secondary" href="https://github.com/" target="_blank" rel="noopener">Docs</a>
+    <button class="btn btn-primary" id="getStartedBtn">Get Started</button>
+    <button class="nav-burger" id="burgerBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-cats" id="mobileCats">
+  <button class="nav-cat active" data-target="general">General</button>
+  <button class="nav-cat" data-target="features">Features</button>
+  <button class="nav-cat" data-target="socials">Socials</button>
+  <button class="nav-cat" data-target="nametag">Nametag Configurator</button>
+</div>
+
+<main>
+
+  <!-- ── GENERAL ── -->
+  <section class="section hero" id="general">
+    <div class="hero-eyebrow"><span class="pulse-dot"></span> V0.04 — actively in development</div>
+    <h1 class="hero-title">The all-in-one <span class="grad">Roblox script menu.</span></h1>
+    <p class="hero-sub">TLMenu bundles theming, QuickActions, an emote system, voice skin stealer, and game utilities into one consistent GUI framework — a Roblox script, no executor needed.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Browse Categories</button>
+      <a class="btn btn-secondary" href="https://github.com/" target="_blank" rel="noopener">View Source</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">3</div><div class="lbl">Themes</div></div>
+      <div class="hero-stat"><div class="num">10+</div><div class="lbl">Subsystems</div></div>
+      <div class="hero-stat"><div class="num">24/7</div><div class="lbl">Iteration</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="general-tools" style="padding-top:20px;">
+    <div class="section-tag">Tools &amp; Configurators</div>
+    <h2 class="section-title" style="font-size: clamp(26px,3.5vw,36px);">Jump right in</h2>
+    <p class="section-sub">Standalone configuration interfaces for individual TLMenu subsystems.</p>
+
+    <div class="card-grid">
+      <div class="card" style="--mx:50%; --my:0%;">
+        <div class="card-icon">NT</div>
+        <h3>Nametag Configurator</h3>
+        <p>Visual editor for the TLMenu nametag system — colors, layout, particles, role keywords, and custom avatars, exportable live as JSON.</p>
+        <div class="card-foot">
+          <span class="card-status live">Live</span>
+          <span class="card-arrow">→</span>
+        </div>
+        <a class="card-link" href="nametag-configurator.html">Open Nametag Configurator</a>
+      </div>
+
+      <div class="card disabled">
+        <div class="card-icon">TE</div>
+        <h3>Theme Engine</h3>
+        <p>Coming soon: a global theme editor for all TLMenu panels with live preview and hook management.</p>
+        <div class="card-foot">
+          <span class="card-status soon">Coming Soon</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="card disabled">
+        <div class="card-icon">SE</div>
+        <h3>Settings Exporter</h3>
+        <p>Coming soon: central management for all player- and game-specific settings.</p>
+        <div class="card-foot">
+          <span class="card-status soon">Coming Soon</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ── -->
+  <section class="section" id="features">
+    <div class="section-tag">Features</div>
+    <h2 class="section-title">What TLMenu brings</h2>
+    <p class="section-sub">The complete feature set of the TLMenu Roblox script.</p>
+
+    <div class="feat-list">
+      <div class="feat-row">
+        <div class="feat-num">01</div>
+        <div class="feat-body">
+          <h4>QuickActions on Players</h4>
+          <p>Hug, Kiss, Slap, and over 40+ different animations, all applied directly to other players through the QuickActions bar.</p>
+        </div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-num">02</div>
+        <div class="feat-body">
+          <h4>German/French Voice Skin Stealer</h4>
+          <p>Pulls German and French voice skins straight from other players.</p>
+        </div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-num">03</div>
+        <div class="feat-body">
+          <h4>Universal FE</h4>
+          <p>Universal filtering-enabled support for maximum compatibility across different games.</p>
+        </div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-num">04</div>
+        <div class="feat-body">
+          <h4>Troll Options via QuickActions</h4>
+          <p>A range of troll functions, instantly accessible right from the QuickActions bar.</p>
+        </div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-num">05</div>
+        <div class="feat-body">
+          <h4>Emote System</h4>
+          <p>Quick access to the emote wheel with a single keypress — just hit <span class="feat-key">"."</span> (dot).</p>
+        </div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-num">06</div>
+        <div class="feat-body">
+          <h4>Recolorable GUI + Custom Cursor</h4>
+          <p>A fully recolorable interface paired with its own custom cursor that matches your chosen theme.</p>
+        </div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-num">07</div>
+        <div class="feat-body">
+          <h4>SmartBar Tabs</h4>
+          <p>Clean navigation across Home, Character, Scripts, Actions, Playerlist, and Settings.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SOCIALS ── -->
+  <section class="section" id="socials">
+    <div class="section-tag">Socials</div>
+    <h2 class="section-title">Stay connected</h2>
+    <p class="section-sub">Updates, support, and community around TLMenu.</p>
+
+    <div class="social-grid">
+      <a class="social-card" href="https://discord.gg/tlmenu" target="_blank" rel="noopener">
+        <div class="social-icon">DC</div>
+        <div class="social-name">Discord</div>
+        <div class="social-sub">Community &amp; Support</div>
+      </a>
+      <a class="social-card" href="https://github.com/telelumi" target="_blank" rel="noopener">
+        <div class="social-icon">GH</div>
+        <div class="social-name">GitHub</div>
+        <div class="social-sub">Source &amp; Releases</div>
+      </a>
+      <a class="social-card" href="https://scriptblox.com/u/telelumi" target="_blank" rel="noopener">
+        <div class="social-icon">SB</div>
+        <div class="social-name">Scriptblox</div>
+        <div class="social-sub">Scripts &amp; Releases</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── NAMETAG CONFIGURATOR ── -->
+  <section class="section" id="nametag">
+    <div class="section-tag">Nametag Configurator</div>
+    <h2 class="section-title">TLMenu's Nametag-Configurator</h2>
+    <p class="section-sub">Admin-side configuration tool for owners — define nametag appearance, role keywords, and layout.</p>
+
+    <div class="nametag-entry">
+      <div class="nametag-entry-label">Owner / Admin Tool</div>
+      <div class="nametag-entry-title">Configure &amp; deploy nametag<br>settings for your TLMenu.</div>
+      <div class="nametag-entry-desc">Not intended for end users. Owners and admins use this tool to define nametag parameters — colors, particles, and role assignments.</div>
+      <a class="btn-entry" href="TL-NAMETAG-CONFIGURATOR.html">Entry <span class="arr">→</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="f-logo"><img class="logo-mark" src="https://raw.githubusercontent.com/telelumi/TLASSETS/refs/heads/main/Icons/TL-Icon.png" alt="TLMenu Icon" style="width:24px;height:24px;"> TLMenu — Built solo, iterated daily.</div>
+  <div class="f-links">
+    <a href="#general">General</a>
+    <a href="#features">Features</a>
+    <a href="#socials">Socials</a>
+    <a href="#nametag">Nametag</a>
+  </div>
+</footer>
+
+<script>
+// ── NAV CATEGORY SWITCHING ──
+const sectionMap = { general: "general", features: "features", socials: "socials", nametag: "nametag" };
+const navCats = document.querySelectorAll(".nav-cat");
+
+function setActiveCat(target) {
+  document.querySelectorAll(".nav-cat").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.target === target);
+  });
+}
+
+navCats.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const target = btn.dataset.target;
+    const el = document.getElementById(sectionMap[target]);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+    setActiveCat(target);
+    document.getElementById("mobileCats").classList.remove("open");
+  });
+});
+
+// Update active nav state on scroll
+const sections = ["general", "features", "socials", "nametag"].map(id => document.getElementById(id));
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) setActiveCat(entry.target.id);
+  });
+}, { rootMargin: "-40% 0px -50% 0px" });
+sections.forEach(s => s && observer.observe(s));
+
+// Mobile burger toggle
+document.getElementById("burgerBtn").addEventListener("click", () => {
+  document.getElementById("mobileCats").classList.toggle("open");
+});
+
+// Get started -> jump to tools
+document.getElementById("getStartedBtn").addEventListener("click", () => {
+  document.getElementById("general-tools").scrollIntoView({ behavior: "smooth" });
+});
+
+// Card hover spotlight effect
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("mousemove", (e) => {
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty("--mx", ((e.clientX - rect.left) / rect.width * 100) + "%");
+    card.style.setProperty("--my", ((e.clientY - rect.top) / rect.height * 100) + "%");
+  });
+});
+</script>
+
+</body>
+</html>
