@@ -193,16 +193,26 @@
     ]
   },
   "roleUsers": {
-    "owner": [],
-    "admin": [],
+    "owner": [
+      "Galaticzlava2011"
+    ],
+    "admin": [
+      "6363737299"
+    ],
     "developer": [],
     "moderator": [],
     "advertising": [],
     "staff": [],
     "user": []
   },
-  "roleLabels": {},
-  "displayNames": {},
+  "roleLabels": {
+    "Galaticzlava2011": "TL OWNER",
+    "6363737299": "TL ADMIN"
+  },
+  "displayNames": {
+    "Galaticzlava2011": "telelumi",
+    "6363737299": "CengiZ"
+  },
   "roleDisplayNames": {},
   "userColorOverrides": {},
   "userGradientOverrides": {},
