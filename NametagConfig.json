@@ -298,54 +298,60 @@
   },
   "profilePictures": {
     "owner": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png",
-      "file": "assets/TL-ROLE-PICS/TL-STAFF.png"
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
     },
     "user": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TLUSER-ROLE.png",
-      "file": "assets/TL-ROLE-PICS/TL-USER-ROLE.png"
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TLUSER-ROLE.png",
+      "file": "assets/ROLE-ICONS/TLUSER-ROLE.png"
     },
     "developer": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png",
-      "file": "assets/TL-ROLE-PICS/TL-STAFF.png"
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
     },
     "admin": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png",
-      "file": "assets/TL-ROLE-PICS/TL-STAFF.png"
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
     },
     "advertising": {
-      "file": "assets/TL-ROLE-PICS/TL-STAFF.png",
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png"
+      "file": "assets/ROLE-ICONS/TL-STAFF.png",
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png"
     },
     "moderator": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png",
-      "file": "assets/TL-ROLE-PICS/TL-STAFF.png"
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
     }
   },
   "customAvatars": {
     "Lynxxcurrent2003": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-Sec.png",
-      "file": "",
+      "url": "https://raw.githubusercontent.com/TLMenu/TLMenu.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-Sec.png",
+      "file": "assets/TL-ROLE-PICS/TL-Sec.png",
       "strokeStart": "#FFFFFF",
       "strokeEnd": "#000000"
     },
     "innie_oderoutie88": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/R5yn.png",
-      "file": "",
+      "url": "https://raw.githubusercontent.com/TLMenu/TLMenu.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/R5yn.png",
+      "file": "assets/TL-ROLE-PICS/R5yn.png",
       "strokeStart": "#FFFFFF",
       "strokeEnd": "#000000"
     },
     "Maxblack006": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-Lenny.png",
-      "file": "",
+      "url": "https://raw.githubusercontent.com/TLMenu/TLMenu.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-Lenny.png",
+      "file": "assets/TL-ROLE-PICS/TL-Lenny.png",
       "strokeStart": "#FFFFFF",
       "strokeEnd": "#000000"
     },
     "Starxflux16": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-telelumi.png",
-      "file": "",
+      "url": "https://raw.githubusercontent.com/TLMenu/TLMenu.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-telelumi.png",
+      "file": "assets/TL-ROLE-PICS/TL-telelumi.png",
       "strokeStart": "#FFFFFF",
       "strokeEnd": "#000000"
+    },
+    "Abxsent0": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-Abxsent0.png",
+      "file": "assets/ROLE-ICONS/TL-Abxsent0.png",
+      "strokeStart": "#06402B",
+      "strokeEnd": "#88E788"
     }
   },
   "userColorOverrides": {
