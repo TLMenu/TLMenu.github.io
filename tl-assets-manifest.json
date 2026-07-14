@@ -3,9 +3,10 @@
   "baseUrl": "https://raw.githubusercontent.com/TLMenu/TLMenu.github.io/refs/heads/main",
   "tlassetsUrl": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main",
   "images": [
+    {"name": "TL David",            "repo": "tlassets:ROLE-ICONS/David.png",                 "file": "assets/TL-ROLE-ICONS/David.png"},
     {"name": "TL Owner Profile",    "repo": "NAMETAG-PROFILEPICTURES/TL-telelumi.png",       "file": "assets/TL-ROLE-PICS/TL-telelumi.png"},
-    {"name": "TL User Profile",     "repo": "tlassets:ROLE-ICONS/TLUSER-ROLE.png",            "file": "assets/ROLE-ICONS/TLUSER-ROLE.png"},
-    {"name": "TL Staff Icon",       "repo": "tlassets:ROLE-ICONS/TL-STAFF.png",               "file": "assets/ROLE-ICONS/TL-STAFF.png"},
+    {"name": "TL User Profile",     "repo": "tlassets:ROLE-ICONS/TLUSER-ROLE.png",           "file": "assets/ROLE-ICONS/TLUSER-ROLE.png"},
+    {"name": "TL Staff Icon",       "repo": "tlassets:ROLE-ICONS/TL-STAFF.png",              "file": "assets/ROLE-ICONS/TL-STAFF.png"},
     {"name": "TL Arda Avatar",      "repo": "NAMETAG-PROFILEPICTURES/TL-Arda.png",           "file": "assets/TL-ROLE-PICS/TL-Arda.png"},
     {"name": "TL Sec Avatar",       "repo": "NAMETAG-PROFILEPICTURES/TL-Sec.png",            "file": "assets/TL-ROLE-PICS/TL-Sec.png"},
     {"name": "TL Sleepy Avatar",    "repo": "NAMETAG-PROFILEPICTURES/TL-Sleepy.jpg",         "file": "assets/TL-ROLE-PICS/TL-Sleepy.jpg"},
