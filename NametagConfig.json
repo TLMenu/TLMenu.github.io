@@ -194,7 +194,7 @@
   },
   "roleUsers": {
     "owner": [
-      "Galaticzlava2011"
+      "Galacticzlava2011"
     ],
     "admin": [
       "6363737299"
@@ -206,12 +206,12 @@
     "user": []
   },
   "roleLabels": {
-    "Galaticzlava2011": "TL OWNER",
-    "6363737299": "TL ADMIN"
+    "6363737299": "TL ADMIN",
+    "Galacticzlava2011": "TL OWNER"
   },
   "displayNames": {
-    "Galaticzlava2011": "telelumi",
-    "6363737299": "CengiZ"
+    "6363737299": "CengiZ",
+    "Galacticzlava2011": "telelumi"
   },
   "roleDisplayNames": {},
   "userColorOverrides": {},
