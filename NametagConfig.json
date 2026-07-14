@@ -203,19 +203,70 @@
     "moderator": [],
     "advertising": [],
     "staff": [],
-    "user": []
+    "user": [
+      "Carlosmagegirls"
+    ]
   },
   "roleLabels": {
     "6363737299": "TL ADMIN",
-    "Galacticzlava2011": "TL OWNER"
+    "Galacticzlava2011": "TL OWNER",
+    "Carlosmagegirls": "TL SUPPORTER"
   },
   "displayNames": {
     "6363737299": "CengiZ",
-    "Galacticzlava2011": "telelumi"
+    "Galacticzlava2011": "telelumi",
+    "Carlosmagegirls": "David"
   },
   "roleDisplayNames": {},
-  "userColorOverrides": {},
-  "userGradientOverrides": {},
+  "userColorOverrides": {
+    "Carlosmagegirls": {
+      "__enabled": true,
+      "roleText": "#ffffff",
+      "nameText": "#ffffff",
+      "divider": "#000000",
+      "border": "#5c5c5c",
+      "bg": "transparent",
+      "avatarBg": "transparent"
+    }
+  },
+  "userGradientOverrides": {
+    "Carlosmagegirls": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#8c8c8c",
+          "#1A1A22"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 90,
+        "offset": [
+          0,
+          0
+        ]
+      },
+      "borderGradient": {
+        "enabled": false,
+        "type": "Linear",
+        "colors": [
+          "#B87CFF",
+          "#AA64FF"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 0,
+        "offset": [
+          0,
+          0
+        ]
+      }
+    }
+  },
   "gradients": {
     "cardGradient": {
       "enabled": false,
@@ -320,5 +371,12 @@
       "file": "assets/ROLE-ICONS/TL-STAFF.png"
     }
   },
-  "customAvatars": {}
+  "customAvatars": {
+    "Carlosmagegirls": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/David.png",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    }
+  }
 }
