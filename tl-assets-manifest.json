@@ -68,7 +68,7 @@
     {"name": "Dexter Playerlist Icon", "repo": "tlassets:THEMES/DEXTER/Theme-Dexter-Playerlist-Icon.png", "file": "assets/THEMES/DEXTER/Theme-Dexter-Playerlist-Icon.png"}
   ],
   "audio": [
-    {"name": "Loading Voice Line",  "repo": "tlassets:TL%20SFX/TLMENU-STANDARD-SFX/TLMenuLoadingScreen-VoiceLine.mp3", "file": "assets/TL-MP3-FILES/TLMenuLoadingScreen-VoiceLine.mp3"},
+    {"name": "Loading Screen",  "repo": "tlassets:TL-MP3/TLMenuLoadingScreen.mp3", "file": "assets/TL-MP3-FILES/TLMenuLoadingScreen.mp3"},
     {"name": "Admin Join Audio",    "repo": "tlassets:TL%20SFX/TLMENU-STANDARD-SFX/TLSYSTEM-ADMIN-SFX.mp3", "file": "assets/TL-MP3-FILES/TLSYSTEM-ADMIN-SFX.mp3"},
     {"name": "The Boys Music",     "repo": "tlassets:TL%20SFX/THEME%20MUSICS/THE%20BOYS/The%20Boys%20Homelander%20Theme%20Enhanced%20Version.mp3", "file": "assets/TL-MP3-FILES/Theme-TheBoys-Music.mp3"},
     {"name": "Dragonball Music",    "repo": "tlassets:TL%20SFX/THEME%20MUSICS/DRAGONBALL/DRAGONBALL-THEME-MUSIC-1.mp3", "file": "assets/TL-MP3-FILES/DragonBall-Music1.mp3"},
