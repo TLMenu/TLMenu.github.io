@@ -3,6 +3,7 @@
   "baseUrl": "https://raw.githubusercontent.com/TLMenu/TLMenu.github.io/refs/heads/main",
   "tlassetsUrl": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main",
   "images": [
+    {"name": "Cid-C-USER",            "repo": "tlassets:ROLE-ICONS/Cid.png",                 "file": "assets/TL-ROLE-ICONS/Cid.png"},
     {"name": "TL David",            "repo": "tlassets:ROLE-ICONS/David.png",                 "file": "assets/TL-ROLE-ICONS/David.png"},
     {"name": "TL Owner Profile",    "repo": "NAMETAG-PROFILEPICTURES/TL-telelumi.png",       "file": "assets/TL-ROLE-PICS/TL-telelumi.png"},
     {"name": "TL User Profile",     "repo": "tlassets:ROLE-ICONS/TLUSER-ROLE.png",           "file": "assets/ROLE-ICONS/TLUSER-ROLE.png"},
