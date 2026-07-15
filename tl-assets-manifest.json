@@ -24,6 +24,8 @@
     {"name": "R5yn Avatar",         "repo": "NAMETAG-PROFILEPICTURES/R5yn.png",              "file": "assets/ROLE-ICONS/R5yn.png",                     "priority": 1, "tag": "avatar.r5yn"},
     {"name": "usxirr Avatar",       "repo": "NAMETAG-PROFILEPICTURES/TL-Oso.png",            "file": "assets/ROLE-ICONS/TL-Usxirr.png",                "priority": 1, "tag": "avatar.usxirr"},
     {"name": "Abxsent0 Avatar",     "repo": "tlassets:ROLE-ICONS/TL-Abxsent0.png",           "file": "assets/ROLE-ICONS/TL-Abxsent0.png",              "priority": 1, "tag": "avatar.abxsent0"},
+    {"name": "Cid Avatar",          "repo": "tlassets:ROLE-ICONS/Cid.png",                   "file": "assets/ROLE-ICONS/Cid.png",                      "priority": 1, "tag": "avatar.bananen_esser100"},
+    {"name": "91v0 Avatar",         "repo": "tlassets:ROLE-ICONS/91v0.png",                  "file": "assets/ROLE-ICONS/91v0.png",                     "priority": 1, "tag": "avatar.x1_77x"},
     {"name": "Communication Icon",  "repo": "tlassets:TL-DEFAULT/Com-Icon.png",              "file": "assets/TL-DEFAULT/Com-Icon.png",                 "priority": 1, "tag": "tab.com"},
     {"name": "VC Unmuted Icon",     "repo": "tlassets:TL-DEFAULT/ANTIVCBAN-Unmuted-Icon.png", "file": "assets/TL-DEFAULT/TL_Unmuted.png",               "priority": 1, "tag": "vc.unmuted"},
     {"name": "VC Muted Icon",       "repo": "tlassets:TL-DEFAULT/ANTIVCBAN-Mute-Icon.png",    "file": "assets/TL-DEFAULT/TL_Muted.png",                 "priority": 1, "tag": "vc.muted"},
