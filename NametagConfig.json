@@ -204,62 +204,44 @@
     "advertising": [],
     "staff": [],
     "user": [
-      "Carlosmagegirls"
+      "Bananen_esser100"
     ]
   },
   "roleLabels": {
     "6363737299": "TL ADMIN",
-    "Galacticzlava2011": "TL OWNER",
-    "Carlosmagegirls": "TL SUPPORTER"
+    "Galacticzlava2011": "TL OWNER"
   },
   "displayNames": {
     "6363737299": "CengiZ",
     "Galacticzlava2011": "telelumi",
-    "Carlosmagegirls": "David"
+    "Bananen_esser100": "Cid"
   },
   "roleDisplayNames": {},
   "userColorOverrides": {
-    "Carlosmagegirls": {
+    "Bananen_esser100": {
       "__enabled": true,
-      "roleText": "#ffffff",
-      "nameText": "#ffffff",
-      "divider": "#000000",
-      "border": "#5c5c5c",
+      "avatarBg": "transparent",
       "bg": "transparent",
-      "avatarBg": "transparent"
+      "roleText": "#ffffff",
+      "border": "#404040",
+      "divider": "#000000",
+      "avatarText": "transparent"
     }
   },
   "userGradientOverrides": {
-    "Carlosmagegirls": {
+    "Bananen_esser100": {
       "cardGradient": {
         "enabled": true,
         "type": "Linear",
         "colors": [
-          "#8c8c8c",
-          "#1A1A22"
+          "#8B0000",
+          "#000000"
         ],
         "transparency": [
           0,
           0
         ],
         "rotation": 90,
-        "offset": [
-          0,
-          0
-        ]
-      },
-      "borderGradient": {
-        "enabled": false,
-        "type": "Linear",
-        "colors": [
-          "#B87CFF",
-          "#AA64FF"
-        ],
-        "transparency": [
-          0,
-          0
-        ],
-        "rotation": 0,
         "offset": [
           0,
           0
@@ -372,8 +354,8 @@
     }
   },
   "customAvatars": {
-    "Carlosmagegirls": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/David.png",
+    "Bananen_esser100": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/Cid.png",
       "file": "",
       "strokeStart": "#FFFFFF",
       "strokeEnd": "#000000"
