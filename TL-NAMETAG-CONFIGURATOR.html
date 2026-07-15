@@ -468,6 +468,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 56px; di
     <button class="btn btn-secondary" onclick="resetDefaults()">Reset</button>
     <button class="btn btn-secondary" onclick="importJSON()">Import</button>
     <button class="btn btn-primary" onclick="exportJSON()">Export JSON</button>
+    <button class="btn btn-primary" onclick="pushToGitHub()" id="pushBtn">Push to GitHub</button>
   </div>
   </div>
 </nav>
@@ -547,6 +548,36 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 56px; di
         <h3>Role Profile Pictures</h3><span class="arrow">▼</span>
       </div>
       <div class="ed-body" id="profileBody"></div>
+    </div>
+
+    <div class="ed-section">
+      <div class="ed-head" onclick="toggleSection(this)">
+        <h3>GitHub Sync</h3><span class="arrow">▼</span>
+      </div>
+      <div class="ed-body">
+        <div class="field">
+          <label class="field-label">GitHub Token (Personal Access Token)</label>
+          <input type="password" class="input-text" id="ghToken" placeholder="ghp_..." onchange="saveGitHubConfig()">
+        </div>
+        <div class="field">
+          <label class="field-label">Owner / Repo</label>
+          <div class="field-row">
+            <input type="text" class="input-text" id="ghOwner" value="TLMenu" placeholder="Owner" onchange="saveGitHubConfig()" style="flex:1">
+            <input type="text" class="input-text" id="ghRepo" value="TLMenu.github.io" placeholder="Repo" onchange="saveGitHubConfig()" style="flex:2">
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Branch</label>
+          <input type="text" class="input-text" id="ghBranch" value="main" placeholder="main" onchange="saveGitHubConfig()">
+        </div>
+        <div class="field">
+          <label class="field-label">Manifest Files Path</label>
+          <input type="text" class="input-text" id="ghManifestPath" value="tl-assets-manifest.json" placeholder="tl-assets-manifest.json" onchange="saveGitHubConfig()">
+        </div>
+        <div style="font-size: 11px; color: var(--t3); margin-top: 4px; line-height: 1.5;">
+          Config is saved per-browser. Token is <b>never</b> sent anywhere except the GitHub API. Push commits directly to your repo.
+        </div>
+      </div>
     </div>
 
   </div>
@@ -673,12 +704,12 @@ const DEFAULTS = {
     borderGradient:  { enabled:false, type:"Linear", colors:["#B87CFF","#AA64FF"], transparency:[0,0], rotation:0, offset:[0,0] }
   },
   profilePictures: {
-    owner:{ url:"https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-telelumi.png", file:"assets/TL-ROLE-PICS/TL-telelumi.png" },
-    user:{ url:"https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TLUSER-ROLE.png", file:"assets/TL-ROLE-PICS/TLUSER-ROLE.png" },
-    staff:{ url:"", file:"assets/TL-ROLE-PICS/TL-ROLE-LOGO.png" }
+    owner:{ url:"https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-telelumi.png", file:"assets/ROLE-ICONS/TL-telelumi.png" },
+    user:{ url:"https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TLUSER-ROLE.png", file:"assets/ROLE-ICONS/TLUSER-ROLE.png" },
+    staff:{ url:"", file:"assets/ROLE-ICONS/TL-ROLE-LOGO.png" }
   },
   customAvatars: {
-    usxirr:{ url:"https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-Oso.png", file:"assets/TL-ROLE-PICS/TL-Usxirr.png", strokeStart:"#9A7211", strokeEnd:"#000000" }
+    usxirr:{ url:"https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-Oso.png", file:"assets/ROLE-ICONS/TL-Usxirr.png", strokeStart:"#9A7211", strokeEnd:"#000000" }
   }
 };
 
@@ -815,6 +846,7 @@ function init() {
   });
   document.getElementById("targetUserInp").value = config.targetUser || "";
   loadUIState();
+  loadGitHubConfig();
   buildThemeTabs(); buildColorGrid(); buildLayout(); buildAnimation();
   buildParticles(); buildKeywords(); buildProfilePictures(); buildUserCustomization();
   buildGradients(); buildPreviewThemeBtns(); buildPreviewSubjectSelect(); updatePreview();
@@ -2077,6 +2109,230 @@ function doImport() {
 function resetDefaults() {
   if(!confirm("Do you really want to reset all settings?")) return;
   config = JSON.parse(JSON.stringify(DEFAULTS)); init(); saveConfig(); toast("Reset to defaults!");
+}
+
+// ── GITHUB SYNC ──
+const GH_STORAGE_KEY = "tl-nametag-github";
+
+function loadGitHubConfig() {
+  try {
+    const raw = localStorage.getItem(GH_STORAGE_KEY);
+    if (raw) {
+      const gh = JSON.parse(raw);
+      if (gh.token) document.getElementById("ghToken").value = gh.token;
+      if (gh.owner) document.getElementById("ghOwner").value = gh.owner;
+      if (gh.repo) document.getElementById("ghRepo").value = gh.repo;
+      if (gh.branch) document.getElementById("ghBranch").value = gh.branch;
+      if (gh.manifestPath) document.getElementById("ghManifestPath").value = gh.manifestPath;
+    }
+  } catch(e) {}
+}
+
+function saveGitHubConfig() {
+  try {
+    localStorage.setItem(GH_STORAGE_KEY, JSON.stringify({
+      token: document.getElementById("ghToken").value.trim(),
+      owner: document.getElementById("ghOwner").value.trim(),
+      repo: document.getElementById("ghRepo").value.trim(),
+      branch: document.getElementById("ghBranch").value.trim(),
+      manifestPath: document.getElementById("ghManifestPath").value.trim()
+    }));
+  } catch(e) {}
+}
+
+function ghHeaders() {
+  return {
+    "Authorization": "Bearer " + document.getElementById("ghToken").value.trim(),
+    "Accept": "application/vnd.github.v3+json",
+    "Content-Type": "application/json"
+  };
+}
+
+function ghBase() {
+  const o = document.getElementById("ghOwner").value.trim();
+  const r = document.getElementById("ghRepo").value.trim();
+  return "https://api.github.com/repos/" + o + "/" + r;
+}
+
+async function ghGetFile(path) {
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  const url = ghBase() + "/contents/" + path + "?ref=" + branch;
+  const res = await fetch(url, { headers: ghHeaders() });
+  if (res.status === 404) return { sha: null, content: null };
+  if (!res.ok) throw new Error("GET " + path + " failed: " + res.status);
+  const data = await res.json();
+  return { sha: data.sha, content: atob(data.content) };
+}
+
+async function ghPutFile(path, content, message, sha) {
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  const body = {
+    message: message,
+    content: btoa(unescape(encodeURIComponent(content))),
+    branch: branch
+  };
+  if (sha) body.sha = sha;
+  const res = await fetch(ghBase() + "/contents/" + path, {
+    method: "PUT",
+    headers: ghHeaders(),
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(function(){ return {}; });
+    throw new Error(err.message || "PUT " + path + " failed: " + res.status);
+  }
+  return res.json();
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+
+function generateManifestFromConfig(cfg) {
+  var meta = { version: 4, baseUrl: "https://raw.githubusercontent.com/TLMenu/TLMenu.github.io/refs/heads/main", tlassetsUrl: "https://raw.githubusercontent.com/TLMenu/TLASSETS/main" };
+  var images = [];
+  var audio = [
+    {"name":"Loading Screen","repo":"tlassets:TL-MP3/TLMenuLoadingScreen.mp3","file":"assets/TL-MP3-FILES/TLMenuLoadingScreen.mp3","priority":1,"tag":"sfx.loading"},
+    {"name":"Admin Join Audio","repo":"tlassets:TL%20SFX/TLMENU-STANDARD-SFX/TLSYSTEM-ADMIN-SFX.mp3","file":"assets/TL-MP3-FILES/TLSYSTEM-ADMIN-SFX.mp3","priority":1,"tag":"sfx.admin"},
+    {"name":"The Boys Music","repo":"tlassets:TL%20SFX/THEME%20MUSICS/THE%20BOYS/The%20Boys%20Homelander%20Theme%20Enhanced%20Version.mp3","file":"assets/TL-MP3-FILES/Theme-TheBoys-Music.mp3","priority":2,"tag":"music.theboys"},
+    {"name":"Dragonball Music","repo":"tlassets:TL%20SFX/THEME%20MUSICS/DRAGONBALL/DRAGONBALL-THEME-MUSIC-1.mp3","file":"assets/TL-MP3-FILES/DragonBall-Music1.mp3","priority":2,"tag":"music.dragonball"},
+    {"name":"OP: A Very Very Strongest","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/A%20VERY%20VERY%20VERY%20STRONGEST.mp3","file":"assets/TL-MP3-FILES/OP-M-00.mp3","priority":2,"tag":"music.op.00"},
+    {"name":"OP: Gear 5 Epic","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/GEAR%205%20EPIC%20VERSION.mp3","file":"assets/TL-MP3-FILES/OP-M-01.mp3","priority":2,"tag":"music.op.01"},
+    {"name":"OP: Gear 5 Drums","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/GEAR%205%20THEME%20(DRUMS%20OF%20LIBERATION).mp3","file":"assets/TL-MP3-FILES/OP-M-02.mp3","priority":2,"tag":"music.op.02"},
+    {"name":"OP: Kaizoku Ou","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/KAIZOKU%20OU%20NI%20ORE%20WA%20NARU.mp3","file":"assets/TL-MP3-FILES/OP-M-03.mp3","priority":2,"tag":"music.op.03"},
+    {"name":"OP: Luffy vs Ratchet","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/Luffy%20vs%20Ratchet%20Final%20Battle.mp3","file":"assets/TL-MP3-FILES/OP-M-04.mp3","priority":2,"tag":"music.op.04"},
+    {"name":"OP: Overtaken","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/OVERTAKEN%20(ONE%20PIECE).mp3","file":"assets/TL-MP3-FILES/OP-M-05.mp3","priority":2,"tag":"music.op.05"},
+    {"name":"OP: Very Very Strongest","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/The%20Very%20Very%20Very%20Strongest.mp3","file":"assets/TL-MP3-FILES/OP-M-06.mp3","priority":2,"tag":"music.op.06"},
+    {"name":"OP: World's Number One","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/THE%20WORLD'S%20NUMBER%20ONE%20ORE%20WA%20NARU!.mp3","file":"assets/TL-MP3-FILES/OP-M-07.mp3","priority":2,"tag":"music.op.07"},
+    {"name":"OP: Usopp Theme","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/Usopp%20Theme.mp3","file":"assets/TL-MP3-FILES/OP-M-08.mp3","priority":2,"tag":"music.op.08"},
+    {"name":"OP: Zoro Theme","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/Zoro%20Theme.mp3","file":"assets/TL-MP3-FILES/OP-M-09.mp3","priority":2,"tag":"music.op.09"},
+    {"name":"AFK: DB Voice 0","repo":"tlassets:TL%20SFX/AFKSFX/DRAGONBALL-AFKSFX/DRAGONBALL-AFK-VOICELINE.mp3","file":"assets/TL-MP3-FILES/DB-AFK-VL0.mp3","priority":2,"tag":"afk.dragonball.0"},
+    {"name":"AFK: DB Voice 1","repo":"tlassets:TL%20SFX/AFKSFX/DRAGONBALL-AFKSFX/DRAGONBALL-AFK-VOICELINE1.mp3","file":"assets/TL-MP3-FILES/DB-AFK-VL1.mp3","priority":2,"tag":"afk.dragonball.1"},
+    {"name":"AFK: OP Voice 0","repo":"tlassets:TL%20SFX/AFKSFX/ONEPIECE-AFKSFX/ONEPIECE-AFK-VOICELINE.mp3","file":"assets/TL-MP3-FILES/OP-AFK-VL0.mp3","priority":2,"tag":"afk.onepiece.0"},
+    {"name":"AFK: OP Voice 1","repo":"tlassets:TL%20SFX/AFKSFX/ONEPIECE-AFKSFX/ONEPIECE-AFK-VOICELINE1.mp3","file":"assets/TL-MP3-FILES/OP-AFK-VL1.mp3","priority":2,"tag":"afk.onepiece.1"},
+    {"name":"AFK: TB Voice 0","repo":"tlassets:TL%20SFX/AFKSFX/THE%20BOYS-AFKSFX/THEBOYS-AFK-VOICELINE.mp3","file":"assets/TL-MP3-FILES/TB-AFK-VL0.mp3","priority":2,"tag":"afk.theboys.0"}
+  ];
+  var staticTags = new Set();
+  var staticEntries = [
+    {"name":"TL Owner Profile","repo":"NAMETAG-PROFILEPICTURES/TL-telelumi.png","file":"assets/ROLE-ICONS/TL-telelumi.png","priority":1,"tag":"profilepic.owner"},
+    {"name":"TL User Profile","repo":"tlassets:ROLE-ICONS/TLUSER-ROLE.png","file":"assets/ROLE-ICONS/TLUSER-ROLE.png","priority":1,"tag":"profilepic.user"},
+    {"name":"TL Staff Icon","repo":"tlassets:ROLE-ICONS/TL-STAFF.png","file":"assets/ROLE-ICONS/TL-STAFF.png","priority":1,"tag":"icon.staff"},
+    {"name":"Visual2 Icon","repo":"tlassets:TL-DEFAULT/Visual2-Icon.png","file":"assets/TL-DEFAULT/Visual2-Icon.png","priority":2,"tag":"tab.visual2"},
+    {"name":"MusicPlay Icon","repo":"tlassets:TL-DEFAULT/MusicPlay-Icon.png","file":"assets/TL-DEFAULT/MusicPlay-Icon.png","priority":2,"tag":"music.play"},
+    {"name":"MusicPause Icon","repo":"tlassets:TL-DEFAULT/MusicPause-Icon.png","file":"assets/TL-DEFAULT/MusicPause-Icon.png","priority":2,"tag":"music.pause"},
+    {"name":"MusicBack Icon","repo":"tlassets:TL-DEFAULT/MusicBack-Icon.png","file":"assets/TL-DEFAULT/MusicBack-Icon.png","priority":2,"tag":"music.back"},
+    {"name":"MusicSkip Icon","repo":"tlassets:TL-DEFAULT/MusicSkip-Icon.png","file":"assets/TL-DEFAULT/MusicSkip-Icon.png","priority":2,"tag":"music.skip"},
+    {"name":"TLMagnifier Icon","repo":"tlassets:TL-DEFAULT/TLMagnifier-Tool-Icon.png","file":"assets/TL-DEFAULT/TLMagnifier-Tool-Icon.png","priority":2,"tag":"tool.magnifier"},
+    {"name":"CustomCursor Icon","repo":"tlassets:TL-DEFAULT/CustomCursor-Icon%20(2).png","file":"assets/TL-DEFAULT/CustomCursor-Icon.png","priority":2,"tag":"tool.cursor"},
+    {"name":"QA Hug Icon","repo":"tlassets:TL-DEFAULT/QuickAction%20Hug-Icon.png","file":"assets/TL-DEFAULT/QuickAction-Hug-Icon.png","priority":2,"tag":"qa.hug"},
+    {"name":"QA Kiss Icon","repo":"tlassets:TL-DEFAULT/QuickAction%20Kiss-Icon.png","file":"assets/TL-DEFAULT/QuickAction-Kiss-Icon.png","priority":2,"tag":"qa.kiss"},
+    {"name":"QA Slap Icon","repo":"tlassets:TL-DEFAULT/QuickAction%20Slap-Icon.png","file":"assets/TL-DEFAULT/QuickAction-Slap-Icon.png","priority":2,"tag":"qa.slap"},
+    {"name":"QA Headbutt Icon","repo":"tlassets:TL-DEFAULT/QuickAction%20Headbutt-Icon.png","file":"assets/TL-DEFAULT/QuickAction-Headbutt-Icon.png","priority":2,"tag":"qa.headbutt"},
+    {"name":"QA Backshots Icon","repo":"tlassets:TL-DEFAULT/QuickAction%20Backshots-Icon.png","file":"assets/TL-DEFAULT/QuickAction-Backshots-Icon.png","priority":2,"tag":"qa.backshots"},
+    {"name":"TL Arda Avatar","repo":"NAMETAG-PROFILEPICTURES/TL-Arda.png","file":"assets/ROLE-ICONS/TL-Arda.png","priority":1,"tag":"avatar.arda"},
+    {"name":"TL Sec Avatar","repo":"NAMETAG-PROFILEPICTURES/TL-Sec.png","file":"assets/ROLE-ICONS/TL-Sec.png","priority":1,"tag":"avatar.sec"},
+    {"name":"TL Sleepy Avatar","repo":"NAMETAG-PROFILEPICTURES/TL-Sleepy.jpg","file":"assets/ROLE-ICONS/TL-Sleepy.jpg","priority":1,"tag":"avatar.sleepy"},
+    {"name":"R5yn Avatar","repo":"NAMETAG-PROFILEPICTURES/R5yn.png","file":"assets/ROLE-ICONS/R5yn.png","priority":1,"tag":"avatar.r5yn"},
+    {"name":"usxirr Avatar","repo":"NAMETAG-PROFILEPICTURES/TL-Oso.png","file":"assets/ROLE-ICONS/TL-Usxirr.png","priority":1,"tag":"avatar.usxirr"},
+    {"name":"Abxsent0 Avatar","repo":"tlassets:ROLE-ICONS/TL-Abxsent0.png","file":"assets/ROLE-ICONS/TL-Abxsent0.png","priority":1,"tag":"avatar.abxsent0"},
+    {"name":"Communication Icon","repo":"tlassets:TL-DEFAULT/Com-Icon.png","file":"assets/TL-DEFAULT/Com-Icon.png","priority":1,"tag":"tab.com"},
+    {"name":"VC Unmuted Icon","repo":"tlassets:TL-DEFAULT/ANTIVCBAN-Unmuted-Icon.png","file":"assets/TL-DEFAULT/TL_Unmuted.png","priority":1,"tag":"vc.unmuted"},
+    {"name":"VC Muted Icon","repo":"tlassets:TL-DEFAULT/ANTIVCBAN-Mute-Icon.png","file":"assets/TL-DEFAULT/TL_Muted.png","priority":1,"tag":"vc.muted"},
+    {"name":"Home Tab Icon","repo":"tlassets:TL-DEFAULT/HomeTab-Icon.png","file":"assets/TL-DEFAULT/HomeTab-Icon.png","priority":1,"tag":"tab.home"},
+    {"name":"Character Tab Icon","repo":"tlassets:TL-DEFAULT/Character-Icon.png","file":"assets/TL-DEFAULT/Character-Icon.png","priority":1,"tag":"tab.character"},
+    {"name":"Scripts Tab Icon","repo":"tlassets:TL-DEFAULT/Scripts-Icon.png","file":"assets/TL-DEFAULT/Scripts-Icon.png","priority":1,"tag":"tab.scripts"},
+    {"name":"Actions Tab Icon","repo":"tlassets:TL-DEFAULT/ActionTab-Icon.png","file":"assets/TL-DEFAULT/ActionTab-Icon.png","priority":1,"tag":"tab.actions"},
+    {"name":"Playerlist Tab Icon","repo":"tlassets:TL-DEFAULT/Playerlist-Icon.png","file":"assets/TL-DEFAULT/Playerlist-Icon.png","priority":1,"tag":"tab.playerlist"},
+    {"name":"Emote Icon","repo":"tlassets:TL-DEFAULT/Emote-Icon.png","file":"assets/TL-DEFAULT/Emote-Icon.png","priority":2,"tag":"tab.emote"},
+    {"name":"Music Icon","repo":"tlassets:TL-DEFAULT/Music-Icon.png","file":"assets/TL-DEFAULT/Music-Icon.png","priority":2,"tag":"tab.music"},
+    {"name":"Visual Icon","repo":"tlassets:TL-DEFAULT/Visual-Icon.png","file":"assets/TL-DEFAULT/Visual-Icon.png","priority":2,"tag":"tab.visual"},
+    {"name":"Movement Icon","repo":"tlassets:TL-DEFAULT/Movement-Icon.png","file":"assets/TL-DEFAULT/Movement-Icon.png","priority":2,"tag":"tab.movement"},
+    {"name":"Misc Icon","repo":"tlassets:TL-DEFAULT/Misc-Icon.png","file":"assets/TL-DEFAULT/Misc-Icon.png","priority":2,"tag":"tab.misc"},
+    {"name":"Colors Icon","repo":"tlassets:TL-DEFAULT/Colors-Icon.png","file":"assets/TL-DEFAULT/Colors-Icon.png","priority":2,"tag":"tab.colors"},
+    {"name":"Theme Icon","repo":"tlassets:TL-DEFAULT/Theme-Icon.png","file":"assets/TL-DEFAULT/Theme-Icon.png","priority":2,"tag":"tab.theme"},
+    {"name":"Themes Icon","repo":"tlassets:TL-DEFAULT/Themes-Icon.png","file":"assets/TL-DEFAULT/Themes-Icon.png","priority":2,"tag":"tab.themes"},
+    {"name":"Keybind Icon","repo":"tlassets:TL-DEFAULT/Keybind-Icon.png","file":"assets/TL-DEFAULT/Keybind-Icon.png","priority":2,"tag":"tab.keybind"},
+    {"name":"Cursor Icon","repo":"tlassets:TL-DEFAULT/Cursor-Icon.png","file":"assets/TL-DEFAULT/Cursor-Icon.png","priority":2,"tag":"tab.cursor"},
+    {"name":"Search Icon","repo":"tlassets:TL-DEFAULT/Search-Icon.png","file":"assets/TL-DEFAULT/Search-Icon.png","priority":2,"tag":"search.icon"},
+    {"name":"Search2 Icon","repo":"tlassets:TL-DEFAULT/Search2-Icon.png","file":"assets/TL-DEFAULT/Search2-Icon.png","priority":2,"tag":"search.icon2"},
+    {"name":"Minimize Icon","repo":"tlassets:TL-DEFAULT/Minimize-Icon.png","file":"assets/TL-DEFAULT/Minimize-Icon.png","priority":2,"tag":"ui.minimize"},
+    {"name":"PING-WLAN Icon","repo":"tlassets:TL-DEFAULT/PING-WLAN-Icon.png","file":"assets/TL-DEFAULT/PING-WLAN-Icon.png","priority":2,"tag":"ui.ping"},
+    {"name":"PunchFling Icon","repo":"tlassets:TL-DEFAULT/PunchFling-Icon.png","file":"assets/TL-DEFAULT/PunchFling-Icon.png","priority":2,"tag":"action.punchfling"},
+    {"name":"TL Icon","repo":"tlassets:TL-DEFAULT/TL-Icon.png","file":"assets/TL-DEFAULT/TL-Icon.png","priority":2,"tag":"ui.tlIcon"},
+    {"name":"TLIcon","repo":"tlassets:TL-DEFAULT/TLIcon.png","file":"assets/TL-DEFAULT/TLIcon.png","priority":2,"tag":"ui.tlicon"},
+    {"name":"TL Profile Icon","repo":"tlassets:TL-DEFAULT/TL-ProfileIcon.png","file":"assets/TL-DEFAULT/TL-ProfileIcon.png","priority":2,"tag":"ui.profileIcon"},
+    {"name":"TLOpenBars Button","repo":"tlassets:TL-DEFAULT/TLOpenBars-Button.png","file":"assets/TL-DEFAULT/TLOpenBars-Button.png","priority":2,"tag":"ui.openBars"},
+    {"name":"TLOpenedBars Button","repo":"tlassets:TL-DEFAULT/TLOpenedBars-Button.png","file":"assets/TL-DEFAULT/TLOpenedBars-Button.png","priority":2,"tag":"ui.openedBars"},
+    {"name":"The Boys Scripts Icon","repo":"tlassets:THE%20BOYS/Theme-TheBoys-Scripts-Icon.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-Scripts-Icon.png","priority":2,"tag":"theme.theboys.scriptsIcon"},
+    {"name":"The Boys Settings Icon","repo":"tlassets:THE%20BOYS/Theme-TheBoys-Settings-Icon.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-Settings-Icon.png","priority":2,"tag":"theme.theboys.settingsIcon"},
+    {"name":"The Boys Home Icon","repo":"tlassets:THE%20BOYS/Theme-TheBoys-HomeIcon.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-HomeIcon.png","priority":2,"tag":"theme.theboys.homeIcon"},
+    {"name":"The Boys Actions Icon","repo":"tlassets:THE%20BOYS/Theme-TheBoys-Actions-Icon.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-Actions-Icon.png","priority":2,"tag":"theme.theboys.actionsIcon"},
+    {"name":"The Boys Wallpaper","repo":"tlassets:THE%20BOYS/Theme-TheBoys2.jpg","file":"assets/THEMES/THEBOYS/Theme-TheBoys2.jpg","priority":2,"tag":"theme.theboys.wallpaper"},
+    {"name":"Dragonball Settings Icon","repo":"tlassets:DRAGONBALL/Theme-Dragonball-Settings-Icon.png","file":"assets/THEMES/DRAGONBALL/Theme-Dragonball-Settings-Icon.png","priority":2,"tag":"theme.dragonball.settingsIcon"},
+    {"name":"Dragonball Wallpaper","repo":"tlassets:DRAGONBALL/Theme-Dragonball-Home-Wallpaper.jpg","file":"assets/THEMES/DRAGONBALL/Theme-Dragonball-Home-Wallpaper.jpg","priority":2,"tag":"theme.dragonball.wallpaper"},
+    {"name":"One Piece COM BG","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Com-Wallpaper.png","file":"assets/THEMES/ONEPIECE/OP-COM-BG.png","priority":2,"tag":"theme.onepiece.comBg"},
+    {"name":"One Piece Action BG","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Action-Wallpaper.png","file":"assets/THEMES/ONEPIECE/OP-ACT-BG.png","priority":2,"tag":"theme.onepiece.actionBg"},
+    {"name":"Death Note Home Icon","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Home-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-Home-Icon.png","priority":2,"tag":"theme.deathnote.homeIcon"},
+    {"name":"Death Note Char Icon","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-CharacterIcon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-CharacterIcon.png","priority":2,"tag":"theme.deathnote.charIcon"},
+    {"name":"Death Note Scripts Icon","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Scripts-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-Scripts-Icon.png","priority":2,"tag":"theme.deathnote.scriptsIcon"},
+    {"name":"Death Note Settings Icon","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Settings-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-Settings-Icon.png","priority":2,"tag":"theme.deathnote.settingsIcon"},
+    {"name":"Death Note Com Icon","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Com-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-Com-Icon.png","priority":2,"tag":"theme.deathnote.comIcon"},
+    {"name":"Death Note Char BG","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-CharacterPanelBackground.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-CharPanelBg.png","priority":2,"tag":"theme.deathnote.charBg"},
+    {"name":"Death Note Com BG","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Com-Background.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-ComPanelBg.png","priority":2,"tag":"theme.deathnote.comBg"},
+    {"name":"Death Note Scripts BG","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Actions-Background-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-ActionsPanelBg.png","priority":2,"tag":"theme.deathnote.scriptsBg"},
+    {"name":"Death Note ScriptsPanel BG","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-ScriptsPanel-Background.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-ScriptsPanelBg.png","priority":2,"tag":"theme.deathnote.scriptsPanelBg"},
+    {"name":"Death Note Loading","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Loading-Screen.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-LoadingScreen.png","priority":2,"tag":"theme.deathnote.loading"},
+    {"name":"Death Note Home BG","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Home-Background-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-Home-Background.png","priority":2,"tag":"theme.deathnote.homeBg"},
+    {"name":"Dexter Char Icon","repo":"tlassets:DEXTER/Theme-Dexter-CharacterIcon.png","file":"assets/THEMES/DEXTER/Theme-Dexter-CharacterIcon.png","priority":2,"tag":"theme.dexter.charIcon"},
+    {"name":"Dexter Char BG","repo":"tlassets:DEXTER/Theme-Dexter-CharacterPanel.png","file":"assets/THEMES/DEXTER/Theme-Dexter-CharacterPanel.png","priority":2,"tag":"theme.dexter.charBg"},
+    {"name":"Dexter Settings Icon","repo":"tlassets:DEXTER/Theme-Dexter-Settings-Icon.png","file":"assets/THEMES/DEXTER/Theme-Dexter-Settings-Icon.png","priority":2,"tag":"theme.dexter.settingsIcon"},
+    {"name":"Dexter Scripts Icon","repo":"tlassets:DEXTER/Theme-Dexter-Scripts-Icon.png","file":"assets/THEMES/DEXTER/Theme-Dexter-Scripts-Icon.png","priority":2,"tag":"theme.dexter.scriptsIcon"},
+    {"name":"Dexter Com BG","repo":"tlassets:DEXTER/Theme-Dexter-Com-Wallpaper.png","file":"assets/THEMES/DEXTER/Theme-Dexter-ComWallpaper.png","priority":2,"tag":"theme.dexter.comBg"},
+    {"name":"Dexter Loading","repo":"tlassets:DEXTER/Theme-Dexter-Loading-Screen.png","file":"assets/THEMES/DEXTER/Theme-Dexter-LoadingScreen.png","priority":2,"tag":"theme.dexter.loading"},
+    {"name":"Dexter Playerlist Icon","repo":"tlassets:DEXTER/Theme-Dexter-Playerlist-Icon.png","file":"assets/THEMES/DEXTER/Theme-Dexter-Playerlist-Icon.png","priority":2,"tag":"theme.dexter.playerlistIcon"}
+  ];
+  staticEntries.forEach(function(e){ staticTags.add(e.tag); images.push(e); });
+  Object.keys(cfg.profilePictures || {}).forEach(function(role){
+    var pp = cfg.profilePictures[role];
+    var tag = "profilepic." + role;
+    if (!staticTags.has(tag) && pp.url) {
+      images.push({ name: role+" Profile", repo: pp.url, file: pp.file||"", priority:1, tag: tag });
+    }
+  });
+  Object.keys(cfg.customAvatars || {}).forEach(function(user){
+    var av = cfg.customAvatars[user];
+    var tag = "avatar." + user.toLowerCase();
+    if (av.url) {
+      var found = images.find(function(e){ return e.tag === tag; });
+      if (found) { found.repo = av.url; found.file = av.file || found.file; }
+      else { images.push({ name: user+" Avatar", repo: av.url, file: av.file||("assets/ROLE-ICONS/"+user+".png"), priority:1, tag: tag }); }
+    }
+  });
+  meta.images = images;
+  meta.audio = audio;
+  return meta;
+}
+
+async function pushToGitHub() {
+  var btn = document.getElementById("pushBtn");
+  var token = document.getElementById("ghToken").value.trim();
+  if (!token) { toast("GitHub Token not set - open GitHub Sync section"); return; }
+  btn.textContent = "Uploading..."; btn.disabled = true; btn.style.opacity = "0.6";
+  try {
+    config.targetUser = document.getElementById("targetUserInp").value.trim();
+    var configJson = JSON.stringify(config, null, 2);
+    var manifestPath = document.getElementById("ghManifestPath").value.trim() || "tl-assets-manifest.json";
+    toast("Uploading NametagConfig.json...");
+    var configOld = await ghGetFile("NametagConfig.json");
+    await ghPutFile("NametagConfig.json", configJson, "Update NametagConfig.json via Configurator", configOld.sha);
+    toast("Uploading " + manifestPath + "...");
+    var manifestData = generateManifestFromConfig(config);
+    var manifestJson = JSON.stringify(manifestData, null, 2);
+    var manifestOld = await ghGetFile(manifestPath);
+    await ghPutFile(manifestPath, manifestJson, "Update tl-assets-manifest.json via Configurator", manifestOld.sha);
+    toast("Pushed to GitHub!");
+  } catch(e) {
+    toast("Push failed: " + e.message);
+  }
+  btn.textContent = "Push to GitHub"; btn.disabled = false; btn.style.opacity = "1";
 }
 
 function closeModal(id) { document.getElementById(id).classList.remove("open"); }
