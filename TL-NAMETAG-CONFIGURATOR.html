@@ -2191,24 +2191,23 @@ function generateManifestFromConfig(cfg) {
   var images = [];
   var audio = [
     {"name":"Loading Screen","repo":"tlassets:TL-MP3/TLMenuLoadingScreen.mp3","file":"assets/TL-MP3-FILES/TLMenuLoadingScreen.mp3","priority":1,"tag":"sfx.loading"},
-    {"name":"Admin Join Audio","repo":"tlassets:TL%20SFX/TLMENU-STANDARD-SFX/TLSYSTEM-ADMIN-SFX.mp3","file":"assets/TL-MP3-FILES/TLSYSTEM-ADMIN-SFX.mp3","priority":1,"tag":"sfx.admin"},
-    {"name":"The Boys Music","repo":"tlassets:TL%20SFX/THEME%20MUSICS/THE%20BOYS/The%20Boys%20Homelander%20Theme%20Enhanced%20Version.mp3","file":"assets/TL-MP3-FILES/Theme-TheBoys-Music.mp3","priority":2,"tag":"music.theboys"},
-    {"name":"Dragonball Music","repo":"tlassets:TL%20SFX/THEME%20MUSICS/DRAGONBALL/DRAGONBALL-THEME-MUSIC-1.mp3","file":"assets/TL-MP3-FILES/DragonBall-Music1.mp3","priority":2,"tag":"music.dragonball"},
-    {"name":"OP: A Very Very Strongest","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/A%20VERY%20VERY%20VERY%20STRONGEST.mp3","file":"assets/TL-MP3-FILES/OP-M-00.mp3","priority":2,"tag":"music.op.00"},
-    {"name":"OP: Gear 5 Epic","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/GEAR%205%20EPIC%20VERSION.mp3","file":"assets/TL-MP3-FILES/OP-M-01.mp3","priority":2,"tag":"music.op.01"},
-    {"name":"OP: Gear 5 Drums","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/GEAR%205%20THEME%20(DRUMS%20OF%20LIBERATION).mp3","file":"assets/TL-MP3-FILES/OP-M-02.mp3","priority":2,"tag":"music.op.02"},
-    {"name":"OP: Kaizoku Ou","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/KAIZOKU%20OU%20NI%20ORE%20WA%20NARU.mp3","file":"assets/TL-MP3-FILES/OP-M-03.mp3","priority":2,"tag":"music.op.03"},
-    {"name":"OP: Luffy vs Ratchet","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/Luffy%20vs%20Ratchet%20Final%20Battle.mp3","file":"assets/TL-MP3-FILES/OP-M-04.mp3","priority":2,"tag":"music.op.04"},
-    {"name":"OP: Overtaken","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/OVERTAKEN%20(ONE%20PIECE).mp3","file":"assets/TL-MP3-FILES/OP-M-05.mp3","priority":2,"tag":"music.op.05"},
-    {"name":"OP: Very Very Strongest","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/The%20Very%20Very%20Very%20Strongest.mp3","file":"assets/TL-MP3-FILES/OP-M-06.mp3","priority":2,"tag":"music.op.06"},
-    {"name":"OP: World's Number One","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/THE%20WORLD'S%20NUMBER%20ONE%20ORE%20WA%20NARU!.mp3","file":"assets/TL-MP3-FILES/OP-M-07.mp3","priority":2,"tag":"music.op.07"},
-    {"name":"OP: Usopp Theme","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/Usopp%20Theme.mp3","file":"assets/TL-MP3-FILES/OP-M-08.mp3","priority":2,"tag":"music.op.08"},
-    {"name":"OP: Zoro Theme","repo":"tlassets:TL%20SFX/THEME%20MUSICS/ONEPIECE/Zoro%20Theme.mp3","file":"assets/TL-MP3-FILES/OP-M-09.mp3","priority":2,"tag":"music.op.09"},
-    {"name":"AFK: DB Voice 0","repo":"tlassets:TL%20SFX/AFKSFX/DRAGONBALL-AFKSFX/DRAGONBALL-AFK-VOICELINE.mp3","file":"assets/TL-MP3-FILES/DB-AFK-VL0.mp3","priority":2,"tag":"afk.dragonball.0"},
-    {"name":"AFK: DB Voice 1","repo":"tlassets:TL%20SFX/AFKSFX/DRAGONBALL-AFKSFX/DRAGONBALL-AFK-VOICELINE1.mp3","file":"assets/TL-MP3-FILES/DB-AFK-VL1.mp3","priority":2,"tag":"afk.dragonball.1"},
-    {"name":"AFK: OP Voice 0","repo":"tlassets:TL%20SFX/AFKSFX/ONEPIECE-AFKSFX/ONEPIECE-AFK-VOICELINE.mp3","file":"assets/TL-MP3-FILES/OP-AFK-VL0.mp3","priority":2,"tag":"afk.onepiece.0"},
-    {"name":"AFK: OP Voice 1","repo":"tlassets:TL%20SFX/AFKSFX/ONEPIECE-AFKSFX/ONEPIECE-AFK-VOICELINE1.mp3","file":"assets/TL-MP3-FILES/OP-AFK-VL1.mp3","priority":2,"tag":"afk.onepiece.1"},
-    {"name":"AFK: TB Voice 0","repo":"tlassets:TL%20SFX/AFKSFX/THE%20BOYS-AFKSFX/THEBOYS-AFK-VOICELINE.mp3","file":"assets/TL-MP3-FILES/TB-AFK-VL0.mp3","priority":2,"tag":"afk.theboys.0"}
+    {"name":"Admin Join Audio","repo":"tlassets:TL-MP3/TLSYSTEM-ADMIN-SFX.mp3","file":"assets/TL-MP3-FILES/TLSYSTEM-ADMIN-SFX.mp3","priority":1,"tag":"sfx.admin"},
+    {"name":"The Boys Music","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/THEBOYS/The%20Boys%20Homelander%20Theme%20Enhanced%20Version.mp3","file":"assets/TL-MP3-FILES/Theme-TheBoys-Music.mp3","priority":2,"tag":"music.theboys"},
+    {"name":"Dragonball Music","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/DRAGONBALL/DRAGONBALL-THEME-MUSIC-1.mp3","file":"assets/TL-MP3-FILES/DragonBall-Music1.mp3","priority":2,"tag":"music.dragonball"},
+    {"name":"OP: Track 1","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(1).mp3","file":"assets/TL-MP3-FILES/OP-M-00.mp3","priority":2,"tag":"music.op.00"},
+    {"name":"OP: Track 2","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(2).mp3","file":"assets/TL-MP3-FILES/OP-M-01.mp3","priority":2,"tag":"music.op.01"},
+    {"name":"OP: Track 3","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(3).mp3","file":"assets/TL-MP3-FILES/OP-M-02.mp3","priority":2,"tag":"music.op.02"},
+    {"name":"OP: Track 4","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(4).mp3","file":"assets/TL-MP3-FILES/OP-M-03.mp3","priority":2,"tag":"music.op.03"},
+    {"name":"OP: Track 5","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(5).mp3","file":"assets/TL-MP3-FILES/OP-M-04.mp3","priority":2,"tag":"music.op.04"},
+    {"name":"OP: Track 6","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(6).mp3","file":"assets/TL-MP3-FILES/OP-M-05.mp3","priority":2,"tag":"music.op.05"},
+    {"name":"OP: Track 7","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(7).mp3","file":"assets/TL-MP3-FILES/OP-M-06.mp3","priority":2,"tag":"music.op.06"},
+    {"name":"OP: Track 8","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(8).mp3","file":"assets/TL-MP3-FILES/OP-M-07.mp3","priority":2,"tag":"music.op.07"},
+    {"name":"OP: Track 9","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(9).mp3","file":"assets/TL-MP3-FILES/OP-M-08.mp3","priority":2,"tag":"music.op.08"},
+    {"name":"OP: Track 10","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(10).mp3","file":"assets/TL-MP3-FILES/OP-M-09.mp3","priority":2,"tag":"music.op.09"},
+    {"name":"AFK: DB Voice 0","repo":"tlassets:TL-MP3/THEME-MP3/DRAGONBALL-AFKSFX/DRAGONBALL-AFK-VOICELINE.mp3","file":"assets/TL-MP3-FILES/DB-AFK-VL0.mp3","priority":2,"tag":"afk.dragonball.0"},
+    {"name":"AFK: DB Voice 1","repo":"tlassets:TL-MP3/THEME-MP3/DRAGONBALL-AFKSFX/DRAGONBALL-AFK-VOICELINE1.mp3","file":"assets/TL-MP3-FILES/DB-AFK-VL1.mp3","priority":2,"tag":"afk.dragonball.1"},
+    {"name":"AFK: OP Voice 0","repo":"tlassets:TL-MP3/THEME-MP3/ONEPIECE-AFKSFX/ONEPIECE-AFK-VOICELINE.mp3","file":"assets/TL-MP3-FILES/OP-AFK-VL0.mp3","priority":2,"tag":"afk.onepiece.0"},
+    {"name":"AFK: OP Voice 1","repo":"tlassets:TL-MP3/THEME-MP3/ONEPIECE-AFKSFX/ONEPIECE-AFK-VOICELINE1.mp3","file":"assets/TL-MP3-FILES/OP-AFK-VL1.mp3","priority":2,"tag":"afk.onepiece.1"}
   ];
   var staticTags = new Set();
   var staticEntries = [
