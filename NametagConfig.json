@@ -17,7 +17,95 @@
         "#1A1A22",
         "#0E0E18"
       ],
-      "bgGradientAngle": 0
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": true,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
     },
     "admin": {
       "bg": "#220E0E",
@@ -33,13 +121,101 @@
         "#220E0E",
         "#150808"
       ],
-      "bgGradientAngle": 0
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
     },
     "owner": {
-      "bg": "transparent",
+      "bg": " transparent",
       "avatarBg": "transparent",
-      "avatarText": "#000000",
-      "divider": "#000000",
+      "avatarText": " transparent",
+      "divider": " transparent",
       "border": "#ffffff",
       "nameText": "#ffffff",
       "roleText": "#ffffff",
@@ -50,7 +226,98 @@
         "#2f4fee",
         "#2feed8"
       ],
-      "bgGradientAngle": 133
+      "bgGradientAngle": 133,
+      "gradients": {
+        "cardGradient": {
+          "enabled": true,
+          "type": "Linear",
+          "colors": [
+            "#ffffff",
+            "#00aaff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            1,
+            0.5
+          ],
+          "rotation": 196,
+          "offset": [
+            -0.55,
+            0.55
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": true,
+          "type": "Linear",
+          "colors": [
+            "#ffffff",
+            "#00aaff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 196,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": true,
+          "type": "Linear",
+          "colors": [
+            "#ffffff",
+            "#00aaff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 196,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#ffffff",
+            "#00aaff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 177,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
     },
     "developer": {
       "bg": "#0C1428",
@@ -66,7 +333,95 @@
         "#0C1428",
         "#060A18"
       ],
-      "bgGradientAngle": 0
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
     },
     "advertising": {
       "bg": "#1C0E24",
@@ -82,7 +437,95 @@
         "#1C0E24",
         "#100818"
       ],
-      "bgGradientAngle": 0
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": true,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
     },
     "moderator": {
       "bg": "#221C0A",
@@ -98,7 +541,95 @@
         "#221C0A",
         "#141006"
       ],
-      "bgGradientAngle": 0
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": true,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
     },
     "staff": {
       "bg": "#0A1C10",
@@ -114,7 +645,95 @@
         "#0A1C10",
         "#061008"
       ],
-      "bgGradientAngle": 0
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": true,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
     }
   },
   "layout": {
@@ -192,9 +811,7 @@
     ]
   },
   "roleUsers": {
-    "owner": [
-      "18372824"
-    ],
+    "owner": [],
     "admin": [
       "6363737299"
     ],
@@ -210,12 +827,10 @@
     ]
   },
   "roleLabels": {
-    "18372824": "TL OWNER",
     "6363737299": "TL ADMIN",
     "Maxblack006": "H-Moderator"
   },
   "displayNames": {
-    "18372824": "telelumi",
     "6363737299": "CengiZ",
     "Bananen_esser100": "Cid",
     "X1_77X": "91v0",
@@ -223,14 +838,6 @@
   },
   "roleDisplayNames": {},
   "userColorOverrides": {
-    "18372824": {
-      "__enabled": true,
-      "bg": "#007bff",
-      "avatarBg": "transparent",
-      "avatarText": "transparent",
-      "divider": "transparent",
-      "border": "#ffffff"
-    },
     "Bananen_esser100": {
       "__enabled": true,
       "avatarBg": "transparent",
@@ -257,25 +864,6 @@
     }
   },
   "userGradientOverrides": {
-    "18372824": {
-      "cardGradient": {
-        "enabled": false,
-        "type": "Linear",
-        "colors": [
-          "#173754",
-          "#222225"
-        ],
-        "transparency": [
-          0,
-          0
-        ],
-        "rotation": 90,
-        "offset": [
-          0,
-          0
-        ]
-      }
-    },
     "Bananen_esser100": {
       "cardGradient": {
         "enabled": true,
