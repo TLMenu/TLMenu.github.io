@@ -36,15 +36,15 @@
       "bgGradientAngle": 0
     },
     "owner": {
-      "bg": "#ffffff",
-      "avatarBg": "#ffffff",
-      "avatarText": "#B87CFF",
-      "divider": "#B87CFF",
+      "bg": "#000000",
+      "avatarBg": "#000000",
+      "avatarText": "#000000",
+      "divider": "#000000",
       "border": "#ffffff",
       "nameText": "#ffffff",
       "roleText": "#ffffff",
       "bgGradient": true,
-      "bgGradientType": "neon",
+      "bgGradientType": "gradmesh",
       "bgGradientColors": [
         "#097160",
         "#2f4fee",
