@@ -54,7 +54,7 @@
           ]
         },
         "nameGradient": {
-          "enabled": true,
+          "enabled": false,
           "type": "Linear",
           "colors": [
             "#097152",
@@ -212,10 +212,10 @@
       }
     },
     "owner": {
-      "bg": "#ffffff",
+      "bg": "#3263f5",
       "avatarBg": "transparent",
-      "avatarText": " transparent",
-      "divider": " transparent",
+      "avatarText": "#ffffff",
+      "divider": "#ffffff",
       "border": "#ffffff",
       "nameText": "#ffffff",
       "roleText": "#ffffff",
@@ -229,18 +229,18 @@
       "bgGradientAngle": 133,
       "gradients": {
         "cardGradient": {
-          "enabled": true,
+          "enabled": false,
           "type": "Linear",
           "colors": [
-            "#ffffff",
             "#00aaff",
-            "#c8ff00"
+            "#c8ff00",
+            "#a04646"
           ],
           "transparency": [
             1,
             0.5
           ],
-          "rotation": 196,
+          "rotation": 65,
           "offset": [
             -0.55,
             0.55
@@ -264,7 +264,7 @@
           ]
         },
         "nameGradient": {
-          "enabled": true,
+          "enabled": false,
           "type": "Linear",
           "colors": [
             "#ffffff",
@@ -282,7 +282,7 @@
           ]
         },
         "roleGradient": {
-          "enabled": true,
+          "enabled": false,
           "type": "Linear",
           "colors": [
             "#ffffff",
@@ -578,7 +578,7 @@
           ]
         },
         "nameGradient": {
-          "enabled": true,
+          "enabled": false,
           "type": "Linear",
           "colors": [
             "#097152",
@@ -737,7 +737,7 @@
     }
   },
   "layout": {
-    "billboardWidth": 225,
+    "billboardWidth": 231,
     "billboardHeight": 45,
     "studsOffsetY": 3.4,
     "avatarWidth": 45,
@@ -825,23 +825,29 @@
     "staff": [],
     "user": [
       "Bananen_esser100",
-      "X1_77X"
+      "X1_77X",
+      "24KFYTAX"
     ]
   },
   "roleLabels": {
     "18372824": "TL OWNER",
     "6363737299": "TL ADMIN",
-    "Maxblack006": "H-Moderator"
+    "Maxblack006": "H-Moderator",
+    "24KFYTAX": "prettiest"
   },
   "displayNames": {
     "18372824": "telelumi",
     "6363737299": "CengiZ",
     "Bananen_esser100": "Cid",
     "X1_77X": "91v0",
-    "Maxblack006": "Straight"
+    "Maxblack006": "Straight",
+    "24KFYTAX": "asianbeauty"
   },
   "roleDisplayNames": {},
   "userColorOverrides": {
+    "18372824": {
+      "__enabled": true
+    },
     "Bananen_esser100": {
       "__enabled": true,
       "avatarBg": "transparent",
@@ -865,9 +871,34 @@
       "roleText": "#4f4f4f",
       "avatarBg": "transparent",
       "bg": "transparent"
+    },
+    "24KFYTAX": {
+      "__enabled": true,
+      "nameText": "#000000",
+      "roleText": "#ffffff"
     }
   },
   "userGradientOverrides": {
+    "18372824": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#00aaff",
+          "#1a2289",
+          "#16b17d"
+        ],
+        "transparency": [
+          1,
+          0.5
+        ],
+        "rotation": 76,
+        "offset": [
+          -0.55,
+          0.55
+        ]
+      }
+    },
     "Bananen_esser100": {
       "cardGradient": {
         "enabled": true,
@@ -919,6 +950,26 @@
           0
         ],
         "rotation": 78,
+        "offset": [
+          0,
+          0
+        ]
+      }
+    },
+    "24KFYTAX": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#242424",
+          "#bababa",
+          "#000000"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 201,
         "offset": [
           0,
           0
@@ -1049,6 +1100,12 @@
     },
     "X1_77X": {
       "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/91v0.png",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    },
+    "24KFYTAX": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-Asiianbeauty.jpg",
       "file": "",
       "strokeStart": "#FFFFFF",
       "strokeEnd": "#000000"
