@@ -737,6 +737,13 @@
       "file": "assets/ROLE-ICONS/X1_77X.png",
       "priority": 1,
       "tag": "avatar.x1_77x"
+    },
+    {
+      "name": "24KFYTAX Avatar",
+      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-Asiianbeauty.jpg",
+      "file": "assets/ROLE-ICONS/24KFYTAX.png",
+      "priority": 1,
+      "tag": "avatar.24kfytax"
     }
   ],
   "audio": [
