@@ -212,7 +212,7 @@
       }
     },
     "owner": {
-      "bg": " transparent",
+      "bg": "#ffffff",
       "avatarBg": "transparent",
       "avatarText": " transparent",
       "divider": " transparent",
@@ -1016,7 +1016,7 @@
   },
   "profilePictures": {
     "owner": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png",
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png"
     },
     "user": {
