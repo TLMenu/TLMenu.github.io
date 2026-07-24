@@ -826,14 +826,14 @@
     "user": [
       "Bananen_esser100",
       "X1_77X",
-      "24KFYTAX"
+      "24kFytax"
     ]
   },
   "roleLabels": {
     "18372824": "TL OWNER",
     "6363737299": "TL ADMIN",
     "Maxblack006": "H-Moderator",
-    "24KFYTAX": "prettiest"
+    "24kFytax": "prettiest"
   },
   "displayNames": {
     "18372824": "telelumi",
@@ -841,7 +841,7 @@
     "Bananen_esser100": "Cid",
     "X1_77X": "91v0",
     "Maxblack006": "Straight",
-    "24KFYTAX": "asianbeauty"
+    "24kFytax": "asianbeauty"
   },
   "roleDisplayNames": {},
   "userColorOverrides": {
@@ -872,7 +872,7 @@
       "avatarBg": "transparent",
       "bg": "transparent"
     },
-    "24KFYTAX": {
+    "24kFytax": {
       "__enabled": true,
       "nameText": "#000000",
       "roleText": "#ffffff"
@@ -956,7 +956,7 @@
         ]
       }
     },
-    "24KFYTAX": {
+    "24kFytax": {
       "cardGradient": {
         "enabled": true,
         "type": "Linear",
@@ -1104,7 +1104,7 @@
       "strokeStart": "#FFFFFF",
       "strokeEnd": "#000000"
     },
-    "24KFYTAX": {
+    "24kFytax": {
       "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-Asiianbeauty.jpg",
       "file": "",
       "strokeStart": "#FFFFFF",
