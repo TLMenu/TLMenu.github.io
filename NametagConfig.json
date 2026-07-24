@@ -44,13 +44,13 @@
       "nameText": "#ffffff",
       "roleText": "#ffffff",
       "bgGradient": true,
-      "bgGradientType": "gradmesh",
+      "bgGradientType": "linear",
       "bgGradientColors": [
         "#097160",
         "#2f4fee",
         "#2feed8"
       ],
-      "bgGradientAngle": 128
+      "bgGradientAngle": 149
     },
     "developer": {
       "bg": "#0C1428",
@@ -147,25 +147,24 @@
     "distanceScaleMin": 0.35
   },
   "animations": {
-    "fadeInDuration": 0.3,
+    "fadeInDuration": 0.25,
     "fadeInEasing": "Quad",
     "cardTransparency": 0.1,
     "borderTransparency": 0.7
   },
   "particles": {
     "enabled": true,
-    "count": 4,
+    "count": 5,
     "minSize": 2,
-    "maxSize": 4,
-    "transparency": 0.5,
-    "moveDurationMin": 3,
-    "moveDurationMax": 5,
+    "maxSize": 2,
+    "transparency": 0,
+    "moveDurationMin": 4.5,
+    "moveDurationMax": 4,
     "colors": [
-      "#B87CFF",
-      "#A064F0",
-      "#C896FF",
-      "#8C50DC",
-      "#DDB8FF"
+      "#FFFFFF",
+      "#FFFFFF",
+      "#FFFFFF",
+      "#FFFFFF"
     ]
   },
   "roleKeywords": {
@@ -228,6 +227,10 @@
   },
   "roleDisplayNames": {},
   "userColorOverrides": {
+    "18372824": {
+      "avatarBg": "transparent",
+      "bg": "transparent"
+    },
     "Bananen_esser100": {
       "__enabled": true,
       "avatarBg": "transparent",
@@ -249,8 +252,8 @@
       "border": "#6b6b6b",
       "nameText": "#6b6b6b",
       "roleText": "#4f4f4f",
-      "bg": "transparent",
-      "avatarBg": "transparent"
+      "avatarBg": "transparent",
+      "bg": "transparent"
     }
   },
   "userGradientOverrides": {
@@ -351,8 +354,9 @@
       "enabled": false,
       "type": "Linear",
       "colors": [
-        "#FFFFFF",
-        "#B87CFF"
+        "#097152",
+        "#ffffff",
+        "#c8ff00"
       ],
       "transparency": [
         0,
@@ -415,6 +419,14 @@
     "admin": {
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
       "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png"
+    },
+    "moderator": {
+      "file": "assets/ROLE-ICONS/TL-STAFF.png",
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFFi.png"
+    },
+    "developer": {
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFFi.png",
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
     }
   },
   "customAvatars": {
