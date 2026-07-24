@@ -843,6 +843,16 @@ function init() {
     if (!th.bgGradientType) th.bgGradientType = "linear";
     if (!th.bgGradientColors || th.bgGradientColors.length < 2) th.bgGradientColors = [th.bg, th.bg];
     if (th.bgGradientAngle === undefined) th.bgGradientAngle = 0;
+    // Migration: seed per-role gradients from legacy global config if not yet present
+    if (!th.gradients) {
+      th.gradients = {};
+      GRAD_TARGETS.forEach(gt => {
+        th.gradients[gt.key] = JSON.parse(JSON.stringify(
+          (config.gradients && config.gradients[gt.key]) ||
+          { enabled:false, type:"Linear", colors:["#B87CFF","#1A1A22"], transparency:[0,0], rotation:90, offset:[0,0] }
+        ));
+      });
+    }
   });
   document.getElementById("targetUserInp").value = config.targetUser || "";
   loadUIState();
@@ -961,7 +971,7 @@ function renderGradientCss(theme) {
 }
 
 // Renders a CSS gradient string from the newer per-target gradient objects used by GRAD_TARGETS
-// (config.gradients / config.userGradientOverrides — the "🌈 Custom gradients" section). This is
+// (config.themes[role].gradients / config.userGradientOverrides — the "🌈 Custom gradients" section). This is
 // what makes the "cardGradient" target actually visible in the HTML preview; previously these
 // objects were fully wired up in the UI but never read anywhere when drawing the card, so editing
 // them appeared to do nothing regardless of the Custom Colors state.
@@ -1358,10 +1368,6 @@ function renderUserColorSection(name) {
   </div>`;
 }
 
-function defaultGradientFor(key) {
-  return JSON.parse(JSON.stringify(DEFAULTS.gradients[key] || { enabled:false, type:"Linear", colors:["#B87CFF","#1A1A22"], transparency:[0,0], rotation:90, offset:[0,0] }));
-}
-
 function renderUserGradientSection(name) {
   config.userGradientOverrides = config.userGradientOverrides || {};
   const overrides = config.userGradientOverrides[name] || {};
@@ -1370,9 +1376,9 @@ function renderUserGradientSection(name) {
   const activeKey = uc_activeGradTarget[name] || "cardGradient";
 
   const isCustom = !!overrides[activeKey];
-  // Custom fields edit the player's own override copy; otherwise show the global gradient read-only-ish
+  // Custom fields edit the player's own override copy; otherwise show the role gradient read-only-ish
   // (still uses the same inputs, but the first edit will promote it into a real override via updateUserGradientField).
-  const g = overrides[activeKey] || (config.gradients || {})[activeKey] || defaultGradientFor(activeKey);
+  const g = overrides[activeKey] || getRoleGradient(role, activeKey);
 
   const tabsHtml = GRAD_TARGETS.map(t => `<div class="theme-tab ${t.key===activeKey?'active':''} ${overrides[t.key]?'uc-grad-tab-custom':''}" onclick="setUserGradTarget('${name}','${t.key}')">${t.label.replace(' Gradient','')}</div>`).join("");
 
@@ -1404,9 +1410,9 @@ function renderUserGradientSection(name) {
       <span class="arrow ${isOpen ? 'open' : ''}">▼</span>
     </div>
     <div class="uc-color-body" style="display:${isOpen ? 'block' : 'none'}">
-      <div class="uc-color-hint">Each gradient below is either fully custom for this player, or fully inherited from the global <b>${targetLabel}</b> setting — editing any field here makes it custom.</div>
+      <div class="uc-color-hint">Each gradient below is either fully custom for this player, or fully inherited from the <b>${role}</b> role's <b>${targetLabel}</b> setting — editing any field here makes it custom.</div>
       <div class="theme-tabs uc-grad-tabs">${tabsHtml}</div>
-      ${isCustom ? `<div class="uc-grad-custom-badge">✓ Custom for this player <button class="uc-color-reset" onclick="resetUserGradientTarget('${name}','${activeKey}')">↺ reset to global</button></div>` : `<div class="uc-grad-inherit-badge">Inheriting global setting — editing below will make it custom</div>`}
+      ${isCustom ? `<div class="uc-grad-custom-badge">✓ Custom for this player <button class="uc-color-reset" onclick="resetUserGradientTarget('${name}','${activeKey}')">↺ reset to role</button></div>` : `<div class="uc-grad-inherit-badge">Inheriting <b>${role}</b> role setting — editing below will make it custom</div>`}
       ${fieldsHtml}
     </div>
   </div>`;
@@ -1493,13 +1499,14 @@ function toggleUserGradSection(username) {
   buildUserCustomization();
 }
 
-// Promotes the global gradient into a full per-player copy the first time it's edited,
+// Promotes the role gradient into a full per-player copy the first time it's edited,
 // so every field (colors, transparency, offset...) stays intact rather than only the one changed.
 function ensureUserGradientOverride(username, key) {
   config.userGradientOverrides = config.userGradientOverrides || {};
   if (!config.userGradientOverrides[username]) config.userGradientOverrides[username] = {};
   if (!config.userGradientOverrides[username][key]) {
-    const base = (config.gradients || {})[key] || defaultGradientFor(key);
+    const role = getUserRole(username);
+    const base = getRoleGradient(role, key);
     config.userGradientOverrides[username][key] = JSON.parse(JSON.stringify(base));
   }
   return config.userGradientOverrides[username][key];
@@ -1833,36 +1840,55 @@ const GRAD_TARGETS = [
 ];
 let activeGradTarget = "cardGradient";
 
-function buildGradients() {
-  if (!config.gradients) {
-    config.gradients = {};
-    GRAD_TARGETS.forEach(t => { config.gradients[t.key] = JSON.parse(JSON.stringify(DEFAULTS.gradients[t.key] || {enabled:false,type:"Linear",colors:["#B87CFF","#1A1A22"],transparency:[0,0],rotation:90,offset:[0,0]})); });
-  }
-  GRAD_TARGETS.forEach(t => { if (!config.gradients[t.key]) config.gradients[t.key] = JSON.parse(JSON.stringify(DEFAULTS.gradients[t.key] || {enabled:false,type:"Linear",colors:["#B87CFF","#1A1A22"],transparency:[0,0],rotation:90,offset:[0,0]})); });
+function defaultGradientFor(key) {
+  return JSON.parse(JSON.stringify(DEFAULTS.gradients[key] || { enabled:false, type:"Linear", colors:["#B87CFF","#1A1A22"], transparency:[0,0], rotation:90, offset:[0,0] }));
+}
 
+// Returns the gradient for a given key scoped to a specific role.
+// Priority: config.themes[role].gradients[key] > config.gradients[key] (legacy global) > defaults.
+function getRoleGradient(role, key) {
+  const roleGrads = config.themes?.[role]?.gradients;
+  if (roleGrads && roleGrads[key]) return roleGrads[key];
+  if (config.gradients && config.gradients[key]) return config.gradients[key];
+  return defaultGradientFor(key);
+}
+
+// Ensures a role has its own gradient object for the given key (deep copy from global fallback),
+// then returns it. Used by buildGradients() so writes go to the per-role store.
+function ensureRoleGradient(role, key) {
+  if (!config.themes[role]) config.themes[role] = {};
+  if (!config.themes[role].gradients) config.themes[role].gradients = {};
+  if (!config.themes[role].gradients[key]) {
+    config.themes[role].gradients[key] = JSON.parse(JSON.stringify(getRoleGradient(role, key)));
+  }
+  return config.themes[role].gradients[key];
+}
+
+function buildGradients() {
   const c = document.getElementById("gradientBody");
   const tabs = GRAD_TARGETS.map(t => `<div class="theme-tab ${t.key===activeGradTarget?'active':''}" onclick="activeGradTarget='${t.key}'; buildGradients()">${t.label}</div>`).join("");
-  const g = config.gradients[activeGradTarget];
+  const g = ensureRoleGradient(activeTheme, activeGradTarget);
 
   let html = `<div class="theme-tabs">${tabs}</div>`;
-  html += `<div class="toggle-wrap"><span class="toggle-label">Enabled</span><div class="toggle ${g.enabled?'on':''}" onclick="config.gradients['${activeGradTarget}'].enabled=!config.gradients['${activeGradTarget}'].enabled; toggleSwitch(this); buildGradients(); updatePreview()"><div class="toggle-knob"></div></div></div>`;
-  html += `<div class="field"><label class="field-label">Type</label><select onchange="config.gradients['${activeGradTarget}'].type=this.value; updatePreview()">`;
+  const path = `config.themes['${activeTheme}'].gradients['${activeGradTarget}']`;
+  html += `<div class="toggle-wrap"><span class="toggle-label">Enabled</span><div class="toggle ${g.enabled?'on':''}" onclick="${path}.enabled=!${path}.enabled; toggleSwitch(this); buildGradients(); updatePreview()"><div class="toggle-knob"></div></div></div>`;
+  html += `<div class="field"><label class="field-label">Type</label><select onchange="${path}.type=this.value; updatePreview()">`;
   GRADIENT_TYPE_KEYS.forEach(k => { html += `<option value="${k}" ${g.type===k||g.type===k.charAt(0).toUpperCase()+k.slice(1)?'selected':''}>${GRADIENT_TYPES[k].label}</option>`; });
   html += `</select></div>`;
 
-  html += `<div class="field"><label class="field-label">Rotation (deg)</label><div class="slider-wrap"><input type="range" min="0" max="360" step="1" value="${g.rotation||0}" oninput="config.gradients['${activeGradTarget}'].rotation=parseInt(this.value); this.nextElementSibling.textContent=this.value+'°'; updatePreview()"><span class="slider-val">${g.rotation||0}°</span></div></div>`;
+  html += `<div class="field"><label class="field-label">Rotation (deg)</label><div class="slider-wrap"><input type="range" min="0" max="360" step="1" value="${g.rotation||0}" oninput="${path}.rotation=parseInt(this.value); this.nextElementSibling.textContent=this.value+'°'; updatePreview()"><span class="slider-val">${g.rotation||0}°</span></div></div>`;
 
   (g.colors||[]).forEach((col, i) => {
-    html += `<div class="field"><label class="field-label">Color ${i+1}</label><div class="color-pick"><input type="color" value="${col}" onchange="config.gradients['${activeGradTarget}'].colors[${i}]=this.value; this.nextElementSibling.value=this.value; updatePreview()"><input type="text" class="hex" value="${col}" onchange="config.gradients['${activeGradTarget}'].colors[${i}]=this.value; this.previousElementSibling.value=this.value; updatePreview()"></div></div>`;
+    html += `<div class="field"><label class="field-label">Color ${i+1}</label><div class="color-pick"><input type="color" value="${col}" onchange="${path}.colors[${i}]=this.value; this.nextElementSibling.value=this.value; updatePreview()"><input type="text" class="hex" value="${col}" onchange="${path}.colors[${i}]=this.value; this.previousElementSibling.value=this.value; updatePreview()"></div></div>`;
   });
-  if ((g.colors||[]).length < 4) html += `<button class="btn-add" onclick="config.gradients['${activeGradTarget}'].colors.push(config.gradients['${activeGradTarget}'].colors[config.gradients['${activeGradTarget}'].colors.length-1]||'#FFFFFF'); buildGradients()">+ Color</button>`;
+  if ((g.colors||[]).length < 4) html += `<button class="btn-add" onclick="${path}.colors.push(${path}.colors[${path}.colors.length-1]||'#FFFFFF'); buildGradients()">+ Color</button>`;
 
   (g.transparency||[]).forEach((tr, i) => {
-    html += `<div class="field"><label class="field-label">Transparency ${i+1}</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${tr}" oninput="config.gradients['${activeGradTarget}'].transparency[${i}]=parseFloat(this.value); this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${tr}</span></div></div>`;
+    html += `<div class="field"><label class="field-label">Transparency ${i+1}</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${tr}" oninput="${path}.transparency[${i}]=parseFloat(this.value); this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${tr}</span></div></div>`;
   });
 
-  html += `<div class="field"><label class="field-label">Offset X</label><div class="slider-wrap"><input type="range" min="-1" max="1" step="0.05" value="${(g.offset||[0,0])[0]}" oninput="config.gradients['${activeGradTarget}'].offset=[parseFloat(this.value),(config.gradients['${activeGradTarget}'].offset||[0,0])[1]]; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${(g.offset||[0,0])[0]}</span></div></div>`;
-  html += `<div class="field"><label class="field-label">Offset Y</label><div class="slider-wrap"><input type="range" min="-1" max="1" step="0.05" value="${(g.offset||[0,0])[1]}" oninput="config.gradients['${activeGradTarget}'].offset=[(config.gradients['${activeGradTarget}'].offset||[0,0])[0],parseFloat(this.value)]; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${(g.offset||[0,0])[1]}</span></div></div>`;
+  html += `<div class="field"><label class="field-label">Offset X</label><div class="slider-wrap"><input type="range" min="-1" max="1" step="0.05" value="${(g.offset||[0,0])[0]}" oninput="${path}.offset=[parseFloat(this.value),(${path}.offset||[0,0])[1]]; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${(g.offset||[0,0])[0]}</span></div></div>`;
+  html += `<div class="field"><label class="field-label">Offset Y</label><div class="slider-wrap"><input type="range" min="-1" max="1" step="0.05" value="${(g.offset||[0,0])[1]}" oninput="${path}.offset=[(${path}.offset||[0,0])[0],parseFloat(this.value)]; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${(g.offset||[0,0])[1]}</span></div></div>`;
 
   c.innerHTML = html;
 }
@@ -1954,8 +1980,8 @@ function updatePreview() {
   // the older per-theme bgGradient toggle > the plain bg color. Previously the "Custom gradients"
   // section (cardGradient) was never read here at all, so enabling it had no visible effect.
   const cardGradOverride = (previewSubject !== "__role__") ? (config.userGradientOverrides || {})[previewSubject]?.cardGradient : null;
-  const cardGradGlobal = (config.gradients || {}).cardGradient;
-  const activeCardGrad = (cardGradOverride && cardGradOverride.enabled) ? cardGradOverride : (cardGradGlobal && cardGradGlobal.enabled ? cardGradGlobal : null);
+  const cardGradRole = getRoleGradient(activeTheme, 'cardGradient');
+  const activeCardGrad = (cardGradOverride && cardGradOverride.enabled) ? cardGradOverride : (cardGradRole && cardGradRole.enabled ? cardGradRole : null);
   if (activeCardGrad) {
     preview.style.background = renderCustomGradientCss(activeCardGrad) || t.bg;
   } else if (t.bgGradient) {
@@ -1968,7 +1994,7 @@ function updatePreview() {
   const border = document.getElementById("ntBorder");
   border.style.borderRadius = l.cornerRadius + "px";
   border.style.opacity = 1 - a.borderTransparency;
-  const borderGrad = (config.gradients || {}).borderGradient;
+  const borderGrad = getRoleGradient(activeTheme, 'borderGradient');
   const borderGradOv = (previewSubject !== "__role__") ? (config.userGradientOverrides || {})[previewSubject]?.borderGradient : null;
   const activeBorderGrad = (borderGradOv && borderGradOv.enabled) ? borderGradOv : (borderGrad && borderGrad.enabled ? borderGrad : null);
   if (activeBorderGrad) {
@@ -1988,7 +2014,7 @@ function updatePreview() {
   const av = document.getElementById("ntAv");
   av.style.width = l.avatarWidth + "px";
   av.style.borderRadius = l.cornerRadius + "px 0 0 " + l.cornerRadius + "px";
-  const avGrad = (config.gradients || {}).avatarGradient;
+  const avGrad = getRoleGradient(activeTheme, 'avatarGradient');
   const avGradOv = (previewSubject !== "__role__") ? (config.userGradientOverrides || {})[previewSubject]?.avatarGradient : null;
   const activeAvGrad = (avGradOv && avGradOv.enabled) ? avGradOv : (avGrad && avGrad.enabled ? avGrad : null);
   if (activeAvGrad) {
@@ -2016,7 +2042,7 @@ function updatePreview() {
   nameEl.style.top = (l.nameLabelY || 4) + "px";
   nameEl.style.right = (l.textPaddingRight || 4) + "px";
   nameEl.textContent = dynName;
-  const nameGrad = (config.gradients || {}).nameGradient;
+  const nameGrad = getRoleGradient(activeTheme, 'nameGradient');
   const nameGradOv = (previewSubject !== "__role__") ? (config.userGradientOverrides || {})[previewSubject]?.nameGradient : null;
   const activeNameGrad = (nameGradOv && nameGradOv.enabled) ? nameGradOv : (nameGrad && nameGrad.enabled ? nameGrad : null);
   if (activeNameGrad) {
@@ -2045,7 +2071,7 @@ function updatePreview() {
   else if (roleTextTransform === "lower") roleEl.textContent = dynRole.toLowerCase();
   else roleEl.textContent = dynRole;
   roleEl.style.textTransform = roleTextTransform === "none" ? "none" : roleTextTransform === "lower" ? "lowercase" : "uppercase";
-  const roleGrad = (config.gradients || {}).roleGradient;
+  const roleGrad = getRoleGradient(activeTheme, 'roleGradient');
   const roleGradOv = (previewSubject !== "__role__") ? (config.userGradientOverrides || {})[previewSubject]?.roleGradient : null;
   const activeRoleGrad = (roleGradOv && roleGradOv.enabled) ? roleGradOv : (roleGrad && roleGrad.enabled ? roleGrad : null);
   if (activeRoleGrad) {
