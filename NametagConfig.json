@@ -4,7 +4,7 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "transparent",
+      "bg": "#1e1e2e",
       "avatarBg": "transparent",
       "avatarText": "transparent",
       "divider": "transparent",
