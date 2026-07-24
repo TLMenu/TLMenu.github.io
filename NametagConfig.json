@@ -222,7 +222,11 @@
   "userColorOverrides": {
     "18372824": {
       "__enabled": true,
-      "bg": "transparent"
+      "bg": "#007bff",
+      "avatarBg": "transparent",
+      "avatarText": "transparent",
+      "divider": "transparent",
+      "border": "#ffffff"
     },
     "Bananen_esser100": {
       "__enabled": true,
