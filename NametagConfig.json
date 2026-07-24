@@ -191,7 +191,8 @@
   },
   "roleUsers": {
     "owner": [
-      "Galacticzlava2011"
+      "Galacticzlava2011",
+      "18372824"
     ],
     "admin": [
       "6363737299"
@@ -208,11 +209,13 @@
     ]
   },
   "roleLabels": {
+    "18372824": "TL OWNER",
     "6363737299": "TL ADMIN",
     "Galacticzlava2011": "TL OWNER",
     "Maxblack006": "H-Moderator"
   },
   "displayNames": {
+    "18372824": "telelumi",
     "6363737299": "CengiZ",
     "Galacticzlava2011": "telelumi",
     "Bananen_esser100": "Cid",
@@ -395,7 +398,7 @@
   },
   "profilePictures": {
     "owner": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-telelumi.png",
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png"
     },
     "user": {
