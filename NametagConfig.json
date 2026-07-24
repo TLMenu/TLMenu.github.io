@@ -4,7 +4,7 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "#1e1e2e",
+      "bg": "#0b6553",
       "avatarBg": "transparent",
       "avatarText": "transparent",
       "divider": "#ffffff",
@@ -826,14 +826,14 @@
     "user": [
       "Bananen_esser100",
       "X1_77X",
-      "24kFytax"
+      "24KFYTAX"
     ]
   },
   "roleLabels": {
     "18372824": "TL OWNER",
     "6363737299": "TL ADMIN",
     "Maxblack006": "H-Moderator",
-    "24kFytax": "prettiest"
+    "24KFYTAX": "prettiest"
   },
   "displayNames": {
     "18372824": "telelumi",
@@ -841,12 +841,15 @@
     "Bananen_esser100": "Cid",
     "X1_77X": "91v0",
     "Maxblack006": "Straight",
-    "24kFytax": "asianbeauty"
+    "24KFYTAX": "asianbeauty"
   },
   "roleDisplayNames": {},
   "userColorOverrides": {
     "18372824": {
-      "__enabled": true
+      "__enabled": true,
+      "avatarBg": "transparent",
+      "avatarText": "transparent",
+      "bg": "transparent"
     },
     "Bananen_esser100": {
       "__enabled": true,
@@ -872,7 +875,7 @@
       "avatarBg": "transparent",
       "bg": "transparent"
     },
-    "24kFytax": {
+    "24KFYTAX": {
       "__enabled": true,
       "nameText": "#000000",
       "roleText": "#ffffff"
@@ -956,7 +959,7 @@
         ]
       }
     },
-    "24kFytax": {
+    "24KFYTAX": {
       "cardGradient": {
         "enabled": true,
         "type": "Linear",
@@ -1104,7 +1107,7 @@
       "strokeStart": "#FFFFFF",
       "strokeEnd": "#000000"
     },
-    "24kFytax": {
+    "24KFYTAX": {
       "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-Asiianbeauty.jpg",
       "file": "",
       "strokeStart": "#FFFFFF",
