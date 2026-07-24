@@ -66,8 +66,8 @@ body {
 
 /* ── LAYOUT ── */
 main, nav, section { position: relative; z-index: 1; }
-.app-wrapper { display: flex; justify-content: center; padding: 80px 24px 24px; min-height: 100vh; }
-.app { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 14px; width: 100%; max-width: 1600px; align-items: start; }
+.app-wrapper { display: block; padding: 80px 24px 24px; min-height: 100vh; width: 100%; }
+.app { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 14px; width: 100%; max-width: none; min-height: calc(100vh - 104px); align-items: start; }
 .main-panel { display: flex; flex-direction: column; height: calc(100vh - 104px); position: sticky; top: 80px; background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 40%), var(--bg1); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); grid-column: 1; grid-row: 1; }
 
 @media (max-width: 1200px) {
@@ -80,8 +80,8 @@ main, nav, section { position: relative; z-index: 1; }
 }
 
 /* ── NAV ── */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; display: flex; align-items: center; justify-content: center; padding: 0 32px; background: rgba(7, 8, 12, 0.8); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--line); }
-.nav-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1600px; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; display: flex; align-items: center; justify-content: flex-start; padding: 0 24px; background: rgba(7, 8, 12, 0.8); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--line); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: none; }
 .logo { display: flex; align-items: center; gap: 14px; font-family: var(--head); font-size: 17px; font-weight: 700; color: var(--t1); letter-spacing: -0.02em; text-decoration: none; transition: opacity 0.2s ease; }
 .logo:hover { opacity: 0.9; }
 .logo-mark { width: 36px; height: 36px; border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 12px rgba(47, 224, 192, 0.25); }
@@ -479,7 +479,7 @@ select option { background: var(--bg3); color: var(--t1); }
 <!-- PASSWORD GATE -->
 <div class="pw-overlay" id="pwOverlay">
   <div class="pw-box">
-    <div class="pw-logo"><img src="https://raw.githubusercontent.com/telelumi/TLASSETS/refs/heads/main/Icons/TL-Icon.png" alt="TL"></div>
+    <div class="pw-logo"><img src="https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/TL-DEFAULT/TL-Icon.png" alt="TL"></div>
     <h2>Nametag Configurator</h2>
     <p>Access for authorized users only</p>
     <div class="pw-input-wrap">
@@ -503,7 +503,7 @@ select option { background: var(--bg3); color: var(--t1); }
 <nav>
   <div class="nav-inner">
   <a href="#" class="logo">
-    <div class="logo-mark"><img src="https://raw.githubusercontent.com/telelumi/TLASSETS/refs/heads/main/Icons/TL-Icon.png" alt="TL"></div>
+    <div class="logo-mark"><img src="https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/TL-DEFAULT/TL-Icon.png" alt="TL"></div>
     Nametag Configurator
   </a>
   <div class="nav-actions">
