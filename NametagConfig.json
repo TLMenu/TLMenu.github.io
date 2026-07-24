@@ -4,13 +4,13 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "#1A1A22",
-      "avatarBg": "#1F1F2C",
-      "avatarText": "#A0A0C0",
-      "divider": "#A0A0C0",
-      "border": "#A0A0B4",
+      "bg": "#000000",
+      "avatarBg": "transparent",
+      "avatarText": "transparent",
+      "divider": "#ffffff",
+      "border": "#ffffff",
       "nameText": "#E6E6F0",
-      "roleText": "#7878A0",
+      "roleText": "#ffffff",
       "bgGradient": false,
       "bgGradientType": "linear",
       "bgGradientColors": [
@@ -36,21 +36,21 @@
       "bgGradientAngle": 0
     },
     "owner": {
-      "bg": "#000000",
-      "avatarBg": "#000000",
+      "bg": "#ffffff",
+      "avatarBg": "transparent",
       "avatarText": "#000000",
       "divider": "#000000",
       "border": "#ffffff",
       "nameText": "#ffffff",
       "roleText": "#ffffff",
       "bgGradient": true,
-      "bgGradientType": "linear",
+      "bgGradientType": "smooth",
       "bgGradientColors": [
         "#097160",
         "#2f4fee",
         "#2feed8"
       ],
-      "bgGradientAngle": 149
+      "bgGradientAngle": 49
     },
     "developer": {
       "bg": "#0C1428",
