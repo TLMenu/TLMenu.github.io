@@ -4,7 +4,7 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "#000000",
+      "bg": "#171821",
       "avatarBg": "transparent",
       "avatarText": "transparent",
       "divider": "#ffffff",
@@ -36,14 +36,14 @@
       "bgGradientAngle": 0
     },
     "owner": {
-      "bg": "#ffffff",
+      "bg": "transparent",
       "avatarBg": "transparent",
       "avatarText": "#000000",
       "divider": "#000000",
       "border": "#ffffff",
       "nameText": "#ffffff",
       "roleText": "#ffffff",
-      "bgGradient": true,
+      "bgGradient": false,
       "bgGradientType": "linear",
       "bgGradientColors": [
         "#097160",
@@ -118,7 +118,7 @@
     }
   },
   "layout": {
-    "billboardWidth": 165,
+    "billboardWidth": 225,
     "billboardHeight": 45,
     "studsOffsetY": 3.4,
     "avatarWidth": 45,
@@ -221,7 +221,8 @@
   "roleDisplayNames": {},
   "userColorOverrides": {
     "18372824": {
-      "__enabled": false
+      "__enabled": true,
+      "bg": "transparent"
     },
     "Bananen_esser100": {
       "__enabled": true,
@@ -251,11 +252,11 @@
   "userGradientOverrides": {
     "18372824": {
       "cardGradient": {
-        "enabled": true,
+        "enabled": false,
         "type": "Linear",
         "colors": [
-          "#B87CFF",
-          "#1A1A22"
+          "#173754",
+          "#222225"
         ],
         "transparency": [
           0,
