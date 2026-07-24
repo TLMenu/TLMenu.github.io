@@ -13,7 +13,10 @@
       "roleText": "#7878A0",
       "bgGradient": false,
       "bgGradientType": "linear",
-      "bgGradientColors": ["#1A1A22", "#0E0E18"],
+      "bgGradientColors": [
+        "#1A1A22",
+        "#0E0E18"
+      ],
       "bgGradientAngle": 0
     },
     "admin": {
@@ -26,21 +29,28 @@
       "roleText": "#C83C3C",
       "bgGradient": false,
       "bgGradientType": "linear",
-      "bgGradientColors": ["#220E0E", "#150808"],
+      "bgGradientColors": [
+        "#220E0E",
+        "#150808"
+      ],
       "bgGradientAngle": 0
     },
     "owner": {
-      "bg": "#160E1E",
-      "avatarBg": "#1B1226",
+      "bg": "#ffffff",
+      "avatarBg": "#ffffff",
       "avatarText": "#B87CFF",
       "divider": "#B87CFF",
-      "border": "#AA64FF",
-      "nameText": "#DDB8FF",
-      "roleText": "#8850CC",
-      "bgGradient": false,
-      "bgGradientType": "linear",
-      "bgGradientColors": ["#160E1E", "#0D0814"],
-      "bgGradientAngle": 0
+      "border": "#ffffff",
+      "nameText": "#ffffff",
+      "roleText": "#ffffff",
+      "bgGradient": true,
+      "bgGradientType": "neon",
+      "bgGradientColors": [
+        "#097160",
+        "#2f4fee",
+        "#2feed8"
+      ],
+      "bgGradientAngle": 128
     },
     "developer": {
       "bg": "#0C1428",
@@ -52,7 +62,10 @@
       "roleText": "#3C82DC",
       "bgGradient": false,
       "bgGradientType": "linear",
-      "bgGradientColors": ["#0C1428", "#060A18"],
+      "bgGradientColors": [
+        "#0C1428",
+        "#060A18"
+      ],
       "bgGradientAngle": 0
     },
     "advertising": {
@@ -65,7 +78,10 @@
       "roleText": "#A050D2",
       "bgGradient": false,
       "bgGradientType": "linear",
-      "bgGradientColors": ["#1C0E24", "#100818"],
+      "bgGradientColors": [
+        "#1C0E24",
+        "#100818"
+      ],
       "bgGradientAngle": 0
     },
     "moderator": {
@@ -78,7 +94,10 @@
       "roleText": "#DCA01E",
       "bgGradient": false,
       "bgGradientType": "linear",
-      "bgGradientColors": ["#221C0A", "#141006"],
+      "bgGradientColors": [
+        "#221C0A",
+        "#141006"
+      ],
       "bgGradientAngle": 0
     },
     "staff": {
@@ -91,7 +110,10 @@
       "roleText": "#16A34A",
       "bgGradient": false,
       "bgGradientType": "linear",
-      "bgGradientColors": ["#0A1C10", "#061008"],
+      "bgGradientColors": [
+        "#0A1C10",
+        "#061008"
+      ],
       "bgGradientAngle": 0
     }
   },
@@ -138,34 +160,71 @@
     "transparency": 0.5,
     "moveDurationMin": 3,
     "moveDurationMax": 5,
-    "colors": ["#B87CFF", "#A064F0", "#C896FF", "#8C50DC", "#DDB8FF"]
+    "colors": [
+      "#B87CFF",
+      "#A064F0",
+      "#C896FF",
+      "#8C50DC",
+      "#DDB8FF"
+    ]
   },
   "roleKeywords": {
-    "owner": ["owner", "vip"],
-    "developer": ["developer", "entwickler"],
-    "moderator": ["moderator", "mod"],
-    "admin": ["admin", "administrator"],
-    "advertising": ["advertising", "werbung"],
-    "staff": ["staff"]
+    "owner": [
+      "owner",
+      "vip"
+    ],
+    "developer": [
+      "developer",
+      "entwickler"
+    ],
+    "moderator": [
+      "moderator",
+      "mod"
+    ],
+    "admin": [
+      "admin",
+      "administrator"
+    ],
+    "advertising": [
+      "advertising",
+      "werbung"
+    ],
+    "staff": [
+      "staff"
+    ]
   },
   "roleUsers": {
-    "owner": ["Galacticzlava2011"],
-    "admin": ["6363737299"],
+    "owner": [
+      "Galacticzlava2011",
+      "18372824"
+    ],
+    "admin": [
+      "6363737299"
+    ],
     "developer": [],
-    "moderator": [],
+    "moderator": [
+      "Maxblack006"
+    ],
     "advertising": [],
     "staff": [],
-    "user": ["Bananen_esser100", "X1_77X"]
+    "user": [
+      "Bananen_esser100",
+      "X1_77X"
+    ]
   },
   "roleLabels": {
+    "18372824": "TL OWNER",
     "6363737299": "TL ADMIN",
-    "Galacticzlava2011": "TL OWNER"
+    "Galacticzlava2011": "TL OWNER",
+    "Maxblack006": "H-Moderator"
   },
   "displayNames": {
+    "18372824": "telelumi",
     "6363737299": "CengiZ",
     "Galacticzlava2011": "telelumi",
     "Bananen_esser100": "Cid",
-    "X1_77X": "91v0"
+    "X1_77X": "91v0",
+    "Maxblack006": "Straight"
   },
   "roleDisplayNames": {},
   "userColorOverrides": {
@@ -182,6 +241,16 @@
       "avatarBg": "transparent",
       "bg": "transparent",
       "__enabled": true
+    },
+    "Maxblack006": {
+      "__enabled": true,
+      "avatarText": "transparent",
+      "divider": "transparent",
+      "border": "#6b6b6b",
+      "nameText": "#6b6b6b",
+      "roleText": "#4f4f4f",
+      "bg": "transparent",
+      "avatarBg": "transparent"
     }
   },
   "userGradientOverrides": {
@@ -189,20 +258,57 @@
       "cardGradient": {
         "enabled": true,
         "type": "Linear",
-        "colors": ["#8B0000", "#000000"],
-        "transparency": [0, 0],
+        "colors": [
+          "#8B0000",
+          "#000000"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
         "rotation": 90,
-        "offset": [0, 0]
+        "offset": [
+          0,
+          0
+        ]
       }
     },
     "X1_77X": {
       "cardGradient": {
         "enabled": true,
         "type": "Linear",
-        "colors": ["#54258d", "#1b1b64"],
-        "transparency": [0, 0],
+        "colors": [
+          "#54258d",
+          "#1b1b64"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
         "rotation": 223,
-        "offset": [0, 0]
+        "offset": [
+          0,
+          0
+        ]
+      }
+    },
+    "Maxblack006": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#5e1717",
+          "#370b0b"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 78,
+        "offset": [
+          0,
+          0
+        ]
       }
     }
   },
@@ -210,42 +316,87 @@
     "cardGradient": {
       "enabled": false,
       "type": "Linear",
-      "colors": ["#B87CFF", "#1A1A22"],
-      "transparency": [0, 0],
+      "colors": [
+        "#B87CFF",
+        "#1A1A22"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
       "rotation": 90,
-      "offset": [0, 0]
+      "offset": [
+        0,
+        0
+      ]
     },
     "avatarGradient": {
       "enabled": false,
       "type": "Linear",
-      "colors": ["#B87CFF", "#160E1E"],
-      "transparency": [0, 0],
+      "colors": [
+        "#B87CFF",
+        "#160E1E"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
       "rotation": 180,
-      "offset": [0, 0]
+      "offset": [
+        0,
+        0
+      ]
     },
     "nameGradient": {
       "enabled": false,
       "type": "Linear",
-      "colors": ["#FFFFFF", "#B87CFF"],
-      "transparency": [0, 0],
+      "colors": [
+        "#FFFFFF",
+        "#B87CFF"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
       "rotation": 0,
-      "offset": [0, 0]
+      "offset": [
+        0,
+        0
+      ]
     },
     "roleGradient": {
       "enabled": false,
       "type": "Linear",
-      "colors": ["#B87CFF", "#8850CC"],
-      "transparency": [0, 0],
+      "colors": [
+        "#B87CFF",
+        "#8850CC"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
       "rotation": 0,
-      "offset": [0, 0]
+      "offset": [
+        0,
+        0
+      ]
     },
     "borderGradient": {
       "enabled": false,
       "type": "Linear",
-      "colors": ["#B87CFF", "#AA64FF"],
-      "transparency": [0, 0],
+      "colors": [
+        "#B87CFF",
+        "#AA64FF"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
       "rotation": 0,
-      "offset": [0, 0]
+      "offset": [
+        0,
+        0
+      ]
     }
   },
   "profilePictures": {
@@ -262,7 +413,8 @@
       "file": "assets/TL-ROLE-PICS/TL-ROLE-LOGO.png"
     },
     "admin": {
-      "file": "assets/ROLE-ICONS/TL-STAFF.png"
+      "file": "assets/ROLE-ICONS/TL-STAFF.png",
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png"
     }
   },
   "customAvatars": {
