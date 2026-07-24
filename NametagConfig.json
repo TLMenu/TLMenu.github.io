@@ -44,13 +44,13 @@
       "nameText": "#ffffff",
       "roleText": "#ffffff",
       "bgGradient": true,
-      "bgGradientType": "smooth",
+      "bgGradientType": "linear",
       "bgGradientColors": [
         "#097160",
         "#2f4fee",
         "#2feed8"
       ],
-      "bgGradientAngle": 49
+      "bgGradientAngle": 133
     },
     "developer": {
       "bg": "#0C1428",
@@ -118,17 +118,17 @@
     }
   },
   "layout": {
-    "billboardWidth": 240,
-    "billboardHeight": 44,
+    "billboardWidth": 165,
+    "billboardHeight": 45,
     "studsOffsetY": 3.4,
-    "avatarWidth": 44,
-    "cornerRadius": 8,
+    "avatarWidth": 45,
+    "cornerRadius": 10,
     "innerCornerRadius": 5,
-    "borderThickness": 1,
+    "borderThickness": 2.5,
     "dividerWidth": 1,
-    "dividerHeightPct": 0.6,
+    "dividerHeightPct": 0.5,
     "dividerTransparency": 0.75,
-    "nameTextSize": 13,
+    "nameTextSize": 15,
     "nameFont": "GothamBold",
     "roleTextSize": 9,
     "roleFont": "GothamBold",
@@ -158,12 +158,9 @@
     "minSize": 2,
     "maxSize": 2,
     "transparency": 0,
-    "moveDurationMin": 4.5,
-    "moveDurationMax": 4,
+    "moveDurationMin": 2,
+    "moveDurationMax": 5,
     "colors": [
-      "#FFFFFF",
-      "#FFFFFF",
-      "#FFFFFF",
       "#FFFFFF"
     ]
   },
@@ -194,8 +191,7 @@
   },
   "roleUsers": {
     "owner": [
-      "Galacticzlava2011",
-      "18372824"
+      "Galacticzlava2011"
     ],
     "admin": [
       "6363737299"
@@ -212,13 +208,11 @@
     ]
   },
   "roleLabels": {
-    "18372824": "TL OWNER",
     "6363737299": "TL ADMIN",
     "Galacticzlava2011": "TL OWNER",
     "Maxblack006": "H-Moderator"
   },
   "displayNames": {
-    "18372824": "telelumi",
     "6363737299": "CengiZ",
     "Galacticzlava2011": "telelumi",
     "Bananen_esser100": "Cid",
@@ -227,10 +221,6 @@
   },
   "roleDisplayNames": {},
   "userColorOverrides": {
-    "18372824": {
-      "avatarBg": "transparent",
-      "bg": "transparent"
-    },
     "Bananen_esser100": {
       "__enabled": true,
       "avatarBg": "transparent",
