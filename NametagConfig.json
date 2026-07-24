@@ -811,7 +811,9 @@
     ]
   },
   "roleUsers": {
-    "owner": [],
+    "owner": [
+      "18372824"
+    ],
     "admin": [
       "6363737299"
     ],
@@ -827,10 +829,12 @@
     ]
   },
   "roleLabels": {
+    "18372824": "TL OWNER",
     "6363737299": "TL ADMIN",
     "Maxblack006": "H-Moderator"
   },
   "displayNames": {
+    "18372824": "telelumi",
     "6363737299": "CengiZ",
     "Bananen_esser100": "Cid",
     "X1_77X": "91v0",
