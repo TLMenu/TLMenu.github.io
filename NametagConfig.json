@@ -166,8 +166,7 @@
   },
   "roleKeywords": {
     "owner": [
-      "owner",
-      "vip"
+      "owner"
     ],
     "developer": [
       "developer",
@@ -191,7 +190,6 @@
   },
   "roleUsers": {
     "owner": [
-      "Galacticzlava2011",
       "18372824"
     ],
     "admin": [
@@ -211,19 +209,20 @@
   "roleLabels": {
     "18372824": "TL OWNER",
     "6363737299": "TL ADMIN",
-    "Galacticzlava2011": "TL OWNER",
     "Maxblack006": "H-Moderator"
   },
   "displayNames": {
     "18372824": "telelumi",
     "6363737299": "CengiZ",
-    "Galacticzlava2011": "telelumi",
     "Bananen_esser100": "Cid",
     "X1_77X": "91v0",
     "Maxblack006": "Straight"
   },
   "roleDisplayNames": {},
   "userColorOverrides": {
+    "18372824": {
+      "__enabled": false
+    },
     "Bananen_esser100": {
       "__enabled": true,
       "avatarBg": "transparent",
@@ -250,6 +249,25 @@
     }
   },
   "userGradientOverrides": {
+    "18372824": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#B87CFF",
+          "#1A1A22"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 90,
+        "offset": [
+          0,
+          0
+        ]
+      }
+    },
     "Bananen_esser100": {
       "cardGradient": {
         "enabled": true,
