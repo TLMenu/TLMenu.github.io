@@ -7,7 +7,7 @@
       "bg": "#1e1e2e",
       "avatarBg": "transparent",
       "avatarText": "transparent",
-      "divider": "transparent",
+      "divider": "#ffffff",
       "border": "#ffffff",
       "nameText": "#E6E6F0",
       "roleText": "#ffffff",
@@ -122,10 +122,10 @@
     "billboardHeight": 45,
     "studsOffsetY": 3.4,
     "avatarWidth": 45,
-    "cornerRadius": 10,
-    "innerCornerRadius": 5,
-    "borderThickness": 2.5,
-    "dividerWidth": 1,
+    "cornerRadius": 13,
+    "innerCornerRadius": 10,
+    "borderThickness": 3,
+    "dividerWidth": 2,
     "dividerHeightPct": 0.5,
     "dividerTransparency": 0.75,
     "nameTextSize": 15,
@@ -135,9 +135,9 @@
     "initialsTextSize": 11,
     "avatarTextGap": 10,
     "textPaddingRight": 4,
-    "nameLabelHeight": 20,
+    "nameLabelHeight": 25,
     "nameLabelY": 4,
-    "roleLabelHeight": 12,
+    "roleLabelHeight": 15,
     "roleLabelY": 26,
     "roleTextTransform": "upper",
     "avatarImagePadding": 3,
@@ -186,6 +186,9 @@
     ],
     "staff": [
       "staff"
+    ],
+    "user": [
+      "user"
     ]
   },
   "roleUsers": {
@@ -425,23 +428,23 @@
       "file": "assets/ROLE-ICONS/TL-STAFF.png"
     },
     "user": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TLUSER-ROLE.png",
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TLUSER-ROLE.png",
       "file": "assets/ROLE-ICONS/TLUSER-ROLE.png"
     },
     "staff": {
-      "url": "",
-      "file": "assets/TL-ROLE-PICS/TL-ROLE-LOGO.png"
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
     },
     "admin": {
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFF.png"
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png"
     },
     "moderator": {
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFFi.png"
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png"
     },
     "developer": {
-      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-STAFFi.png",
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png"
     }
   },
