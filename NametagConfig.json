@@ -4,17 +4,17 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "#0b6553",
+      "bg": "#121212",
       "avatarBg": "transparent",
       "avatarText": "transparent",
       "divider": "#ffffff",
       "border": "#ffffff",
-      "nameText": "#E6E6F0",
-      "roleText": "#ffffff",
+      "nameText": "#6e6e6e",
+      "roleText": "#707070",
       "bgGradient": false,
       "bgGradientType": "linear",
       "bgGradientColors": [
-        "#1A1A22",
+        "#00008f",
         "#0E0E18"
       ],
       "bgGradientAngle": 0,
@@ -212,7 +212,7 @@
       }
     },
     "owner": {
-      "bg": "#3263f5",
+      "bg": "#006eff",
       "avatarBg": "transparent",
       "avatarText": "#ffffff",
       "divider": "#ffffff",
@@ -789,7 +789,7 @@
     ],
     "developer": [
       "developer",
-      "entwickler"
+      "dev"
     ],
     "moderator": [
       "moderator",
@@ -801,10 +801,11 @@
     ],
     "advertising": [
       "advertising",
-      "werbung"
+      "ad"
     ],
     "staff": [
-      "staff"
+      "supporter",
+      "sup"
     ],
     "user": [
       "user"
@@ -812,7 +813,8 @@
   },
   "roleUsers": {
     "owner": [
-      "18372824"
+      "spacewingman",
+      "bigboy14big"
     ],
     "admin": [
       "6363737299"
@@ -830,27 +832,23 @@
     ]
   },
   "roleLabels": {
-    "18372824": "TL OWNER",
     "6363737299": "TL ADMIN",
     "Maxblack006": "H-Moderator",
-    "24KFYTAX": "prettiest"
+    "24KFYTAX": "prettiest",
+    "spacewingman": "TL OWNER"
   },
   "displayNames": {
-    "18372824": "telelumi",
     "6363737299": "CengiZ",
     "Bananen_esser100": "Cid",
     "X1_77X": "91v0",
     "Maxblack006": "Straight",
-    "24KFYTAX": "asianbeauty"
+    "24KFYTAX": "asianbeauty",
+    "spacewingman": "telelumi"
   },
-  "roleDisplayNames": {},
+  "roleDisplayNames": {
+    "staff": "TL Supporter"
+  },
   "userColorOverrides": {
-    "18372824": {
-      "__enabled": true,
-      "avatarBg": "transparent",
-      "avatarText": "transparent",
-      "bg": "transparent"
-    },
     "Bananen_esser100": {
       "__enabled": true,
       "avatarBg": "transparent",
@@ -882,26 +880,6 @@
     }
   },
   "userGradientOverrides": {
-    "18372824": {
-      "cardGradient": {
-        "enabled": true,
-        "type": "Linear",
-        "colors": [
-          "#00aaff",
-          "#1a2289",
-          "#16b17d"
-        ],
-        "transparency": [
-          1,
-          0.5
-        ],
-        "rotation": 76,
-        "offset": [
-          -0.55,
-          0.55
-        ]
-      }
-    },
     "Bananen_esser100": {
       "cardGradient": {
         "enabled": true,
