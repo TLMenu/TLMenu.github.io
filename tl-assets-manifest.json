@@ -744,6 +744,13 @@
       "file": "assets/ROLE-ICONS/24KFYTAX.png",
       "priority": 1,
       "tag": "avatar.24kfytax"
+    },
+    {
+      "name": "Carlosmagegirls Avatar",
+      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/David.png",
+      "file": "assets/ROLE-ICONS/Carlosmagegirls.png",
+      "priority": 1,
+      "tag": "avatar.carlosmagegirls"
     }
   ],
   "audio": [
