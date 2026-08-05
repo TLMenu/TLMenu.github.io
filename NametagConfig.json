@@ -828,7 +828,8 @@
     "user": [
       "Bananen_esser100",
       "X1_77X",
-      "24KFYTAX"
+      "24KFYTAX",
+      "larp888885"
     ]
   },
   "roleLabels": {
@@ -836,7 +837,8 @@
     "Maxblack006": "H-Moderator",
     "24KFYTAX": "prettiest",
     "Carlosmagegirls": "T-Mod",
-    "bigboy14big": "TL Owner"
+    "bigboy14big": "TL Owner",
+    "larp888885": "TL FOID"
   },
   "displayNames": {
     "6363737299": "CengiZ",
@@ -845,7 +847,8 @@
     "Maxblack006": "Straight",
     "24KFYTAX": "asianbeauty",
     "Carlosmagegirls": "David",
-    "bigboy14big": "telelumi"
+    "bigboy14big": "telelumi",
+    "larp888885": "Larp"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -879,6 +882,9 @@
       "__enabled": true,
       "nameText": "#000000",
       "roleText": "#ffffff"
+    },
+    "larp888885": {
+      "bg": "#7e1616"
     }
   },
   "userGradientOverrides": {
