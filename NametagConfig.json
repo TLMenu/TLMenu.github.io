@@ -5,8 +5,8 @@
   "themes": {
     "user": {
       "bg": "#121212",
-      "avatarBg": "transparent",
-      "avatarText": "transparent",
+      "avatarBg": "#121212",
+      "avatarText": "#121212",
       "divider": "#ffffff",
       "border": "#ffffff",
       "nameText": "#6e6e6e",
@@ -213,9 +213,9 @@
     },
     "owner": {
       "bg": "#006eff",
-      "avatarBg": "transparent",
+      "avatarBg": "#006eff",
       "avatarText": "#ffffff",
-      "divider": "#ffffff",
+      "divider": "transparent",
       "border": "#ffffff",
       "nameText": "#ffffff",
       "roleText": "#ffffff",
