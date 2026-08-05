@@ -116,9 +116,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; di
 .ed-head.open .arrow { transform: rotate(180deg); color: var(--acc); }
 .ed-head:hover .arrow { color: var(--t2); }
 .ed-body { padding: 4px 22px 22px; max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
-.ed-body.open { max-height: 3200px; animation: slideDown 0.35s ease-out; }
+.ed-body.open { max-height: 3200px; animation: fadeInBody 0.3s ease-out; }
 
-@keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInBody { from { opacity: 0; } to { opacity: 1; } }
 
 /* ── FORM CONTROLS ── */
 .field { margin-bottom: 14px; }
