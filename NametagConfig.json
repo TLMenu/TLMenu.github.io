@@ -836,7 +836,8 @@
       "craftyxd704",
       "PetnachdeinerWahl",
       "TicklishTara",
-      "Dunega58"
+      "Dunega58",
+      "Felixalbrachttttt"
     ]
   },
   "roleLabels": {
@@ -852,7 +853,8 @@
     "TicklishTara": "Leben & Leben lassen",
     "sch1ampenbefruchter5": "TL Co.Owner",
     "Dunega58": "Ich hasse meines gleichen",
-    "Affen_rpg": "TL Owner"
+    "Affen_rpg": "TL Owner",
+    "Felixalbrachttttt": "TL Soße"
   },
   "displayNames": {
     "6363737299": "CengiZ",
@@ -869,7 +871,8 @@
     "TicklishTara": "Night",
     "sch1ampenbefruchter5": "Arda",
     "Dunega58": "Neger",
-    "Affen_rpg": "telelumi"
+    "Affen_rpg": "telelumi",
+    "Felixalbrachttttt": "Klossmitsoss"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -918,6 +921,9 @@
       "__enabled": true,
       "avatarBg": "#4f0f67",
       "avatarText": "#4f0f67"
+    },
+    "Felixalbrachttttt": {
+      "bg": "#eadb3e"
     }
   },
   "userGradientOverrides": {
