@@ -116,7 +116,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; di
 .ed-head.open .arrow { transform: rotate(180deg); color: var(--acc); }
 .ed-head:hover .arrow { color: var(--t2); }
 .ed-body { padding: 4px 22px 22px; max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
-.ed-body.open { max-height: 3200px; animation: fadeInBody 0.3s ease-out; }
+.ed-body.open { animation: fadeInBody 0.3s ease-out; }
 
 @keyframes fadeInBody { from { opacity: 0; } to { opacity: 1; } }
 
@@ -358,6 +358,13 @@ select option { background: var(--bg3); color: var(--t1); }
 .preview-controls-bar { padding: 20px 24px 0; display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; z-index: 2; position: relative; }
 .preview-controls-bar .field { margin-bottom: 0; min-width: 160px; flex: 1; }
 .preview-controls-bar .field:first-child { flex: 0 0 180px; }
+/* Warns when the visible preview is not actually rendering the theme tab the editor is
+   currently showing — e.g. because "Preview as" points at a player whose role differs from
+   the open theme tab, or who has an active color override. Without this, editing a theme's
+   colors while such a player is selected silently has no visible effect on the preview. */
+.preview-subject-note { margin: 10px 24px 0; padding: 8px 12px; border-radius: 8px; font-size: 12px; line-height: 1.4;
+  background: rgba(240, 180, 40, 0.12); border: 1px solid rgba(240, 180, 40, 0.35); color: #F0C868; }
+.preview-subject-note b { color: #FFE8A8; }
 .preview-controls-bar .input-text, .preview-controls-bar select { background: rgba(8, 12, 20, 0.62); border-color: rgba(255,255,255,0.14); }
 
 .preview { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; position: relative; overflow: hidden; isolation: isolate; }
@@ -655,6 +662,7 @@ body.modal-open { overflow: hidden; }
         <input type="text" class="input-text" id="prevRole" value="TL USER" oninput="updatePreview(); saveUIState()">
       </div>
     </div>
+    <div class="preview-subject-note" id="previewSubjectNote" style="display:none"></div>
 
     <div class="preview">
       <div class="preview-grid-bg" aria-hidden="true"></div>
@@ -861,10 +869,7 @@ function loadUIState() {
       if (ui.sections) {
         const heads = document.querySelectorAll(".ed-head");
         ui.sections.forEach((open, i) => {
-          if (heads[i]) {
-            if (open) { heads[i].classList.add("open"); heads[i].nextElementSibling?.classList.add("open"); }
-            else { heads[i].classList.remove("open"); heads[i].nextElementSibling?.classList.remove("open"); }
-          }
+          if (heads[i]) setSectionOpen(heads[i], heads[i].nextElementSibling, open);
         });
       }
       if (ui.userPanelCollapsed) {
@@ -901,14 +906,39 @@ function init() {
     }
   });
   document.getElementById("targetUserInp").value = config.targetUser || "";
-  loadUIState();
   loadGitHubConfig();
   buildThemeTabs(); buildColorGrid(); buildLayout(); buildAnimation();
   buildParticles(); buildKeywords(); buildProfilePictures(); buildUserCustomization();
   buildGradients(); buildPreviewThemeBtns(); buildPreviewSubjectSelect(); updatePreview();
+  // Runs after all build*() calls above so restored "open" sections measure their
+  // real, fully-populated content height instead of an empty placeholder div.
+  loadUIState();
+  // Covers sections that default to "open" straight from the HTML (Global Settings,
+  // Color Themes) and weren't touched by loadUIState — give them their real height too.
+  refreshOpenSectionHeights();
 }
 
-function toggleSection(el) { el.classList.toggle("open"); el.nextElementSibling.classList.toggle("open"); }
+function setSectionOpen(head, body, open) {
+  if (!body) return;
+  if (open) {
+    head.classList.add("open"); body.classList.add("open");
+    body.style.maxHeight = body.scrollHeight + "px";
+  } else {
+    head.classList.remove("open"); body.classList.remove("open");
+    body.style.maxHeight = "0px";
+  }
+}
+function toggleSection(el) {
+  const body = el.nextElementSibling;
+  const willOpen = !el.classList.contains("open");
+  setSectionOpen(el, body, willOpen);
+}
+// Recalculate open sections' max-height after their content or window size changes,
+// so late-populated bodies (async loads, dynamic fields) never get clipped/overlapped.
+function refreshOpenSectionHeights() {
+  document.querySelectorAll(".ed-body.open").forEach(b => { b.style.maxHeight = b.scrollHeight + "px"; });
+}
+window.addEventListener("resize", () => { refreshOpenSectionHeights(); });
 function toggleSwitch(el) { el.classList.toggle("on"); }
 
 // ── THEME TABS ──
@@ -1238,6 +1268,9 @@ function buildKeywords() {
       </div>
     </div>`;
   }).join("");
+  // Content just changed (tag added/removed) — if this section is open, its old
+  // max-height no longer matches the real content and would clip/overlap the next section.
+  if (c.classList.contains("open")) c.style.maxHeight = c.scrollHeight + "px";
 }
 function addKeyword(theme) {
   const inp = document.getElementById("kwInput_"+theme);
@@ -1960,6 +1993,10 @@ function buildGradients() {
   html += `<div class="field"><label class="field-label">Offset Y</label><div class="slider-wrap"><input type="range" min="-1" max="1" step="0.05" value="${(g.offset||[0,0])[1]}" oninput="${path}.offset=[(${path}.offset||[0,0])[0],parseFloat(this.value)]; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${(g.offset||[0,0])[1]}</span></div></div>`;
 
   c.innerHTML = html;
+  // Tab switches, the Enabled toggle, and "+ Color" all change this section's content
+  // height while it may already be open — keep max-height in sync so it doesn't
+  // clip the new fields or overlap the next section.
+  if (c.classList.contains("open")) c.style.maxHeight = c.scrollHeight + "px";
 }
 
 // ── PREVIEW THEME BTNS ──
@@ -2022,6 +2059,39 @@ function buildPreviewThemeBtns() {
   document.getElementById("previewThemeBtns").innerHTML = THEME_NAMES.map(t => `<button type="button" class="preview-theme-btn ${t===activeTheme && previewSubject==='__role__'?'active':''}" onclick="switchTheme('${t}')">${t}</button>`).join("");
 }
 
+// Explains why the live preview might not match what's currently open in the theme color
+// editor above it. Two independent causes, both silent otherwise:
+//   1) "Preview as" is showing a specific player, whose role theme (not necessarily the
+//      currently-open theme tab) is what's actually being rendered.
+//   2) That player has one or more active custom color overrides layered on top, which win
+//      over the role theme's colors entirely regardless of which tab is open.
+// Editing a theme's color fields while either applies has zero visible effect on the preview,
+// which is exactly the "I changed the setting but the name stayed the same color" symptom.
+function updatePreviewSubjectNote(override) {
+  const note = document.getElementById("previewSubjectNote");
+  if (!note) return;
+  if (previewSubject === "__role__") { note.style.display = "none"; return; }
+
+  const role = getUserRole(previewSubject);
+  const parts = [];
+  if (role !== activeTheme) {
+    parts.push(`showing the <b>${role}</b> role theme, not the <b>${activeTheme}</b> tab open above`);
+  }
+  if (override) {
+    const overriddenFields = THEME_COLORS.filter(k => override[k]);
+    if (overriddenFields.length) {
+      const label = overriddenFields.map(k => THEME_LABELS[k] || k).join(", ");
+      parts.push(`has custom color overrides active (${label}) that take priority over any theme color`);
+    }
+  }
+  if (parts.length) {
+    note.innerHTML = `⚠ Previewing <b>${previewSubject}</b> — ${parts.join(" and ")}. Theme color edits above won't show here until you switch "Preview as" back to a role, or adjust this player's overrides instead.`;
+    note.style.display = "block";
+  } else {
+    note.style.display = "none";
+  }
+}
+
 // ── UPDATE PREVIEW ──
 function updatePreview() {
   const baseTheme = config.themes[activeTheme];
@@ -2032,6 +2102,7 @@ function updatePreview() {
   const rawOverride = (previewSubject !== "__role__") ? (config.userColorOverrides || {})[previewSubject] : null;
   const override = (rawOverride && rawOverride.__enabled !== false) ? rawOverride : null;
   const t = override ? { ...baseTheme, ...Object.fromEntries(Object.entries(override).filter(([k,v]) => v && k !== '__enabled')) } : baseTheme;
+  updatePreviewSubjectNote(override);
   const l = config.layout;
   const a = config.animations;
   const p = config.particles;
@@ -2496,6 +2567,14 @@ async function checkPassword() {
     document.getElementById("pwOverlay").classList.add("hidden");
     document.getElementById("mainContent").classList.add("unlocked");
     input.value = "";
+    // init() ran earlier while #mainContent was still display:none, so any section
+    // marked "open" at that point measured a scrollHeight of 0 and got stuck collapsed
+    // (visually still showing the "open" arrow, but with no content height — this is
+    // what caused Global Settings / Color Themes to overlap the section below them).
+    // Now that the panel is actually visible, remeasure real content height.
+    if (typeof refreshOpenSectionHeights === "function") {
+      requestAnimationFrame(() => refreshOpenSectionHeights());
+    }
   } else {
     pwAttempts++;
     err.textContent = "Wrong password";
