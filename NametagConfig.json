@@ -1,4 +1,4 @@
- {
+{
   "version": 1,
   "enabled": true,
   "targetUser": "",
@@ -906,7 +906,9 @@
     },
     "TicklishTara": {
       "bg": "#4f0f67",
-      "__enabled": true
+      "__enabled": true,
+      "avatarBg": "#4f0f67",
+      "avatarText": "#4f0f67"
     }
   },
   "userGradientOverrides": {
