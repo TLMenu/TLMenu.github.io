@@ -698,56 +698,56 @@
     },
     {
       "name": "staff Profile",
-      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "repo": "tlassets:ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
       "priority": 1,
       "tag": "profilepic.staff"
     },
     {
       "name": "admin Profile",
-      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "repo": "tlassets:ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
       "priority": 1,
       "tag": "profilepic.admin"
     },
     {
       "name": "moderator Profile",
-      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "repo": "tlassets:ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
       "priority": 1,
       "tag": "profilepic.moderator"
     },
     {
       "name": "developer Profile",
-      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "repo": "tlassets:ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
       "priority": 1,
       "tag": "profilepic.developer"
     },
     {
       "name": "Bananen_esser100 Avatar",
-      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/Cid.png",
+      "repo": "tlassets:ROLE-ICONS/Cid.png",
       "file": "assets/ROLE-ICONS/Bananen_esser100.png",
       "priority": 1,
       "tag": "avatar.bananen_esser100"
     },
     {
       "name": "X1_77X Avatar",
-      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/91v0.png",
+      "repo": "tlassets:ROLE-ICONS/91v0.png",
       "file": "assets/ROLE-ICONS/X1_77X.png",
       "priority": 1,
       "tag": "avatar.x1_77x"
     },
     {
       "name": "24KFYTAX Avatar",
-      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-Asiianbeauty.jpg",
+      "repo": "tlassets:ROLE-ICONS/TL-Asiianbeauty.jpg",
       "file": "assets/ROLE-ICONS/24KFYTAX.png",
       "priority": 1,
       "tag": "avatar.24kfytax"
     },
     {
       "name": "Carlosmagegirls Avatar",
-      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/David.png",
+      "repo": "tlassets:ROLE-ICONS/David.png",
       "file": "assets/ROLE-ICONS/Carlosmagegirls.png",
       "priority": 1,
       "tag": "avatar.carlosmagegirls"
