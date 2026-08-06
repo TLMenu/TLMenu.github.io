@@ -831,7 +831,8 @@
       "24KFYTAX",
       "larp888885",
       "marmeladenmomm_y",
-      "craftyxd704"
+      "craftyxd704",
+      "PetnachdeinerWahl"
     ]
   },
   "roleLabels": {
@@ -842,7 +843,8 @@
     "bigboy14big": "TL Owner",
     "marmeladenmomm_y": "Leck",
     "larp888885": "TL DADDY",
-    "craftyxd704": "DADDY"
+    "craftyxd704": "DADDY",
+    "PetnachdeinerWahl": "is it pink?"
   },
   "displayNames": {
     "6363737299": "CengiZ",
@@ -854,7 +856,8 @@
     "bigboy14big": "telelumi",
     "larp888885": "Larp",
     "marmeladenmomm_y": "NiggaHunter",
-    "craftyxd704": "Daddyficker69"
+    "craftyxd704": "Daddyficker69",
+    "PetnachdeinerWahl": "Fotzenhunter"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -894,6 +897,9 @@
     },
     "craftyxd704": {
       "bg": "#cd3ca6"
+    },
+    "PetnachdeinerWahl": {
+      "bg": "#ff00ae"
     }
   },
   "userGradientOverrides": {
