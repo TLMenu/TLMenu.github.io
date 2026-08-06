@@ -905,7 +905,8 @@
       "bg": "#ff00ae"
     },
     "TicklishTara": {
-      "bg": "#340844"
+      "bg": "#4f0f67",
+      "__enabled": true
     }
   },
   "userGradientOverrides": {
