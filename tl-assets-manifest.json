@@ -879,6 +879,20 @@
       "file": "assets/TL-MP3-FILES/OP-AFK-VL1.mp3",
       "priority": 2,
       "tag": "afk.onepiece.1"
+    },
+    {
+      "name": "AFK: TB Voice 0",
+      "repo": "tlassets:TL-MP3/THEME-MP3/THEBOYS-AFKSFX/THEBOYS-AFK-VOICELINE.mp3",
+      "file": "assets/TL-MP3-FILES/TB-AFK-VL0.mp3",
+      "priority": 2,
+      "tag": "afk.theboys.0"
+    },
+    {
+      "name": "AFK: TB Voice 1",
+      "repo": "tlassets:TL-MP3/THEME-MP3/THEBOYS-AFKSFX/THEBOYS-AFK-VOICELINE1.mp3",
+      "file": "assets/TL-MP3-FILES/TB-AFK-VL1.mp3",
+      "priority": 2,
+      "tag": "afk.theboys.1"
     }
   ]
 }
