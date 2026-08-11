@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/TL-DEFAULT/TL-Icon.png">
 <meta name="description" content="TLMenu — the all-in-one Roblox script menu. Categories, tools, and configurators in one place.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ── RESET & BASE ── */
@@ -64,7 +65,7 @@ body {
 .bg-orb.o1 { width: 650px; height: 650px; background: radial-gradient(circle, var(--blue), transparent 70%); top: -220px; left: -200px; animation: drift1 22s ease-in-out infinite alternate; }
 .bg-orb.o2 { width: 550px; height: 550px; background: radial-gradient(circle, var(--pink), transparent 70%); bottom: -150px; right: -120px; opacity: 0.35; animation: drift2 26s ease-in-out infinite alternate; }
 .bg-orb.o3 { width: 420px; height: 420px; background: radial-gradient(circle, var(--lime), transparent 70%); top: 38%; left: 52%; opacity: 0.22; animation: drift3 30s ease-in-out infinite alternate; }
-.bg-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 40px 40px; mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, transparent 75%); }
+.bg-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 40px 40px; mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, transparent 75%); -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, transparent 75%); }
 
 @keyframes drift1 { 0% { transform: translate(0,0); } 100% { transform: translate(110px, 90px); } }
 @keyframes drift2 { 0% { transform: translate(0,0); } 100% { transform: translate(-100px, -90px); } }
@@ -90,11 +91,11 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; di
 .btn-secondary { background: rgba(255,255,255,0.05); color: var(--t1); border: 1px solid var(--line2); }
 .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--t2); }
 
-.nav-burger { display: none; flex-direction: column; gap: 4px; background: transparent; border: none; cursor: pointer; padding: 8px; }
-.nav-burger span { width: 20px; height: 2px; background: var(--t1); border-radius: 2px; }
+.nav-burger { display: none; flex-direction: column; justify-content: center; gap: 4px; background: transparent; border: none; cursor: pointer; padding: 8px; }
+.nav-burger span { width: 20px; height: 2px; background: var(--t1); border-radius: 2px; transition: transform 0.2s ease; }
 
 /* ── MOBILE NAV SHEET ── */
-.mobile-cats { display: none; position: fixed; top: 64px; left: 0; right: 0; z-index: 199; background: rgba(8,8,14,0.97); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 8px 16px 16px; gap: 4px; }
+.mobile-cats { display: none; position: fixed; top: 64px; left: 0; right: 0; z-index: 199; background: rgba(8,8,14,0.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 8px 16px 16px; gap: 4px; }
 .mobile-cats.open { display: flex; }
 .mobile-cats .nav-cat { text-align: left; width: 100%; }
 
@@ -186,7 +187,7 @@ main { padding-top: 64px; }
 /* ── SOCIALS ── */
 .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 @media (max-width: 900px) { .social-grid { grid-template-columns: repeat(2, 1fr); } }
-.social-card { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--bg1); text-decoration: none; color: var(--t1); transition: all 0.2s ease; backdrop-filter: blur(10px); }
+.social-card { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--bg1); text-decoration: none; color: var(--t1); transition: all 0.2s ease; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 .social-card:hover { border-color: var(--cyan); background: rgba(34,211,238,0.06); transform: translateY(-3px); }
 .social-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--cyan); background: rgba(34,211,238,0.08); border: 1px solid rgba(34,211,238,0.2); }
 .social-name { font-family: var(--head); font-weight: 700; font-size: 14px; }
@@ -221,32 +222,32 @@ footer .f-links a:hover { color: var(--t1); }
 </div>
 
 <nav>
-  <button class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <button type="button" class="logo" id="logoBtn" aria-label="TLMenu Home">
     <img class="logo-mark" src="https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/TL-DEFAULT/TL-Icon.png" alt="TLMenu Icon">
     TLMenu
   </button>
 
   <div class="nav-cats">
-    <button class="nav-cat active" data-target="general">General</button>
-    <button class="nav-cat" data-target="features">Features</button>
-    <button class="nav-cat" data-target="socials">Socials</button>
-    <button class="nav-cat" data-target="nametag">Nametag Configurator</button>
+    <button type="button" class="nav-cat active" data-target="general">General</button>
+    <button type="button" class="nav-cat" data-target="features">Features</button>
+    <button type="button" class="nav-cat" data-target="socials">Socials</button>
+    <button type="button" class="nav-cat" data-target="nametag">Nametag Configurator</button>
   </div>
 
   <div class="nav-actions">
     <a class="btn btn-secondary" href="https://github.com/" target="_blank" rel="noopener">Docs</a>
-    <button class="btn btn-primary" id="getStartedBtn">Get Started</button>
-    <button class="nav-burger" id="burgerBtn" aria-label="Open menu">
+    <button type="button" class="btn btn-primary" id="getStartedBtn">Get Started</button>
+    <button type="button" class="nav-burger" id="burgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
 <div class="mobile-cats" id="mobileCats">
-  <button class="nav-cat active" data-target="general">General</button>
-  <button class="nav-cat" data-target="features">Features</button>
-  <button class="nav-cat" data-target="socials">Socials</button>
-  <button class="nav-cat" data-target="nametag">Nametag Configurator</button>
+  <button type="button" class="nav-cat active" data-target="general">General</button>
+  <button type="button" class="nav-cat" data-target="features">Features</button>
+  <button type="button" class="nav-cat" data-target="socials">Socials</button>
+  <button type="button" class="nav-cat" data-target="nametag">Nametag Configurator</button>
 </div>
 
 <main>
@@ -257,7 +258,7 @@ footer .f-links a:hover { color: var(--t1); }
     <h1 class="hero-title">The all-in-one <span class="grad">Roblox script menu.</span></h1>
     <p class="hero-sub">TLMenu bundles theming, QuickActions, an emote system, voice skin stealer, and game utilities into one consistent GUI framework — a Roblox script, no executor needed.</p>
     <div class="hero-actions">
-      <button class="btn btn-primary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Browse Categories</button>
+      <button type="button" class="btn btn-primary" id="browseCatsBtn">Browse Categories</button>
       <a class="btn btn-secondary" href="https://github.com/" target="_blank" rel="noopener">View Source</a>
     </div>
     <div class="hero-stats">
@@ -400,7 +401,7 @@ footer .f-links a:hover { color: var(--t1); }
       <div class="nametag-entry-label">Owner / Admin Tool</div>
       <div class="nametag-entry-title">Configure &amp; deploy nametag<br>settings for your TLMenu.</div>
       <div class="nametag-entry-desc">Not intended for end users. Owners and admins use this tool to define nametag parameters — colors, particles, and role assignments.</div>
-      <a class="btn-entry" href="TL-NAMETAG-CONFIGURATOR.html">Entry <span class="arr">→</span></a>
+      <a class="btn-entry" href="nametag-configurator.html">Entry <span class="arr">→</span></a>
     </div>
   </section>
 
@@ -417,51 +418,84 @@ footer .f-links a:hover { color: var(--t1); }
 </footer>
 
 <script>
-// ── NAV CATEGORY SWITCHING ──
-const sectionMap = { general: "general", features: "features", socials: "socials", nametag: "nametag" };
-const navCats = document.querySelectorAll(".nav-cat");
+document.addEventListener("DOMContentLoaded", () => {
+  // ── NAV CATEGORY SWITCHING ──
+  const sectionMap = { general: "general", features: "features", socials: "socials", nametag: "nametag" };
+  const navCats = document.querySelectorAll(".nav-cat");
+  const burgerBtn = document.getElementById("burgerBtn");
+  const mobileCats = document.getElementById("mobileCats");
 
-function setActiveCat(target) {
-  document.querySelectorAll(".nav-cat").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.target === target);
+  function setActiveCat(target) {
+    navCats.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.target === target);
+    });
+  }
+
+  function closeMobileMenu() {
+    mobileCats.classList.remove("open");
+    burgerBtn.setAttribute("aria-expanded", "false");
+  }
+
+  navCats.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.target;
+      const el = document.getElementById(sectionMap[target]);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+      setActiveCat(target);
+      closeMobileMenu();
+    });
   });
-}
 
-navCats.forEach(btn => {
-  btn.addEventListener("click", () => {
-    const target = btn.dataset.target;
-    const el = document.getElementById(sectionMap[target]);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-    setActiveCat(target);
-    document.getElementById("mobileCats").classList.remove("open");
+  // Update active nav state on scroll
+  const sections = ["general", "features", "socials", "nametag"]
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) setActiveCat(entry.target.id);
+    });
+  }, { rootMargin: "-40% 0px -50% 0px" });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Mobile burger toggle
+  burgerBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = mobileCats.classList.toggle("open");
+    burgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
   });
-});
 
-// Update active nav state on scroll
-const sections = ["general", "features", "socials", "nametag"].map(id => document.getElementById(id));
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) setActiveCat(entry.target.id);
+  // Close mobile menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!mobileCats.contains(e.target) && !burgerBtn.contains(e.target)) {
+      closeMobileMenu();
+    }
   });
-}, { rootMargin: "-40% 0px -50% 0px" });
-sections.forEach(s => s && observer.observe(s));
 
-// Mobile burger toggle
-document.getElementById("burgerBtn").addEventListener("click", () => {
-  document.getElementById("mobileCats").classList.toggle("open");
-});
+  // Header Logo Click
+  document.getElementById("logoBtn").addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 
-// Get started -> jump to tools
-document.getElementById("getStartedBtn").addEventListener("click", () => {
-  document.getElementById("general-tools").scrollIntoView({ behavior: "smooth" });
-});
+  // Hero Actions
+  document.getElementById("getStartedBtn").addEventListener("click", () => {
+    document.getElementById("general-tools").scrollIntoView({ behavior: "smooth" });
+  });
 
-// Card hover spotlight effect
-document.querySelectorAll(".card").forEach(card => {
-  card.addEventListener("mousemove", (e) => {
-    const rect = card.getBoundingClientRect();
-    card.style.setProperty("--mx", ((e.clientX - rect.left) / rect.width * 100) + "%");
-    card.style.setProperty("--my", ((e.clientY - rect.top) / rect.height * 100) + "%");
+  document.getElementById("browseCatsBtn").addEventListener("click", () => {
+    document.getElementById("features").scrollIntoView({ behavior: "smooth" });
+  });
+
+  // Card hover spotlight effect
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty("--mx", `${x}%`);
+      card.style.setProperty("--my", `${y}%`);
+    });
   });
 });
 </script>
