@@ -4,8 +4,8 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "#121212",
-      "avatarBg": "#121212",
+      "bg": "#525151",
+      "avatarBg": "#525151",
       "avatarText": "#121212",
       "divider": "#ffffff",
       "border": "#ffffff",
@@ -474,7 +474,7 @@
           ]
         },
         "nameGradient": {
-          "enabled": true,
+          "enabled": false,
           "type": "Linear",
           "colors": [
             "#097152",
@@ -854,7 +854,7 @@
     "sch1ampenbefruchter5": "TL Co.Owner",
     "Dunega58": "Ich hasse meines gleichen",
     "Affen_rpg": "TL Owner",
-    "Felixalbrachttttt": "TL So\u00dfe"
+    "Felixalbrachttttt": "TL Soße"
   },
   "displayNames": {
     "6363737299": "CengiZ",
@@ -904,7 +904,7 @@
     },
     "24KFYTAX": {
       "__enabled": true,
-      "nameText": "#ffffff",
+      "nameText": "#000000",
       "roleText": "#ffffff"
     },
     "larp888885": {
