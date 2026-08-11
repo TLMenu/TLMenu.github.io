@@ -4,11 +4,11 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "#525151",
-      "avatarBg": "#525151",
+      "bg": "#12161A",
+      "avatarBg": "#12161A",
       "avatarText": "#121212",
       "divider": "#ffffff",
-      "border": "#ffffff",
+      "border": "#12161A",
       "nameText": "#ffffff",
       "roleText": "#ffffff",
       "bgGradient": false,
@@ -212,14 +212,14 @@
       }
     },
     "owner": {
-      "bg": "#147b6a",
-      "avatarBg": "#147b6a",
-      "avatarText": "#ffffff",
+      "bg": "transparent",
+      "avatarBg": "transparent",
+      "avatarText": "transparent",
       "divider": "transparent",
-      "border": "#ffffff",
-      "nameText": "#ffffff",
-      "roleText": "#ffffff",
-      "bgGradient": false,
+      "border": "transparent",
+      "nameText": "transparent",
+      "roleText": "transparent",
+      "bgGradient": true,
       "bgGradientType": "linear",
       "bgGradientColors": [
         "#097160",
@@ -815,7 +815,8 @@
     "owner": [
       "bigboy14big",
       "sch1ampenbefruchter5",
-      "Affen_rpg"
+      "Affen_rpg",
+      "roblox_user_11058752884"
     ],
     "admin": [
       "6363737299"
@@ -854,7 +855,8 @@
     "sch1ampenbefruchter5": "TL Co.Owner",
     "Dunega58": "Ich hasse meines gleichen",
     "Affen_rpg": "TL Owner",
-    "Felixalbrachttttt": "TL Soße"
+    "Felixalbrachttttt": "TL Soße",
+    "roblox_user_11058752884": "Co. Owner"
   },
   "displayNames": {
     "6363737299": "CengiZ",
@@ -872,7 +874,8 @@
     "sch1ampenbefruchter5": "Arda",
     "Dunega58": "Neger",
     "Affen_rpg": "telelumi",
-    "Felixalbrachttttt": "Klossmitsoss"
+    "Felixalbrachttttt": "Klossmitsoss",
+    "roblox_user_11058752884": "Arda"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -927,6 +930,10 @@
     },
     "Affen_rpg": {
       "__enabled": true
+    },
+    "roblox_user_11058752884": {
+      "enabled": true,
+      "bg": "#0f56ae"
     }
   },
   "userGradientOverrides": {
