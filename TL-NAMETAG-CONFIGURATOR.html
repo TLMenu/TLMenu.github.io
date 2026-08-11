@@ -730,7 +730,7 @@ body.modal-open { overflow: hidden; }
 const DEFAULTS = {
   version: 1,
   enabled: true,
-  targetUser: "", // <-- New field for specific player assignment
+  targetUser: "",
   themes: {
     user:       { bg:"#1A1A22", avatarBg:"#1F1F2C", avatarText:"#A0A0C0", divider:"#A0A0C0", border:"#A0A0B4", nameText:"#E6E6F0", roleText:"#7878A0", bgGradient:false, bgGradientType:"linear", bgGradientColors:["#1A1A22","#0E0E18"], bgGradientAngle:0 },
     admin:      { bg:"#220E0E", avatarBg:"#2A1212", avatarText:"#FF6464", divider:"#FF6464", border:"#DC5050", nameText:"#FF8C8C", roleText:"#C83C3C", bgGradient:false, bgGradientType:"linear", bgGradientColors:["#220E0E","#150808"], bgGradientAngle:0 },
@@ -773,9 +773,6 @@ const THEME_NAMES = ["user","admin","owner","developer","advertising","moderator
 const EASING_OPTIONS = ["Quad","Linear","Sine","Expo","Back","Bounce","Elastic"];
 const FONT_OPTIONS = ["GothamBold","Gotham","GothamBlack","SourceSans","SourceSansBold","Highway","Ubuntu","UbuntuBold","Cartoon","Code","CartoonBold","ArialBold","Arial"];
 
-// ── GRADIENT TYPES ──
-// Each type defines: display name, how many colors are reasonable (always 2-3 selectable),
-// whether a rotation/angle slider is shown, and a CSS render function for the live preview.
 const GRADIENT_TYPES = {
   linear:      { label:"Linear Gradient",      angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})` },
   radial:      { label:"Radial Gradient",      angle:false, render:(c)=>`radial-gradient(circle at center, ${c.join(", ")})` },
@@ -815,6 +812,8 @@ const STORAGE_KEY = "tl-nametag-config";
 const UI_STATE_KEY = "tl-nametag-ui";
 let config = JSON.parse(JSON.stringify(DEFAULTS));
 let activeTheme = "user";
+let previewSubject = "__role__";
+let uc_panelCollapsed = false;
 
 function loadConfig() {
   try {
@@ -886,15 +885,12 @@ function loadUIState() {
 // ── INIT ──
 function init() {
   loadConfig();
-  // Migration: ensures every theme has the new gradient fields
-  // (important when importing older configs without bgGradientType/Colors)
   THEME_NAMES.forEach(t => {
     const th = config.themes[t];
     if (!th) return;
     if (!th.bgGradientType) th.bgGradientType = "linear";
     if (!th.bgGradientColors || th.bgGradientColors.length < 2) th.bgGradientColors = [th.bg, th.bg];
     if (th.bgGradientAngle === undefined) th.bgGradientAngle = 0;
-    // Migration: seed per-role gradients from legacy global config if not yet present
     if (!th.gradients) {
       th.gradients = {};
       GRAD_TARGETS.forEach(gt => {
@@ -910,11 +906,7 @@ function init() {
   buildThemeTabs(); buildColorGrid(); buildLayout(); buildAnimation();
   buildParticles(); buildKeywords(); buildProfilePictures(); buildUserCustomization();
   buildGradients(); buildPreviewThemeBtns(); buildPreviewSubjectSelect(); updatePreview();
-  // Runs after all build*() calls above so restored "open" sections measure their
-  // real, fully-populated content height instead of an empty placeholder div.
   loadUIState();
-  // Covers sections that default to "open" straight from the HTML (Global Settings,
-  // Color Themes) and weren't touched by loadUIState — give them their real height too.
   refreshOpenSectionHeights();
 }
 
@@ -933,8 +925,6 @@ function toggleSection(el) {
   const willOpen = !el.classList.contains("open");
   setSectionOpen(el, body, willOpen);
 }
-// Recalculate open sections' max-height after their content or window size changes,
-// so late-populated bodies (async loads, dynamic fields) never get clipped/overlapped.
 function refreshOpenSectionHeights() {
   document.querySelectorAll(".ed-body.open").forEach(b => { b.style.maxHeight = b.scrollHeight + "px"; });
 }
@@ -954,7 +944,6 @@ function switchTheme(t) {
   const roleInp = document.getElementById("prevRole");
   nameInp.readOnly = false;
   roleInp.readOnly = false;
-  // Set preview role to roleDisplayNames default for this theme
   const rdn = (config.roleDisplayNames || {})[t] || ROLE_DEFAULTS[t] || 'TL User';
   roleInp.value = rdn;
   buildThemeTabs(); buildColorGrid(); buildPreviewThemeBtns(); buildPreviewSubjectSelect(); updatePreview();
@@ -1039,26 +1028,17 @@ function removeGradColor(theme, idx) {
   buildColorGrid(); updatePreview();
 }
 
-// Renders the CSS gradient for the live preview incl. style additions (Glow, Shimmer, Metallic, etc.)
 function renderGradientCss(theme) {
   const typeDef = GRADIENT_TYPES[theme.bgGradientType] || GRADIENT_TYPES.linear;
   const colors = theme.bgGradientColors && theme.bgGradientColors.length >= 2 ? theme.bgGradientColors : [theme.bg, theme.bg];
   return typeDef.render(colors, theme.bgGradientAngle || 0);
 }
 
-// Renders a CSS gradient string from the newer per-target gradient objects used by GRAD_TARGETS
-// (config.themes[role].gradients / config.userGradientOverrides — the "🌈 Custom gradients" section). This is
-// what makes the "cardGradient" target actually visible in the HTML preview; previously these
-// objects were fully wired up in the UI but never read anywhere when drawing the card, so editing
-// them appeared to do nothing regardless of the Custom Colors state.
-// Note: "offset" isn't applied here (a straight CSS translation wouldn't reliably match how the
-// same value positions a Roblox UIGradient), so this covers type/colors/transparency/rotation only.
 function renderCustomGradientCss(g) {
   if (!g || !g.colors || g.colors.length === 0) return null;
   const typeKey = (g.type || "linear").toLowerCase();
   const typeDef = GRADIENT_TYPES[typeKey] || GRADIENT_TYPES.linear;
   const colors = g.colors.length >= 2 ? g.colors : [g.colors[0], g.colors[0]];
-  // transparency[i] is 0 (opaque) to 1 (fully transparent), matching Roblox UIGradient convention.
   const withAlpha = colors.map((col, i) => {
     const tr = (g.transparency || [])[i];
     if (tr === undefined || tr === null || tr <= 0) return col;
@@ -1067,1554 +1047,899 @@ function renderCustomGradientCss(g) {
   return typeDef.render(withAlpha, g.rotation || 0);
 }
 
-// Converts a #RRGGBB (or #RGB) hex string to an rgba() string at the given alpha (0-1).
-// Falls back to the original value unchanged if it isn't a hex color (e.g. already "transparent").
 function hexToRgba(hex, alpha) {
-  if (typeof hex !== 'string' || hex[0] !== '#') return hex;
+  if (!hex || typeof hex !== "string" || !hex.startsWith("#")) return hex;
   let h = hex.slice(1);
-  if (h.length === 3) h = h.split('').map(c => c + c).join('');
+  if (h.length === 3) h = h.split("").map(c => c + c).join("");
   if (h.length !== 6) return hex;
-  const r = parseInt(h.slice(0,2), 16), g = parseInt(h.slice(2,4), 16), b = parseInt(h.slice(4,6), 16);
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return hex;
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 // ── LAYOUT ──
 function buildLayout() {
-  const l = config.layout;
-  const sliders = [
-    ["billboardWidth","Total width (px)",50,400,1], ["billboardHeight","Total height (px)",20,100,1],
-    ["studsOffsetY","Y-Offset (Studs)",0,10,0.1],
-    ["avatarWidth","Avatar width (px)",20,80,1], ["cornerRadius","Corner radius",0,20,1],
-    ["innerCornerRadius","Inner corner radius",0,20,1],
-    ["borderThickness","Border thickness",0,5,0.5], ["dividerWidth","Divider width",0,5,1],
-    ["dividerHeightPct","Divider height (%)",0,1,0.05], ["dividerTransparency","Divider transparency",0,1,0.05],
-    ["nameTextSize","Name font size",6,24,1],
-    ["roleTextSize","Role font size",6,18,1],
-    ["initialsTextSize","Initials font size",6,18,1],
-    ["avatarTextGap","Avatar-text gap (px)",0,30,1],
-    ["textPaddingRight","Text right padding (px)",0,20,1],
-    ["nameLabelHeight","Name height (px)",8,40,1],
-    ["nameLabelY","Name Y position (px)",0,20,1],
-    ["roleLabelHeight","Role height (px)",8,30,1],
-    ["roleLabelY","Role Y position (px)",0,40,1],
-    ["avatarImagePadding","Avatar image inset (px)",0,10,1]
-  ];
   const c = document.getElementById("layoutBody");
-  c.innerHTML = sliders.map(([key,label,min,max,step]) => `
-    <div class="field">
-      <label class="field-label">${label}</label>
-      <div class="slider-wrap">
-        <input type="range" min="${min}" max="${max}" step="${step}" value="${l[key]}" oninput="config.layout['${key}']=parseFloat(this.value); this.nextElementSibling.textContent=this.value; updatePreview()">
-        <span class="slider-val">${l[key]}</span>
-      </div>
-    </div>
-  `).join("") + `
-    <div class="field">
-      <label class="field-label">Name font</label>
-      <select onchange="config.layout.nameFont=this.value; updatePreview()">
-        ${FONT_OPTIONS.map(f => `<option ${l.nameFont===f?'selected':''}>${f}</option>`).join("")}
-      </select>
-    </div>
-    <div class="field">
-      <label class="field-label">Role font</label>
-      <select onchange="config.layout.roleFont=this.value; updatePreview()">
-        ${FONT_OPTIONS.map(f => `<option ${l.roleFont===f?'selected':''}>${f}</option>`).join("")}
-      </select>
-    </div>
-    <div class="field">
-      <label class="field-label">Role text style</label>
-      <select onchange="config.layout.roleTextTransform=this.value; updatePreview()">
-        <option value="upper" ${l.roleTextTransform==='upper'?'selected':''}>Uppercase (UPPER)</option>
-        <option value="lower" ${l.roleTextTransform==='lower'?'selected':''}>Lowercase (lower)</option>
-        <option value="none" ${l.roleTextTransform==='none'?'selected':''}>Original (Name)</option>
-      </select>
-    </div>
-    <div style="border-top:1px solid var(--line); padding-top:16px; margin-top:8px;">
-      <div class="toggle-wrap">
-        <span class="toggle-label">Distance Scaling</span>
-        <div class="toggle ${l.distanceScaleEnabled?'on':''}" onclick="config.layout.distanceScaleEnabled=!config.layout.distanceScaleEnabled; toggleSwitch(this); updatePreview()"><div class="toggle-knob"></div></div>
-      </div>
-      ${l.distanceScaleEnabled ? `
-        <div class="field"><label class="field-label">Near (Studs)</label><div class="slider-wrap"><input type="range" min="1" max="50" step="1" value="${l.distanceScaleNear}" oninput="config.layout.distanceScaleNear=parseInt(this.value); this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${l.distanceScaleNear}</span></div></div>
-        <div class="field"><label class="field-label">Far (Studs)</label><div class="slider-wrap"><input type="range" min="20" max="200" step="1" value="${l.distanceScaleFar}" oninput="config.layout.distanceScaleFar=parseInt(this.value); this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${l.distanceScaleFar}</span></div></div>
-        <div class="field"><label class="field-label">Min Scale</label><div class="slider-wrap"><input type="range" min="0.1" max="1" step="0.05" value="${l.distanceScaleMin}" oninput="config.layout.distanceScaleMin=parseFloat(this.value); this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${l.distanceScaleMin}</span></div></div>
-      ` : ''}
-    </div>
+  const l = config.layout;
+  c.innerHTML = `
+    <div class="field"><label class="field-label">Width (px)</label><div class="slider-wrap"><input type="range" min="150" max="400" value="${l.billboardWidth}" oninput="l.billboardWidth=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.billboardWidth}px</span></div></div>
+    <div class="field"><label class="field-label">Height (px)</label><div class="slider-wrap"><input type="range" min="30" max="80" value="${l.billboardHeight}" oninput="l.billboardHeight=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.billboardHeight}px</span></div></div>
+    <div class="field"><label class="field-label">Corner Radius (px)</label><div class="slider-wrap"><input type="range" min="0" max="24" value="${l.cornerRadius}" oninput="l.cornerRadius=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.cornerRadius}px</span></div></div>
+    <div class="field"><label class="field-label">Avatar Inner Corner Radius (px)</label><div class="slider-wrap"><input type="range" min="0" max="20" value="${l.innerCornerRadius}" oninput="l.innerCornerRadius=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.innerCornerRadius}px</span></div></div>
+    <div class="field"><label class="field-label">Border Thickness (px)</label><div class="slider-wrap"><input type="range" min="0" max="5" value="${l.borderThickness}" oninput="l.borderThickness=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.borderThickness}px</span></div></div>
+    <div class="field"><label class="field-label">Divider Width (px)</label><div class="slider-wrap"><input type="range" min="0" max="4" value="${l.dividerWidth}" oninput="l.dividerWidth=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.dividerWidth}px</span></div></div>
+    <div class="field"><label class="field-label">Divider Height (%)</label><div class="slider-wrap"><input type="range" min="0.2" max="1" step="0.05" value="${l.dividerHeightPct}" oninput="l.dividerHeightPct=+this.value; this.nextElementSibling.textContent=Math.round(this.value*100)+'%'; updatePreview()"><span class="slider-val">${Math.round(l.dividerHeightPct*100)}%</span></div></div>
+    <div class="field"><label class="field-label">Divider Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${l.dividerTransparency}" oninput="l.dividerTransparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${l.dividerTransparency}</span></div></div>
+    <div class="field"><label class="field-label">Name Font Size</label><div class="slider-wrap"><input type="range" min="8" max="24" value="${l.nameTextSize}" oninput="l.nameTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.nameTextSize}px</span></div></div>
+    <div class="field"><label class="field-label">Role Font Size</label><div class="slider-wrap"><input type="range" min="6" max="18" value="${l.roleTextSize}" oninput="l.roleTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.roleTextSize}px</span></div></div>
+    <div class="field"><label class="field-label">Name Font</label><select onchange="l.nameFont=this.value; updatePreview()">${FONT_OPTIONS.map(f=>`<option value="${f}" ${l.nameFont===f?'selected':''}>${f}</option>`).join('')}</select></div>
+    <div class="field"><label class="field-label">Role Font</label><select onchange="l.roleFont=this.value; updatePreview()">${FONT_OPTIONS.map(f=>`<option value="${f}" ${l.roleFont===f?'selected':''}>${f}</option>`).join('')}</select></div>
+    <div class="field"><label class="field-label">Role Text Transform</label><select onchange="l.roleTextTransform=this.value; updatePreview()"><option value="upper" ${l.roleTextTransform==='upper'?'selected':''}>UPPERCASE</option><option value="none" ${l.roleTextTransform==='none'?'selected':''}>As Typed</option><option value="lower" ${l.roleTextTransform==='lower'?'selected':''}>lowercase</option></select></div>
   `;
 }
 
 // ── ANIMATION ──
 function buildAnimation() {
+  const c = document.getElementById("animBody");
   const a = config.animations;
-  document.getElementById("animBody").innerHTML = `
-    <div class="field">
-      <label class="field-label">Fade-In Duration (seconds)</label>
-      <div class="slider-wrap">
-        <input type="range" min="0" max="2" step="0.05" value="${a.fadeInDuration}" oninput="config.animations.fadeInDuration=parseFloat(this.value); this.nextElementSibling.textContent=this.value+'s'; updatePreview()">
-        <span class="slider-val">${a.fadeInDuration}s</span>
-      </div>
-    </div>
-    <div class="field">
-      <label class="field-label">Fade-In Easing</label>
-      <select onchange="config.animations.fadeInEasing=this.value; updatePreview()">
-        ${EASING_OPTIONS.map(e => `<option ${a.fadeInEasing===e?'selected':''}>${e}</option>`).join("")}
-      </select>
-    </div>
-    <div class="field">
-      <label class="field-label">Card transparency</label>
-      <div class="slider-wrap">
-        <input type="range" min="0" max="1" step="0.05" value="${a.cardTransparency}" oninput="config.animations.cardTransparency=parseFloat(this.value); this.nextElementSibling.textContent=this.value; updatePreview()">
-        <span class="slider-val">${a.cardTransparency}</span>
-      </div>
-    </div>
-    <div class="field">
-      <label class="field-label">Border transparency</label>
-      <div class="slider-wrap">
-        <input type="range" min="0" max="1" step="0.05" value="${a.borderTransparency}" oninput="config.animations.borderTransparency=parseFloat(this.value); this.nextElementSibling.textContent=this.value; updatePreview()">
-        <span class="slider-val">${a.borderTransparency}</span>
-      </div>
-    </div>
+  c.innerHTML = `
+    <div class="field"><label class="field-label">Fade In Duration (sec)</label><div class="slider-wrap"><input type="range" min="0.1" max="2" step="0.1" value="${a.fadeInDuration}" oninput="a.fadeInDuration=+this.value; this.nextElementSibling.textContent=this.value+'s'"><span class="slider-val">${a.fadeInDuration}s</span></div></div>
+    <div class="field"><label class="field-label">Easing Style</label><select onchange="a.fadeInEasing=this.value">${EASING_OPTIONS.map(e=>`<option value="${e}" ${a.fadeInEasing===e?'selected':''}>${e}</option>`).join('')}</select></div>
+    <div class="field"><label class="field-label">Card Background Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${a.cardTransparency}" oninput="a.cardTransparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${a.cardTransparency}</span></div></div>
+    <div class="field"><label class="field-label">Border Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${a.borderTransparency}" oninput="a.borderTransparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${a.borderTransparency}</span></div></div>
   `;
 }
 
 // ── PARTICLES ──
 function buildParticles() {
-  const p = config.particles;
   const c = document.getElementById("particleBody");
+  const p = config.particles;
   c.innerHTML = `
-    <div class="toggle-wrap">
-      <span class="toggle-label">Particles enabled</span>
-      <div class="toggle ${p.enabled?'on':''}" onclick="config.particles.enabled=!config.particles.enabled; toggleSwitch(this); updatePreview()"><div class="toggle-knob"></div></div>
-    </div>
-    <div class="field"><label class="field-label">Count</label><div class="slider-wrap"><input type="range" min="0" max="12" step="1" value="${p.count}" oninput="config.particles.count=parseInt(this.value); this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${p.count}</span></div></div>
-    <div class="field"><label class="field-label">Min size (px)</label><div class="slider-wrap"><input type="range" min="1" max="10" step="1" value="${p.minSize}" oninput="config.particles.minSize=parseInt(this.value); this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${p.minSize}</span></div></div>
-    <div class="field"><label class="field-label">Max size (px)</label><div class="slider-wrap"><input type="range" min="1" max="20" step="1" value="${p.maxSize}" oninput="config.particles.maxSize=parseInt(this.value); this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${p.maxSize}</span></div></div>
-    <div class="field"><label class="field-label">Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${p.transparency}" oninput="config.particles.transparency=parseFloat(this.value); this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${p.transparency}</span></div></div>
-    <div class="field"><label class="field-label">Move duration min (sec)</label><div class="slider-wrap"><input type="range" min="0.5" max="10" step="0.5" value="${p.moveDurationMin}" oninput="config.particles.moveDurationMin=parseFloat(this.value); this.nextElementSibling.textContent=this.value+'s'; updatePreview()"><span class="slider-val">${p.moveDurationMin}s</span></div></div>
-    <div class="field"><label class="field-label">Move duration max (sec)</label><div class="slider-wrap"><input type="range" min="1" max="15" step="0.5" value="${p.moveDurationMax}" oninput="config.particles.moveDurationMax=parseFloat(this.value); this.nextElementSibling.textContent=this.value+'s'; updatePreview()"><span class="slider-val">${p.moveDurationMax}s</span></div></div>
-    <div class="field"><label class="field-label">Colors</label><div id="particleColors"></div></div>
+    <div class="toggle-wrap"><span class="toggle-label">Particles Enabled</span><div class="toggle ${p.enabled?'on':''}" onclick="p.enabled=!p.enabled; toggleSwitch(this); updatePreview()"><div class="toggle-knob"></div></div></div>
+    <div class="field"><label class="field-label">Particle Count</label><div class="slider-wrap"><input type="range" min="1" max="12" value="${p.count}" oninput="p.count=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${p.count}</span></div></div>
+    <div class="field"><label class="field-label">Min Size (px)</label><div class="slider-wrap"><input type="range" min="1" max="8" value="${p.minSize}" oninput="p.minSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${p.minSize}px</span></div></div>
+    <div class="field"><label class="field-label">Max Size (px)</label><div class="slider-wrap"><input type="range" min="2" max="12" value="${p.maxSize}" oninput="p.maxSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${p.maxSize}px</span></div></div>
+    <div class="field"><label class="field-label">Particle Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${p.transparency}" oninput="p.transparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${p.transparency}</span></div></div>
   `;
-  buildParticleColors();
 }
 
-function buildParticleColors() {
-  const c = document.getElementById("particleColors");
-  if(!c) return;
-  c.innerHTML = config.particles.colors.map((col, i) => `
-    <div class="color-pick" style="margin-bottom:8px">
-      <input type="color" value="${col}" onchange="config.particles.colors[${i}]=this.value; this.nextElementSibling.value=this.value; updatePreview()">
-      <input type="text" class="hex" value="${col}" onchange="config.particles.colors[${i}]=this.value; this.previousElementSibling.value=this.value; updatePreview()">
-      <button class="btn-icon" onclick="config.particles.colors.splice(${i},1); buildParticleColors(); updatePreview()">✕</button>
-    </div>
-  `).join("") + `<button class="btn-add" onclick="config.particles.colors.push('#FFFFFF'); buildParticleColors(); updatePreview()">+ Add color</button>`;
-}
-
-// ── KEYWORDS + ROLE USERS ──
-const ROLE_COLORS = { user:"#64B4FF", admin:"#FF6464", owner:"#B87CFF", developer:"#50A0F0", advertising:"#C878FF", moderator:"#FFC83C", staff:"#4ADE80" };
-
-function buildKeywords() {
-  const c = document.getElementById("keywordsBody");
-  c.innerHTML = THEME_NAMES.map(t => {
-    const kws = config.roleKeywords[t] || [];
-    const users = config.roleUsers[t] || [];
-    const color = ROLE_COLORS[t] || "#888";
-    const rdn = (config.roleDisplayNames || {})[t] || '';
-    const defaultLabel = ROLE_DEFAULTS[t] || t;
-    return `
-    <div class="role-row">
-      <div class="role-row-accent" style="background: ${color};"></div>
-      <div class="role-row-body">
-        <div class="role-row-header">
-          <div class="role-row-name">
-            <span class="role-dot" style="background: ${color};"></span>
-            ${t}
-          </div>
-          <span class="role-row-count">${kws.length} Keyword${kws.length !== 1 ? 's' : ''} · ${users.length} User</span>
-        </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label class="field-label" style="font-size:10px;">Role Label (shown under name)</label>
-          <div style="display:flex; gap:6px; align-items:center;">
-            <input type="text" class="input-text" value="${rdn}" placeholder="${defaultLabel}" onchange="updateRoleDisplayName('${t}',this.value)" onkeydown="if(event.key==='Enter'){updateRoleDisplayName('${t}',this.value); this.blur();}" style="flex:1; padding:7px 8px; font-size:11px;" title="Default label for this role (e.g. TL Admin)">
-            <button class="btn-icon" onclick="deleteRoleDisplayName('${t}')" style="width:28px;height:28px;font-size:12px;background:rgba(255,255,255,0.05);color:var(--t3);border-color:var(--line2);" title="Reset to default">↺</button>
-          </div>
-          <div style="font-size:10px; color:var(--t3); margin-top:4px;">Default: "${defaultLabel}"</div>
-        </div>
-        <div class="role-row-keywords">
-          ${kws.map((kw,i) => `<span class="kw-tag">${kw} <span class="rm" onclick="removeKeyword('${t}',${i})">×</span></span>`).join("")}
-          ${kws.length === 0 ? '<span style="font-size:11px; color:var(--t3); font-style:italic;">No keywords</span>' : ''}
-        </div>
-        <div class="role-row-input">
-          <input type="text" class="input-text" id="kwInput_${t}" placeholder="Add keyword..." onkeydown="if(event.key==='Enter'){addKeyword('${t}')}">
-          <button class="btn-icon" onclick="addKeyword('${t}')">+</button>
-        </div>
-        <div class="role-row-divider"></div>
-        <div class="role-row-section-label">Directly assigned usernames</div>
-        ${users.length === 0 ? '<div style="font-size:11px; color:var(--t3); font-style:italic; padding:4px 0;">No users assigned</div>' : ''}
-        ${users.map((u,i) => {
-          const dn = (config.displayNames || {})[u] || '';
-          const rl = (config.roleLabels || {})[u] || '';
-          return `
-          <div style="display:flex; gap:6px; align-items:center; margin-bottom:6px;">
-            <input type="text" class="input-text" value="${u}" readonly style="flex:0.8; padding:7px 8px; font-size:11px; opacity:0.6; cursor:default;">
-            <input type="text" class="input-text" value="${dn}" placeholder="Display Name" onchange="updateDisplayName('${u}',this.value)" onkeydown="if(event.key==='Enter'){updateDisplayName('${u}',this.value); this.blur();}" style="flex:1; padding:7px 8px; font-size:11px;" title="Custom name shown in nametag">
-            <input type="text" class="input-text" value="${rl}" placeholder="Role Label" onchange="updateRoleLabel('${u}',this.value)" onkeydown="if(event.key==='Enter'){updateRoleLabel('${u}',this.value); this.blur();}" style="flex:1; padding:7px 8px; font-size:11px;" title="Text shown under the name">
-            <button class="btn-icon" onclick="removeUsername('${t}',${i})" style="width:28px;height:28px;font-size:14px;">✕</button>
-          </div>`;
-        }).join('')}
-        <div class="role-row-input">
-          <input type="text" class="input-text" id="usrInput_${t}" placeholder="Add Roblox username..." onkeydown="if(event.key==='Enter'){addUsername('${t}')}">
-          <button class="btn-icon" onclick="addUsername('${t}')">+</button>
-        </div>
-      </div>
-    </div>`;
-  }).join("");
-  // Content just changed (tag added/removed) — if this section is open, its old
-  // max-height no longer matches the real content and would clip/overlap the next section.
-  if (c.classList.contains("open")) c.style.maxHeight = c.scrollHeight + "px";
-}
-function addKeyword(theme) {
-  const inp = document.getElementById("kwInput_"+theme);
-  const val = inp.value.trim().toLowerCase();
-  if(!val) { inp.classList.add("input-enter-flash"); setTimeout(()=>inp.classList.remove("input-enter-flash"),400); return; }
-  const prev = config.roleKeywords[theme] || [];
-  if (prev.includes(val)) return;
-  config.roleKeywords = { ...config.roleKeywords, [theme]: [...prev, val] };
-  inp.value="";
-  inp.classList.add("input-enter-flash");
-  setTimeout(()=>inp.classList.remove("input-enter-flash"),400);
-  buildKeywords(); saveConfig();
-  // Mark newest tag
-  setTimeout(()=>{
-    const tags = document.querySelectorAll(`#keywordsBody .kw-tag:not(.kw-tag-user)`);
-    const last = tags[tags.length-1];
-    if(last && last.textContent.trim().startsWith(val)) last.classList.add("kw-tag-new");
-  }, 10);
-}
-function removeKeyword(theme, idx) { config.roleKeywords[theme].splice(idx, 1); buildKeywords(); saveConfig(); }
-function addUsername(theme) {
-  const inp = document.getElementById("usrInput_"+theme);
-  const val = inp.value.trim();
-  if(!val) { inp.classList.add("input-enter-flash"); setTimeout(()=>inp.classList.remove("input-enter-flash"),400); return; }
-  const prev = config.roleUsers[theme] || [];
-  if (prev.includes(val)) return;
-  config.roleUsers = { ...config.roleUsers, [theme]: [...prev, val] };
-  inp.value="";
-  inp.classList.add("input-enter-flash");
-  setTimeout(()=>inp.classList.remove("input-enter-flash"),400);
-  buildKeywords(); buildUserCustomization(); saveConfig();
-  toast("User added");
-}
-function removeUsername(theme, idx) {
-  const list = config.roleUsers[theme] || [];
-  const username = list[idx];
-  config.roleUsers = {
-    ...config.roleUsers,
-    [theme]: list.filter((_, index) => index !== idx)
-  };
-  if (config.roleLabels && config.roleLabels[username]) delete config.roleLabels[username];
-  if (config.displayNames && config.displayNames[username]) delete config.displayNames[username];
-  buildKeywords(); buildUserCustomization(); saveConfig();
-}
-function removeKeyword(theme, idx) {
-  const list = config.roleKeywords[theme] || [];
-  config.roleKeywords = {
-    ...config.roleKeywords,
-    [theme]: list.filter((_, index) => index !== idx)
-  };
-  buildKeywords(); saveConfig();
-}
-function updateDisplayName(username, name) {
-  if (!config.displayNames) config.displayNames = {};
-  const val = name.trim();
-  const next = { ...(config.displayNames || {}) };
-  if (val === '') { delete next[username]; }
-  else { next[username] = val; }
-  config.displayNames = next;
-  saveConfig();
-  // Update live preview if username matches preview name
-  const prevName = document.getElementById("prevName").value;
-  if (prevName && prevName.toLowerCase() === username.toLowerCase()) {
-    document.getElementById("prevName").value = val || username;
-    updatePreview();
-  }
-}
-function updateRoleLabel(username, label) {
-  if (!config.roleLabels) config.roleLabels = {};
-  const val = label.trim();
-  const next = { ...(config.roleLabels || {}) };
-  if (val === '') { delete next[username]; }
-  else { next[username] = val; }
-  config.roleLabels = next;
-  saveConfig();
-  // Update live preview if username matches preview name
-  const prevName = document.getElementById("prevName").value;
-  if (prevName && prevName.toLowerCase() === username.toLowerCase()) {
-    document.getElementById("prevRole").value = val || ROLE_DEFAULTS[activeTheme] || 'TL User';
-    updatePreview();
-  }
-}
-function updateRoleDisplayName(role, label) {
-  if (!config.roleDisplayNames) config.roleDisplayNames = {};
-  const val = label.trim();
-  const next = { ...(config.roleDisplayNames || {}) };
-  if (val === '') { delete next[role]; }
-  else { next[role] = val; }
-  config.roleDisplayNames = next;
-  saveConfig();
-  // Update live preview if editing the current theme
-  if (role === activeTheme) {
-    document.getElementById("prevRole").value = val || ROLE_DEFAULTS[role] || 'TL User';
-    updatePreview();
-  }
-}
-function deleteRoleDisplayName(role) {
-  if (config.roleDisplayNames && config.roleDisplayNames[role]) delete config.roleDisplayNames[role];
-  saveConfig();
-  if (role === activeTheme) {
-    document.getElementById("prevRole").value = ROLE_DEFAULTS[role] || 'TL User';
-    updatePreview();
-  }
-  buildKeywords();
-}
-
-// ── PROFILE PICTURES (DYNAMIC FIX) ──
-function buildProfilePictures() {
-  // Now all themes are read, not just "owner" and "user"
-  const c = document.getElementById("profileBody");
-  const pp = config.profilePictures || {};
-  c.innerHTML = THEME_NAMES.map(role => `
-    <div class="field" style="margin-bottom:24px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
-      <label class="field-label" style="color: var(--acc); font-size: 13px; text-transform: capitalize;">${role} Profile Picture</label>
-      <div class="field">
-        <label class="field-label">Image URL</label>
-        <input type="text" class="input-text" placeholder="https://..." value="${pp[role]?.url||''}" onchange="config.profilePictures['${role}']=config.profilePictures['${role}']||{}; config.profilePictures['${role}'].url=this.value; saveConfig(); updatePreview()">
-      </div>
-      <div class="field">
-        <label class="field-label">Local file (Roblox Asset)</label>
-        <input type="text" class="input-text" placeholder="rbxassetid://..." value="${pp[role]?.file||''}" onchange="config.profilePictures['${role}']=config.profilePictures['${role}']||{}; config.profilePictures['${role}'].file=this.value; saveConfig()">
-      </div>
-    </div>
-  `).join("");
-}
-
-// ── USER CUSTOMIZATION (incl. per-player avatar) ──
-// Tracks which players currently have their color section expanded in the UI (not persisted).
-const uc_colorSectionOpen = new Set();
-// Tracks which gradient target tab is active per player (defaults to cardGradient), and whether
-// the gradient sub-section itself is expanded. Both are UI-only state, not persisted.
-const uc_activeGradTarget = {};
-const uc_gradSectionOpen = new Set();
-// Which single user's full edit card is currently expanded in the right-hand Active Users list.
-// Only one at a time, keeps the compact list readable. Not persisted across reloads.
-let uc_editingUser = null;
-// Whether the whole right-hand Active Users column is collapsed to a thin icon rail.
-let uc_panelCollapsed = false;
-
-function renderUserColorSection(name) {
-  config.userColorOverrides = config.userColorOverrides || {};
-  const ov = config.userColorOverrides[name] || {};
-  const role = getUserRole(name);
-  const hasAnyOverride = THEME_COLORS.some(k => ov[k]);
-  const isOpen = hasAnyOverride || uc_colorSectionOpen.has(name);
-  // __enabled defaults to true so existing configs (saved before this switch existed) keep working exactly as before.
-  const isEnabled = ov.__enabled !== false;
-
-  const fieldsHtml = THEME_COLORS.map(k => {
-    const roleColor = (config.themes[role] || {})[k] || '#FFFFFF';
-    const isCustom = !!ov[k];
-    const activeColor = ov[k] || roleColor;
-    const isTransparent = ov[k] === 'transparent';
-    // <input type="color"> can't represent transparency, so when the override is "transparent"
-    // keep the color swatch showing the last real color underneath instead of an invalid value.
-    const swatchColor = isTransparent ? roleColor : activeColor;
-    return `
-    <div class="uc-color-field">
-      <label class="uc-field-label">${THEME_LABELS[k]}${isCustom ? '' : ' <span class="uc-optional">(role)</span>'}</label>
-      <div class="color-pick ${isCustom ? 'uc-color-custom' : ''}">
-        <input type="color" value="${swatchColor}" onchange="updateUserColorOverride('${name}','${k}',this.value)">
-        <input type="text" class="hex" value="${isTransparent ? 'transparent' : activeColor}" onchange="updateUserColorOverride('${name}','${k}',this.value)">
-        <button class="uc-transparent-btn ${isTransparent ? 'uc-transparent-active' : ''}" title="${isTransparent ? 'Currently transparent' : 'Make transparent'}" onclick="setUserColorTransparent('${name}','${k}')">◐</button>
-      </div>
-      ${isCustom ? `<button class="uc-color-reset" title="Reset to role color" onclick="resetUserColorOverride('${name}','${k}')">↺ reset</button>` : ''}
-    </div>`;
-  }).join("");
-
-  return `<div class="uc-color-section">
-    <div class="uc-color-toggle">
-      <div class="uc-color-toggle-left" onclick="toggleUserColorSection('${name}')">
-        <span>🎨 Custom colors ${hasAnyOverride ? `<span class="uc-color-count">${THEME_COLORS.filter(k=>ov[k]).length} set</span>` : ''}</span>
-      </div>
-      <div class="uc-color-toggle-right">
-        ${hasAnyOverride ? `<button class="uc-color-reset-all" title="Reset ALL custom colors for this player" onclick="event.stopPropagation(); resetAllUserColorOverrides('${name}')">R</button>` : ''}
-        <span class="arrow ${isOpen ? 'open' : ''}" onclick="toggleUserColorSection('${name}')">▼</span>
-      </div>
-    </div>
-    <div class="uc-color-body" style="display:${isOpen ? 'block' : 'none'}">
-      <div class="uc-color-master-toggle">
-        <span class="toggle-label">Custom colors enabled</span>
-        <div class="toggle ${isEnabled ? 'on' : ''}" onclick="toggleUserColorOverridesEnabled('${name}')"><div class="toggle-knob"></div></div>
-      </div>
-      ${isEnabled
-        ? `<div class="uc-color-hint">Overrides this player's colors on top of the <b>${role}</b> role theme. Leave a field on "(role)" to keep inheriting it.</div>`
-        : `<div class="uc-color-disabled-hint">Custom colors are OFF — this player uses the plain <b>${role}</b> role colors, and any <b>custom gradients</b> below can now show through. Your saved overrides are kept, just switch this back on to use them again.</div>`
-      }
-      <div class="uc-color-grid ${isEnabled ? '' : 'uc-color-fields-disabled'}">${fieldsHtml}</div>
-      ${renderUserGradientSection(name, role)}
-    </div>
-  </div>`;
-}
-
-function renderUserGradientSection(name, role) {
-  config.userGradientOverrides = config.userGradientOverrides || {};
-  const overrides = config.userGradientOverrides[name] || {};
-  const setCount = GRAD_TARGETS.filter(t => overrides[t.key]).length;
-  const isOpen = setCount > 0 || uc_gradSectionOpen.has(name);
-  const activeKey = uc_activeGradTarget[name] || "cardGradient";
-
-  const isCustom = !!overrides[activeKey];
-  // Custom fields edit the player's own override copy; otherwise show the role gradient read-only-ish
-  // (still uses the same inputs, but the first edit will promote it into a real override via updateUserGradientField).
-  const g = overrides[activeKey] || getRoleGradient(role, activeKey);
-
-  const tabsHtml = GRAD_TARGETS.map(t => `<div class="theme-tab ${t.key===activeKey?'active':''} ${overrides[t.key]?'uc-grad-tab-custom':''}" onclick="setUserGradTarget('${name}','${t.key}')">${t.label.replace(' Gradient','')}</div>`).join("");
-
-  let fieldsHtml = `<div class="toggle-wrap"><span class="toggle-label">Enabled</span><div class="toggle ${g.enabled?'on':''}" onclick="updateUserGradientField('${name}','${activeKey}','enabled',${!g.enabled})"><div class="toggle-knob"></div></div></div>`;
-
-  fieldsHtml += `<div class="field"><label class="field-label">Type</label><select onchange="updateUserGradientField('${name}','${activeKey}','type',this.value)">`;
-  GRADIENT_TYPE_KEYS.forEach(k => { fieldsHtml += `<option value="${k}" ${g.type===k||g.type===k.charAt(0).toUpperCase()+k.slice(1)?'selected':''}>${GRADIENT_TYPES[k].label}</option>`; });
-  fieldsHtml += `</select></div>`;
-
-  fieldsHtml += `<div class="field"><label class="field-label">Rotation (deg)</label><div class="slider-wrap"><input type="range" min="0" max="360" step="1" value="${g.rotation||0}" oninput="updateUserGradientFieldQuiet('${name}','${activeKey}','rotation',parseInt(this.value)); this.nextElementSibling.textContent=this.value+'°'" onchange="buildUserCustomization()"><span class="slider-val">${g.rotation||0}°</span></div></div>`;
-
-  (g.colors||[]).forEach((col, i) => {
-    fieldsHtml += `<div class="field"><label class="field-label">Color ${i+1}</label><div class="color-pick"><input type="color" value="${col}" onchange="updateUserGradientColor('${name}','${activeKey}',${i},this.value)"><input type="text" class="hex" value="${col}" onchange="updateUserGradientColor('${name}','${activeKey}',${i},this.value)"></div></div>`;
-  });
-  if ((g.colors||[]).length < 4) fieldsHtml += `<button class="btn-add" onclick="addUserGradientColor('${name}','${activeKey}')">+ Color</button>`;
-
-  (g.transparency||[]).forEach((tr, i) => {
-    fieldsHtml += `<div class="field"><label class="field-label">Transparency ${i+1}</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${tr}" oninput="updateUserGradientTransparency('${name}','${activeKey}',${i},parseFloat(this.value)); this.nextElementSibling.textContent=this.value" onchange="buildUserCustomization()"><span class="slider-val">${tr}</span></div></div>`;
-  });
-
-  fieldsHtml += `<div class="field"><label class="field-label">Offset X</label><div class="slider-wrap"><input type="range" min="-1" max="1" step="0.05" value="${(g.offset||[0,0])[0]}" oninput="updateUserGradientOffset('${name}','${activeKey}',0,parseFloat(this.value)); this.nextElementSibling.textContent=this.value" onchange="buildUserCustomization()"><span class="slider-val">${(g.offset||[0,0])[0]}</span></div></div>`;
-  fieldsHtml += `<div class="field"><label class="field-label">Offset Y</label><div class="slider-wrap"><input type="range" min="-1" max="1" step="0.05" value="${(g.offset||[0,0])[1]}" oninput="updateUserGradientOffset('${name}','${activeKey}',1,parseFloat(this.value)); this.nextElementSibling.textContent=this.value" onchange="buildUserCustomization()"><span class="slider-val">${(g.offset||[0,0])[1]}</span></div></div>`;
-
-  const targetLabel = GRAD_TARGETS.find(t=>t.key===activeKey)?.label || activeKey;
-
-  return `<div class="uc-grad-section">
-    <div class="uc-color-toggle" onclick="toggleUserGradSection('${name}')">
-      <span>🌈 Custom gradients ${setCount ? `<span class="uc-color-count">${setCount} set</span>` : ''}</span>
-      <span class="arrow ${isOpen ? 'open' : ''}">▼</span>
-    </div>
-    <div class="uc-color-body" style="display:${isOpen ? 'block' : 'none'}">
-      <div class="uc-color-hint">Each gradient below is either fully custom for this player, or fully inherited from the <b>${role}</b> role's <b>${targetLabel}</b> setting — editing any field here makes it custom.</div>
-      <div class="theme-tabs uc-grad-tabs">${tabsHtml}</div>
-      ${isCustom ? `<div class="uc-grad-custom-badge">✓ Custom for this player <button class="uc-color-reset" onclick="resetUserGradientTarget('${name}','${activeKey}')">↺ reset to role</button></div>` : `<div class="uc-grad-inherit-badge">Inheriting <b>${role}</b> role setting — editing below will make it custom</div>`}
-      ${fieldsHtml}
-    </div>
-  </div>`;
-}
-
-function toggleUserColorSection(name) {
-  if (uc_colorSectionOpen.has(name)) uc_colorSectionOpen.delete(name);
-  else uc_colorSectionOpen.add(name);
-  buildUserCustomization();
-}
-
-function updateUserColorOverride(username, field, val) {
-  config.userColorOverrides = config.userColorOverrides || {};
-  if (!config.userColorOverrides[username]) config.userColorOverrides[username] = {};
-  config.userColorOverrides[username][field] = val;
-  uc_colorSectionOpen.add(username);
-  saveConfig();
-  buildUserCustomization();
-  if (previewSubject === username) updatePreview();
-}
-
-function resetUserColorOverride(username, field) {
-  config.userColorOverrides = config.userColorOverrides || {};
-  if (config.userColorOverrides[username]) delete config.userColorOverrides[username][field];
-  uc_colorSectionOpen.add(username);
-  saveConfig();
-  buildUserCustomization();
-  if (previewSubject === username) updatePreview();
-}
-
-// Clears every color override for this player in one go (the "R" button next to "Custom colors").
-// Keeps the __enabled flag as-is — resetting colors shouldn't silently flip the master switch.
-function resetAllUserColorOverrides(username) {
-  config.userColorOverrides = config.userColorOverrides || {};
-  const ov = config.userColorOverrides[username];
-  if (ov) {
-    const keepEnabled = ov.__enabled;
-    config.userColorOverrides[username] = keepEnabled === false ? { __enabled: false } : {};
-  }
-  uc_colorSectionOpen.add(username);
-  saveConfig();
-  buildUserCustomization();
-  if (previewSubject === username) updatePreview();
-}
-
-// Sets a single color field to fully transparent. <input type="color"> has no alpha channel,
-// so this is the only way to get a transparent value into an override from the color picker.
-function setUserColorTransparent(username, field) {
-  config.userColorOverrides = config.userColorOverrides || {};
-  if (!config.userColorOverrides[username]) config.userColorOverrides[username] = {};
-  const current = config.userColorOverrides[username][field];
-  // Clicking again while already transparent reverts to the role color instead of doing nothing.
-  if (current === 'transparent') delete config.userColorOverrides[username][field];
-  else config.userColorOverrides[username][field] = 'transparent';
-  uc_colorSectionOpen.add(username);
-  saveConfig();
-  buildUserCustomization();
-  if (previewSubject === username) updatePreview();
-}
-
-// Master on/off switch for a player's entire custom-colors block. Turning it off does NOT delete
-// the saved overrides (uses __enabled: false) — it just tells the preview/renderer to fall back to
-// the plain role colors, which is what makes custom gradients visible again while this is off.
-function toggleUserColorOverridesEnabled(username) {
-  config.userColorOverrides = config.userColorOverrides || {};
-  if (!config.userColorOverrides[username]) config.userColorOverrides[username] = {};
-  const ov = config.userColorOverrides[username];
-  ov.__enabled = ov.__enabled === false ? true : false;
-  uc_colorSectionOpen.add(username);
-  saveConfig();
-  buildUserCustomization();
-  if (previewSubject === username) updatePreview();
-}
-
-// ── Per-player gradient overrides ──
-function setUserGradTarget(username, key) {
-  uc_activeGradTarget[username] = key;
-  buildUserCustomization();
-}
-
-function toggleUserGradSection(username) {
-  if (uc_gradSectionOpen.has(username)) uc_gradSectionOpen.delete(username);
-  else uc_gradSectionOpen.add(username);
-  buildUserCustomization();
-}
-
-// Promotes the role gradient into a full per-player copy the first time it's edited,
-// so every field (colors, transparency, offset...) stays intact rather than only the one changed.
-function ensureUserGradientOverride(username, key) {
-  config.userGradientOverrides = config.userGradientOverrides || {};
-  if (!config.userGradientOverrides[username]) config.userGradientOverrides[username] = {};
-  if (!config.userGradientOverrides[username][key]) {
-    const role = getUserRole(username);
-    const base = getRoleGradient(role, key);
-    config.userGradientOverrides[username][key] = JSON.parse(JSON.stringify(base));
-  }
-  return config.userGradientOverrides[username][key];
-}
-
-function updateUserGradientField(username, key, field, val) {
-  const g = ensureUserGradientOverride(username, key);
-  g[field] = val;
-  uc_gradSectionOpen.add(username);
-  saveConfig();
-  buildUserCustomization();
-}
-
-// Lightweight variant for continuous sliders (rotation/transparency/offset): updates state and
-// saves, but skips the full list re-render so dragging stays smooth — mirrors the global gradient
-// tab's rotation slider, which also doesn't call buildGradients() on every oninput tick.
-function updateUserGradientFieldQuiet(username, key, field, val) {
-  const g = ensureUserGradientOverride(username, key);
-  g[field] = val;
-  uc_gradSectionOpen.add(username);
-  saveConfig();
-}
-
-function updateUserGradientColor(username, key, idx, val) {
-  const g = ensureUserGradientOverride(username, key);
-  g.colors = g.colors || [];
-  g.colors[idx] = val;
-  uc_gradSectionOpen.add(username);
-  saveConfig();
-  buildUserCustomization();
-}
-
-function addUserGradientColor(username, key) {
-  const g = ensureUserGradientOverride(username, key);
-  g.colors = g.colors || [];
-  g.colors.push(g.colors[g.colors.length-1] || '#FFFFFF');
-  uc_gradSectionOpen.add(username);
-  saveConfig();
-  buildUserCustomization();
-}
-
-function updateUserGradientTransparency(username, key, idx, val) {
-  const g = ensureUserGradientOverride(username, key);
-  g.transparency = g.transparency || [];
-  g.transparency[idx] = val;
-  uc_gradSectionOpen.add(username);
-  saveConfig();
-}
-
-function updateUserGradientOffset(username, key, axis, val) {
-  const g = ensureUserGradientOverride(username, key);
-  g.offset = g.offset || [0,0];
-  g.offset[axis] = val;
-  uc_gradSectionOpen.add(username);
-  saveConfig();
-}
-
-function resetUserGradientTarget(username, key) {
-  if (config.userGradientOverrides && config.userGradientOverrides[username]) {
-    delete config.userGradientOverrides[username][key];
-    // Clean up entirely if no gradient targets remain custom, to keep the exported JSON tidy
-    if (Object.keys(config.userGradientOverrides[username]).length === 0) {
-      delete config.userGradientOverrides[username];
-    }
-  }
-  uc_gradSectionOpen.add(username);
-  saveConfig();
-  buildUserCustomization();
-}
-
-function buildUserCustomization() {
-  const c = document.getElementById("userCustomBody");
-  config.displayNames = config.displayNames || {};
-  config.roleLabels = config.roleLabels || {};
-  config.customAvatars = config.customAvatars || {};
-
-  // Union of every username that has a displayName, roleLabel, or customAvatar.
-  // Note: addCustomUser() auto-adds new players to roleUsers.user so their tag
-  // shows up in-game — that must NOT hide their card here, so this list is built
-  // purely from the custom-data keys, with no roleUsers filtering.
-  const allNames = new Set([
-    ...Object.keys(config.displayNames),
-    ...Object.keys(config.roleLabels),
-    ...Object.keys(config.customAvatars),
-  ]);
-  const allEntries = [...allNames];
-
-  // Keep header count badges (both expanded header and collapsed rail) in sync.
-  const countEl = document.getElementById("upCount");
-  const countCollapsedEl = document.getElementById("upCountCollapsed");
-  if (countEl) countEl.textContent = allEntries.length;
-  if (countCollapsedEl) countCollapsedEl.textContent = allEntries.length;
-
-  // If the user currently being edited was removed elsewhere, fall back cleanly.
-  if (uc_editingUser && !allEntries.includes(uc_editingUser)) uc_editingUser = null;
-
-  let html = `<div class="uc-intro">
-    <span class="uc-intro-icon">💡</span>
-    <div>Give <b>one specific player</b> a custom nametag — their own display name, role label, avatar, and/or colors, different from everyone else. That player is automatically added to the <b>user</b> role so their tag shows up in-game.</div>
-  </div>`;
-
-  if (allEntries.length === 0) {
-    html += `<div class="up-empty">
-      <span class="uc-empty-icon">👤</span>
-      No active users yet.<br>Add one below to get started.
-    </div>`;
-  } else {
-    allEntries.forEach((name) => {
-      const isEditing = uc_editingUser === name;
-      const dn = config.displayNames[name] || '';
-      const rl = config.roleLabels[name] || '';
-      const av = config.customAvatars[name] || { url:'', file:'', strokeStart:'#FFFFFF', strokeEnd:'#000000' };
-
-      // Compact row: always shown, name + X (delete) / edit (toggle) buttons.
-      html += `<div class="up-row ${isEditing ? 'editing' : ''}">
-        <div class="up-row-name">
-          <span class="up-user-icon">👤</span>
-          <span class="up-uname">${name}</span>
-          ${dn ? `<span class="up-dispname">"${dn}"</span>` : ''}
-        </div>
-        <div class="up-row-actions">
-          <button class="up-btn up-btn-edit ${isEditing ? 'active' : ''}" onclick="toggleEditCustomUser('${name}')" title="${isEditing ? 'Close editor' : 'Edit ' + name}">${isEditing ? '▲' : '✎'}</button>
-          <button class="up-btn up-btn-del" onclick="removeCustomUser('${name}')" title="Remove ${name}">✕</button>
-        </div>
-      </div>`;
-
-      // Full edit card: only rendered inline beneath its row while that user is being edited.
-      if (isEditing) {
-        html += `<div class="up-edit-card"><div class="uc-card">
-          <div class="uc-card-fields">
-            <div>
-              <label class="uc-field-label">Display Name <span class="uc-optional">(optional)</span></label>
-              <input type="text" class="input-text" value="${dn}" placeholder="e.g. TeleLumi" onchange="updateCustomDisplayName('${name}',this.value)">
-            </div>
-            <div>
-              <label class="uc-field-label">Role Label <span class="uc-optional">(optional)</span></label>
-              <input type="text" class="input-text" value="${rl}" placeholder="e.g. VIP" onchange="updateCustomRoleLabel('${name}',this.value)">
-            </div>
-          </div>
-          <div class="uc-avatar-row">
-            <div class="uc-avatar-url">
-              <label class="uc-field-label">Avatar Image URL <span class="uc-optional">(optional)</span></label>
-              <input type="text" class="input-text" value="${av.url}" placeholder="https://..." onchange="updateCustomAvatarField('${name}','url',this.value)">
-            </div>
-            <div>
-              <label class="uc-field-label">Ring Start</label>
-              <div class="color-pick">
-                <input type="color" value="${av.strokeStart||'#FFFFFF'}" onchange="updateCustomAvatarField('${name}','strokeStart',this.value)">
-              </div>
-            </div>
-            <div>
-              <label class="uc-field-label">Ring End</label>
-              <div class="color-pick">
-                <input type="color" value="${av.strokeEnd||'#000000'}" onchange="updateCustomAvatarField('${name}','strokeEnd',this.value)">
-              </div>
-            </div>
-          </div>
-          ${renderUserColorSection(name)}
-        </div></div>`;
-      }
-    });
-  }
-
-  html += `<div class="uc-new-card">
-    <div class="uc-new-title">➕ Add a player</div>
-    <div class="uc-new-fields">
-      <div>
-        <label class="uc-field-label">Roblox Username <span class="uc-required">*</span></label>
-        <input type="text" class="input-text" id="newCustomUsername" placeholder="e.g. telelumi">
-      </div>
-      <div>
-        <label class="uc-field-label">Display Name <span class="uc-optional">(optional)</span></label>
-        <input type="text" class="input-text" id="newCustomDisplayName" placeholder="e.g. TeleLumi">
-      </div>
-      <div>
-        <label class="uc-field-label">Role Label <span class="uc-optional">(optional)</span></label>
-        <input type="text" class="input-text" id="newCustomRoleLabel" placeholder="e.g. VIP">
-      </div>
-    </div>
-    <div class="uc-new-fields uc-new-fields-avatar">
-      <div class="uc-avatar-url">
-        <label class="uc-field-label">Avatar Image URL <span class="uc-optional">(optional)</span></label>
-        <input type="text" class="input-text" id="newCustomAvatarUrl" placeholder="https://...">
-      </div>
-    </div>
-    <button class="btn-add" onclick="addCustomUser()">+ Add player</button>
-  </div>`;
-
-  c.innerHTML = html;
-}
-
-// Toggles the inline full-detail editor for one user in the Active Users list.
-// Opening one user automatically closes any other, so only one card is ever expanded at a time.
-function toggleEditCustomUser(name) {
-  uc_editingUser = (uc_editingUser === name) ? null : name;
-  buildUserCustomization();
-}
-
-// Collapses/expands the entire right-hand Active Users column to a thin icon rail.
-function toggleUserPanel() {
-  uc_panelCollapsed = !uc_panelCollapsed;
-  document.getElementById("userPanel").classList.toggle("collapsed", uc_panelCollapsed);
-  document.querySelector(".app").classList.toggle("user-panel-collapsed", uc_panelCollapsed);
-  const btn = document.getElementById("upCollapseBtn");
-  if (btn) btn.textContent = uc_panelCollapsed ? "▶" : "◀";
-  saveUIState();
-}
-
-function addCustomUser() {
-  const usernameInp = document.getElementById("newCustomUsername");
-  const username = usernameInp.value.trim();
-  const displayName = document.getElementById("newCustomDisplayName").value.trim();
-  const roleLabel = document.getElementById("newCustomRoleLabel").value.trim();
-  const avatarUrl = document.getElementById("newCustomAvatarUrl").value.trim();
-  if (!username) {
-    toast("Please enter a Roblox username first");
-    usernameInp.focus();
-    return;
-  }
-
-  config.displayNames = config.displayNames || {};
-  config.roleLabels = config.roleLabels || {};
-  config.customAvatars = config.customAvatars || {};
-  config.roleUsers = config.roleUsers || {};
-
-  // Always claim a slot in displayNames (even empty) so this username is guaranteed to show up
-  // in the Active Users list — otherwise a username added with no other fields filled in would
-  // have no key in displayNames/roleLabels/customAvatars and silently vanish from the list.
-  config.displayNames[username] = displayName;
-  if (roleLabel) config.roleLabels[username] = roleLabel;
-  if (avatarUrl) config.customAvatars[username] = { url: avatarUrl, file: "", strokeStart: "#FFFFFF", strokeEnd: "#000000" };
-
-  // Auto-add to "user" role if not in any role yet
-  const inAnyRole = Object.values(config.roleUsers).some(users => users.includes(username));
-  if (!inAnyRole) {
-    if (!config.roleUsers.user) config.roleUsers.user = [];
-    config.roleUsers.user.push(username);
-  }
-
-  // Open the new player directly in the edit card so the person can keep configuring it
-  // without having to hunt for it in the list and click Edit again.
-  uc_editingUser = username;
-  usernameInp.value = "";
-  document.getElementById("newCustomDisplayName").value = "";
-  document.getElementById("newCustomRoleLabel").value = "";
-  document.getElementById("newCustomAvatarUrl").value = "";
-
-  saveConfig();
-  buildUserCustomization();
-  buildPreviewSubjectSelect();
-  buildKeywords();
-  updatePreview();
-  toast(`${username} added`);
-}
-
-function removeCustomUser(username) {
-  config.displayNames = config.displayNames || {};
-  config.roleLabels = config.roleLabels || {};
-  config.customAvatars = config.customAvatars || {};
-  config.userColorOverrides = config.userColorOverrides || {};
-  config.userGradientOverrides = config.userGradientOverrides || {};
-  delete config.displayNames[username];
-  delete config.roleLabels[username];
-  delete config.customAvatars[username];
-  delete config.userColorOverrides[username];
-  delete config.userGradientOverrides[username];
-  uc_colorSectionOpen.delete(username);
-  uc_gradSectionOpen.delete(username);
-  delete uc_activeGradTarget[username];
-  if (uc_editingUser === username) uc_editingUser = null;
-  // Remove from all roleUsers
-  for (const role of Object.keys(config.roleUsers || {})) {
-    config.roleUsers[role] = (config.roleUsers[role] || []).filter(u => u !== username);
-  }
-  // If this player was being previewed, fall back to role view
-  if (previewSubject === username) {
-    previewSubject = "__role__";
-    document.getElementById("prevName").readOnly = false;
-    document.getElementById("prevRole").readOnly = false;
-  }
-  saveConfig();
-  buildUserCustomization();
-  buildPreviewSubjectSelect();
-  buildKeywords();
-  updatePreview();
-}
-
-function updateCustomDisplayName(username, val) {
-  config.displayNames = config.displayNames || {};
-  const next = { ...(config.displayNames || {}) };
-  if (val) next[username] = val;
-  else delete next[username];
-  config.displayNames = next;
-  saveConfig();
-  if (previewSubject === username) {
-    document.getElementById("prevName").value = val || username;
-  }
-  updatePreview();
-}
-
-function updateCustomRoleLabel(username, val) {
-  config.roleLabels = config.roleLabels || {};
-  const next = { ...(config.roleLabels || {}) };
-  if (val) next[username] = val;
-  else delete next[username];
-  config.roleLabels = next;
-  saveConfig();
-  if (previewSubject === username) {
-    const role = getUserRole(username);
-    document.getElementById("prevRole").value = val || (config.roleDisplayNames||{})[role] || ROLE_DEFAULTS[role] || 'TL User';
-  }
-  updatePreview();
-}
-
-function updateCustomAvatarField(username, field, val) {
-  config.customAvatars = config.customAvatars || {};
-  const existing = { ...(config.customAvatars[username] || { url:"", file:"", strokeStart:"#FFFFFF", strokeEnd:"#000000" }) };
-  existing[field] = val;
-  const next = { ...(config.customAvatars || {}) };
-  // Drop the entry entirely if the URL is cleared and colors are still default (nothing worth keeping)
-  if (field === "url" && !val && existing.strokeStart === "#FFFFFF" && existing.strokeEnd === "#000000") {
-    delete next[username];
-  } else {
-    next[username] = existing;
-  }
-  config.customAvatars = next;
-  saveConfig();
-}
-
-// ── GRADIENTS ──
+// ── GRADIENTS (Per-Role Target Gradients) ──
 const GRAD_TARGETS = [
-  { key:"cardGradient",   label:"Card Gradient" },
-  { key:"avatarGradient", label:"Avatar Gradient" },
-  { key:"nameGradient",   label:"Name Gradient" },
-  { key:"roleGradient",   label:"Role Gradient" },
-  { key:"borderGradient", label:"Border Gradient" }
+  { key:"cardGradient",   label:"Card Background" },
+  { key:"avatarGradient", label:"Avatar Background" },
+  { key:"nameGradient",   label:"Name Text" },
+  { key:"roleGradient",   label:"Role Text" },
+  { key:"borderGradient", label:"Border Frame" }
 ];
-let activeGradTarget = "cardGradient";
 
-function defaultGradientFor(key) {
-  return JSON.parse(JSON.stringify(DEFAULTS.gradients[key] || { enabled:false, type:"Linear", colors:["#B87CFF","#1A1A22"], transparency:[0,0], rotation:90, offset:[0,0] }));
-}
-
-// Returns the gradient for a given key scoped to a specific role.
-// Priority: config.themes[role].gradients[key] > config.gradients[key] (legacy global) > defaults.
-function getRoleGradient(role, key) {
-  const roleGrads = config.themes?.[role]?.gradients;
-  if (roleGrads && roleGrads[key]) return roleGrads[key];
-  if (config.gradients && config.gradients[key]) return config.gradients[key];
-  return defaultGradientFor(key);
-}
-
-// Ensures a role has its own gradient object for the given key (deep copy from global fallback),
-// then returns it. Used by buildGradients() so writes go to the per-role store.
-function ensureRoleGradient(role, key) {
-  if (!config.themes[role]) config.themes[role] = {};
+function getGradForRole(role, targetKey) {
+  if (!config.themes[role]) return null;
   if (!config.themes[role].gradients) config.themes[role].gradients = {};
-  if (!config.themes[role].gradients[key]) {
-    config.themes[role].gradients[key] = JSON.parse(JSON.stringify(getRoleGradient(role, key)));
+  if (!config.themes[role].gradients[targetKey]) {
+    const fallback = (config.gradients && config.gradients[targetKey]) ||
+      { enabled:false, type:"Linear", colors:["#B87CFF","#1A1A22"], transparency:[0,0], rotation:90, offset:[0,0] };
+    config.themes[role].gradients[targetKey] = JSON.parse(JSON.stringify(fallback));
   }
-  return config.themes[role].gradients[key];
+  return config.themes[role].gradients[targetKey];
 }
 
 function buildGradients() {
   const c = document.getElementById("gradientBody");
-  const tabs = GRAD_TARGETS.map(t => `<div class="theme-tab ${t.key===activeGradTarget?'active':''}" onclick="activeGradTarget='${t.key}'; buildGradients()">${t.label}</div>`).join("");
-  const g = ensureRoleGradient(activeTheme, activeGradTarget);
+  if (!c) return;
 
-  let html = `<div class="theme-tabs">${tabs}</div>`;
-  const path = `config.themes['${activeTheme}'].gradients['${activeGradTarget}']`;
-  html += `<div class="toggle-wrap"><span class="toggle-label">Enabled</span><div class="toggle ${g.enabled?'on':''}" onclick="${path}.enabled=!${path}.enabled; toggleSwitch(this); buildGradients(); updatePreview()"><div class="toggle-knob"></div></div></div>`;
-  html += `<div class="field"><label class="field-label">Type</label><select onchange="${path}.type=this.value; updatePreview()">`;
-  GRADIENT_TYPE_KEYS.forEach(k => { html += `<option value="${k}" ${g.type===k||g.type===k.charAt(0).toUpperCase()+k.slice(1)?'selected':''}>${GRADIENT_TYPES[k].label}</option>`; });
-  html += `</select></div>`;
+  const tabsHtml = `
+    <div class="field">
+      <label class="field-label">Editing Role Gradients For</label>
+      <div class="theme-tabs" style="margin-bottom:14px;">
+        ${THEME_NAMES.map(t => `<div class="theme-tab ${t===activeTheme?'active':''}" onclick="switchTheme('${t}')">${t}</div>`).join('')}
+      </div>
+    </div>
+  `;
 
-  html += `<div class="field"><label class="field-label">Rotation (deg)</label><div class="slider-wrap"><input type="range" min="0" max="360" step="1" value="${g.rotation||0}" oninput="${path}.rotation=parseInt(this.value); this.nextElementSibling.textContent=this.value+'°'; updatePreview()"><span class="slider-val">${g.rotation||0}°</span></div></div>`;
+  const sectionsHtml = GRAD_TARGETS.map(gt => {
+    const g = getGradForRole(activeTheme, gt.key);
+    const isCustomized = JSON.stringify(g) !== JSON.stringify((config.gradients && config.gradients[gt.key]) || {});
+    return `
+      <div style="background:rgba(0,0,0,0.2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px; margin-bottom:12px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+          <span style="font-family:var(--head); font-weight:600; font-size:12px; color:var(--t1);">${gt.label}</span>
+          ${isCustomized ? `<button class="uc-color-reset" style="margin:0" onclick="resetRoleGradToGlobal('${activeTheme}','${gt.key}')">Reset to Global</button>` : ''}
+        </div>
+        <div class="toggle-wrap" style="margin-bottom:8px; padding:8px 12px;">
+          <span class="toggle-label" style="font-size:11.5px;">Enable Gradient</span>
+          <div class="toggle ${g.enabled?'on':''}" onclick="g.enabled=!g.enabled; toggleSwitch(this); updatePreview(); buildGradients();"><div class="toggle-knob"></div></div>
+        </div>
+        ${g.enabled ? `
+          <div class="field" style="margin-bottom:8px;">
+            <label class="field-label">Type</label>
+            <select style="padding:6px 10px; font-size:11.5px;" onchange="g.type=this.value; updatePreview()">
+              <option value="Linear" ${g.type==='Linear'?'selected':''}>Linear</option>
+              <option value="Radial" ${g.type==='Radial'?'selected':''}>Radial</option>
+            </select>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
+            <div class="field" style="margin:0;">
+              <label class="field-label">Color 1</label>
+              <div class="color-pick" style="padding:3px;">
+                <input type="color" value="${g.colors[0]||'#B87CFF'}" onchange="g.colors[0]=this.value; this.nextElementSibling.value=this.value; updatePreview()">
+                <input type="text" class="hex" value="${g.colors[0]||'#B87CFF'}" onchange="g.colors[0]=this.value; this.previousElementSibling.value=this.value; updatePreview()">
+              </div>
+            </div>
+            <div class="field" style="margin:0;">
+              <label class="field-label">Color 2</label>
+              <div class="color-pick" style="padding:3px;">
+                <input type="color" value="${g.colors[1]||'#1A1A22'}" onchange="g.colors[1]=this.value; this.nextElementSibling.value=this.value; updatePreview()">
+                <input type="text" class="hex" value="${g.colors[1]||'#1A1A22'}" onchange="g.colors[1]=this.value; this.previousElementSibling.value=this.value; updatePreview()">
+              </div>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:4px;">
+            <label class="field-label">Rotation (${g.rotation}°)</label>
+            <div class="slider-wrap">
+              <input type="range" min="0" max="360" value="${g.rotation}" oninput="g.rotation=+this.value; this.nextElementSibling.textContent=this.value+'°'; updatePreview()">
+              <span class="slider-val">${g.rotation}°</span>
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
 
-  (g.colors||[]).forEach((col, i) => {
-    html += `<div class="field"><label class="field-label">Color ${i+1}</label><div class="color-pick"><input type="color" value="${col}" onchange="${path}.colors[${i}]=this.value; this.nextElementSibling.value=this.value; updatePreview()"><input type="text" class="hex" value="${col}" onchange="${path}.colors[${i}]=this.value; this.previousElementSibling.value=this.value; updatePreview()"></div></div>`;
-  });
-  if ((g.colors||[]).length < 4) html += `<button class="btn-add" onclick="${path}.colors.push(${path}.colors[${path}.colors.length-1]||'#FFFFFF'); buildGradients()">+ Color</button>`;
-
-  (g.transparency||[]).forEach((tr, i) => {
-    html += `<div class="field"><label class="field-label">Transparency ${i+1}</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${tr}" oninput="${path}.transparency[${i}]=parseFloat(this.value); this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${tr}</span></div></div>`;
-  });
-
-  html += `<div class="field"><label class="field-label">Offset X</label><div class="slider-wrap"><input type="range" min="-1" max="1" step="0.05" value="${(g.offset||[0,0])[0]}" oninput="${path}.offset=[parseFloat(this.value),(${path}.offset||[0,0])[1]]; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${(g.offset||[0,0])[0]}</span></div></div>`;
-  html += `<div class="field"><label class="field-label">Offset Y</label><div class="slider-wrap"><input type="range" min="-1" max="1" step="0.05" value="${(g.offset||[0,0])[1]}" oninput="${path}.offset=[(${path}.offset||[0,0])[0],parseFloat(this.value)]; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${(g.offset||[0,0])[1]}</span></div></div>`;
-
-  c.innerHTML = html;
-  // Tab switches, the Enabled toggle, and "+ Color" all change this section's content
-  // height while it may already be open — keep max-height in sync so it doesn't
-  // clip the new fields or overlap the next section.
-  if (c.classList.contains("open")) c.style.maxHeight = c.scrollHeight + "px";
+  c.innerHTML = tabsHtml + sectionsHtml;
 }
 
-// ── PREVIEW THEME BTNS ──
-// ── PREVIEW SUBJECT (role tab vs. specific player with color overrides) ──
-let previewSubject = "__role__"; // "__role__" = show active theme tab; otherwise a username
-
-function getUserRole(username) {
-  for (const [role, users] of Object.entries(config.roleUsers || {})) {
-    if (users.includes(username)) return role;
+function resetRoleGradToGlobal(role, targetKey) {
+  if (config.themes[role] && config.themes[role].gradients) {
+    const fallback = (config.gradients && config.gradients[targetKey]) ||
+      { enabled:false, type:"Linear", colors:["#B87CFF","#1A1A22"], transparency:[0,0], rotation:90, offset:[0,0] };
+    config.themes[role].gradients[targetKey] = JSON.parse(JSON.stringify(fallback));
+    buildGradients(); updatePreview();
   }
-  return "user"; // fallback: unassigned custom players render on the "user" theme
+}
+
+// ── KEYWORDS ──
+function buildKeywords() {
+  const c = document.getElementById("keywordsBody");
+  if (!c) return;
+
+  const roleColors = { owner:"#B87CFF", admin:"#FF6464", developer:"#64B4FF", moderator:"#FFC83C", advertising:"#C878FF", staff:"#4ADE80", user:"#A0A0C0" };
+
+  c.innerHTML = THEME_NAMES.map(r => {
+    const kws = config.roleKeywords[r] || [];
+    const users = config.roleUsers[r] || [];
+    const color = roleColors[r] || "#38e0d2";
+    const kwTags = kws.map((k, i) => `<span class="kw-tag">${k} <span class="rm" onclick="removeKeyword('${r}',${i})">✕</span></span>`).join('');
+    const userTags = users.map((u, i) => `<span class="kw-tag kw-tag-user">👤 ${u} <span class="rm" onclick="removeRoleUser('${r}',${i})">✕</span></span>`).join('');
+
+    return `
+      <div class="role-row">
+        <div class="role-row-accent" style="background:${color};"></div>
+        <div class="role-row-body">
+          <div class="role-row-header">
+            <div class="role-row-name"><span class="role-dot" style="color:${color};"></span>${r}</div>
+            <span class="role-row-count">${users.length} users • ${kws.length} keywords</span>
+          </div>
+          <div class="role-row-section-label">Assigned Users</div>
+          <div class="role-row-keywords">
+            ${userTags || '<span style="font-size:11px; color:var(--t3); font-style:italic;">No direct users assigned</span>'}
+          </div>
+          <div class="role-row-input">
+            <input type="text" class="input-text" placeholder="Add username (e.g. telelumi)..." onkeydown="if(event.key==='Enter') addRoleUser('${r}', this)">
+            <button class="btn-icon" title="Add User" onclick="addRoleUser('${r}', this.previousElementSibling)">+</button>
+          </div>
+          <div class="role-row-divider"></div>
+          <div class="role-row-section-label">Keywords</div>
+          <div class="role-row-keywords">
+            ${kwTags || '<span style="font-size:11px; color:var(--t3); font-style:italic;">No keywords configured</span>'}
+          </div>
+          <div class="role-row-input">
+            <input type="text" class="input-text" placeholder="Add keyword (e.g. admin)..." onkeydown="if(event.key==='Enter') addKeyword('${r}', this)">
+            <button class="btn-icon" title="Add Keyword" onclick="addKeyword('${r}', this.previousElementSibling)">+</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function addKeyword(role, inputEl) {
+  const val = inputEl.value.trim().toLowerCase();
+  if (!val) return;
+  if (!config.roleKeywords[role]) config.roleKeywords[role] = [];
+  if (!config.roleKeywords[role].includes(val)) {
+    config.roleKeywords[role].push(val);
+    saveConfig(); buildKeywords(); buildPreviewSubjectSelect(); updatePreview();
+  }
+  inputEl.value = "";
+}
+
+function removeKeyword(role, idx) {
+  if (config.roleKeywords[role]) {
+    config.roleKeywords[role].splice(idx, 1);
+    saveConfig(); buildKeywords(); buildPreviewSubjectSelect(); updatePreview();
+  }
+}
+
+function addRoleUser(role, inputEl) {
+  const val = inputEl.value.trim().toLowerCase();
+  if (!val) return;
+  if (!config.roleUsers) config.roleUsers = {};
+  THEME_NAMES.forEach(r => {
+    if (config.roleUsers[r]) {
+      config.roleUsers[r] = config.roleUsers[r].filter(u => u.toLowerCase() !== val);
+    }
+  });
+  if (!config.roleUsers[role]) config.roleUsers[role] = [];
+  config.roleUsers[role].push(val);
+  saveConfig(); buildKeywords(); buildUserCustomization(); buildPreviewSubjectSelect(); updatePreview();
+  inputEl.value = "";
+}
+
+function removeRoleUser(role, idx) {
+  if (config.roleUsers && config.roleUsers[role]) {
+    config.roleUsers[role].splice(idx, 1);
+    saveConfig(); buildKeywords(); buildUserCustomization(); buildPreviewSubjectSelect(); updatePreview();
+  }
+}
+
+// ── PROFILE PICTURES ──
+function buildProfilePictures() {
+  const c = document.getElementById("profileBody");
+  if (!c) return;
+
+  c.innerHTML = THEME_NAMES.map(r => {
+    const pic = (config.profilePictures && config.profilePictures[r]) || { url:"", file:"" };
+    return `
+      <div class="field">
+        <label class="field-label" style="text-transform:capitalize; color:var(--t1); font-weight:600;">${r} Role Picture</label>
+        <div class="field-row">
+          <input type="text" class="input-text" placeholder="https://... (Image URL)" value="${pic.url||''}" onchange="setRolePicUrl('${r}', this.value)">
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function setRolePicUrl(role, url) {
+  if (!config.profilePictures) config.profilePictures = {};
+  if (!config.profilePictures[role]) config.profilePictures[role] = { url:"", file:"" };
+  config.profilePictures[role].url = url.trim();
+  saveConfig(); updatePreview();
+}
+
+// ── ACTIVE USERS PANEL ──
+let editingUserKey = null;
+let openGradUserKey = null;
+
+function toggleUserPanel() {
+  uc_panelCollapsed = !uc_panelCollapsed;
+  const panel = document.getElementById("userPanel");
+  const app = document.querySelector(".app");
+  const btn = document.getElementById("upCollapseBtn");
+  if (uc_panelCollapsed) {
+    panel.classList.add("collapsed");
+    app.classList.add("user-panel-collapsed");
+    if (btn) btn.textContent = "▶";
+  } else {
+    panel.classList.remove("collapsed");
+    app.classList.remove("user-panel-collapsed");
+    if (btn) btn.textContent = "◀";
+  }
+  saveUIState();
 }
 
 function getAllKnownPlayers() {
-  const names = new Set();
-  Object.values(config.roleUsers || {}).forEach(list => list.forEach(u => names.add(u)));
-  Object.keys(config.displayNames || {}).forEach(u => names.add(u));
-  Object.keys(config.roleLabels || {}).forEach(u => names.add(u));
-  Object.keys(config.userColorOverrides || {}).forEach(u => names.add(u));
-  Object.keys(config.customAvatars || {}).forEach(u => names.add(u));
-  return [...names].sort((a,b) => a.localeCompare(b));
+  const set = new Set();
+  if (config.roleUsers) {
+    Object.values(config.roleUsers).forEach(arr => {
+      if (Array.isArray(arr)) arr.forEach(u => u && set.add(u.toLowerCase()));
+    });
+  }
+  if (config.displayNames) Object.keys(config.displayNames).forEach(u => u && set.add(u.toLowerCase()));
+  if (config.roleLabels) Object.keys(config.roleLabels).forEach(u => u && set.add(u.toLowerCase()));
+  if (config.customAvatars) Object.keys(config.customAvatars).forEach(u => u && set.add(u.toLowerCase()));
+  if (config.userColorOverrides) Object.keys(config.userColorOverrides).forEach(u => u && set.add(u.toLowerCase()));
+  if (config.userGradientOverrides) Object.keys(config.userGradientOverrides).forEach(u => u && set.add(u.toLowerCase()));
+  return Array.from(set).sort();
 }
 
+function buildUserCustomization() {
+  const c = document.getElementById("userCustomBody");
+  if (!c) return;
+
+  const players = getAllKnownPlayers();
+  const countEl = document.getElementById("upCount");
+  const countCol = document.getElementById("upCountCollapsed");
+  if (countEl) countEl.textContent = players.length;
+  if (countCol) countCol.textContent = players.length;
+
+  let html = `
+    <div style="margin-bottom:12px;">
+      <button class="btn-add" style="margin-top:0;" onclick="openAddUserPrompt()">+ Add Player</button>
+    </div>
+  `;
+
+  if (players.length === 0) {
+    html += `
+      <div class="up-empty">
+        <span class="uc-empty-icon">👤</span>
+        No active players.<br>Click "Add Player" to configure individual names, roles, icons, or colors.
+      </div>
+    `;
+    c.innerHTML = html;
+    return;
+  }
+
+  players.forEach(u => {
+    const isEditing = editingUserKey === u;
+    const disp = (config.displayNames && config.displayNames[u]) || "";
+    const roleLbl = (config.roleLabels && config.roleLabels[u]) || "";
+    const isCurPreview = previewSubject === u;
+
+    html += `
+      <div class="up-row ${isEditing?'editing':''}">
+        <div class="up-row-name" style="cursor:pointer;" onclick="switchPreviewSubject('${u}')">
+          <span class="up-user-icon">${isCurPreview ? '👁' : '👤'}</span>
+          <span class="up-uname">${u}</span>
+          ${disp ? `<span class="up-dispname">(${disp})</span>` : ''}
+        </div>
+        <div class="up-row-actions">
+          <button class="up-btn up-btn-edit ${isEditing?'active':''}" title="Edit" onclick="toggleEditUser('${u}')">✏️</button>
+          <button class="up-btn up-btn-del" title="Delete" onclick="deleteUserAllData('${u}')">🗑</button>
+        </div>
+      </div>
+    `;
+
+    if (isEditing) {
+      html += `<div class="up-edit-card">${renderUserEditCard(u)}</div>`;
+    }
+  });
+
+  c.innerHTML = html;
+}
+
+function openAddUserPrompt() {
+  const name = prompt("Enter Roblox Username:");
+  if (!name) return;
+  const u = name.trim().toLowerCase();
+  if (!u) return;
+  if (!config.displayNames) config.displayNames = {};
+  if (!config.displayNames[u]) config.displayNames[u] = name.trim();
+  editingUserKey = u;
+  saveConfig(); buildKeywords(); buildUserCustomization(); buildPreviewSubjectSelect();
+  switchPreviewSubject(u);
+}
+
+function toggleEditUser(u) {
+  editingUserKey = (editingUserKey === u) ? null : u;
+  buildUserCustomization();
+  if (editingUserKey) switchPreviewSubject(u);
+}
+
+function deleteUserAllData(u) {
+  if (!confirm(`Delete all customized data for "${u}"?`)) return;
+  if (config.roleUsers) {
+    Object.keys(config.roleUsers).forEach(r => {
+      config.roleUsers[r] = config.roleUsers[r].filter(x => x.toLowerCase() !== u);
+    });
+  }
+  if (config.displayNames) delete config.displayNames[u];
+  if (config.roleLabels) delete config.roleLabels[u];
+  if (config.customAvatars) delete config.customAvatars[u];
+  if (config.userColorOverrides) delete config.userColorOverrides[u];
+  if (config.userGradientOverrides) delete config.userGradientOverrides[u];
+  if (editingUserKey === u) editingUserKey = null;
+  if (previewSubject === u) previewSubject = "__role__";
+  saveConfig(); buildKeywords(); buildUserCustomization(); buildPreviewSubjectSelect(); updatePreview();
+}
+
+function getUserAssignedRole(u) {
+  if (!config.roleUsers) return "user";
+  for (const r of THEME_NAMES) {
+    if (config.roleUsers[r] && config.roleUsers[r].some(x => x.toLowerCase() === u)) return r;
+  }
+  return "user";
+}
+
+function renderUserEditCard(u) {
+  const assignedRole = getUserAssignedRole(u);
+  const dispName = (config.displayNames && config.displayNames[u]) || "";
+  const roleLbl = (config.roleLabels && config.roleLabels[u]) || "";
+  const av = (config.customAvatars && config.customAvatars[u]) || { url:"", file:"", strokeStart:"", strokeEnd:"" };
+  const overrides = (config.userColorOverrides && config.userColorOverrides[u]) || {};
+  const masterOn = overrides.enabled !== false;
+  const activeCount = THEME_COLORS.filter(k => overrides[k] !== undefined && overrides[k] !== null).length;
+
+  return `
+    <div class="uc-card">
+      <div class="uc-card-head">
+        <div class="uc-card-name"><span class="uc-user-icon">✏️</span> Edit Profile: ${u}</div>
+      </div>
+      <div class="uc-card-fields">
+        <div>
+          <label class="uc-field-label">Assigned Role</label>
+          <select onchange="setUserRole('${u}', this.value)">
+            ${THEME_NAMES.map(r => `<option value="${r}" ${assignedRole===r?'selected':''}>${r}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label class="uc-field-label">Display Name <span class="uc-optional">(Optional)</span></label>
+          <input type="text" class="input-text" placeholder="Custom In-Game Name..." value="${dispName}" onchange="setUserDisplayName('${u}', this.value)">
+        </div>
+      </div>
+      <div style="margin-top:10px;">
+        <label class="uc-field-label">Role Text <span class="uc-optional">(Optional Override)</span></label>
+        <input type="text" class="input-text" placeholder="e.g. HEAD ADMIN..." value="${roleLbl}" onchange="setUserRoleLabel('${u}', this.value)">
+      </div>
+      <div style="margin-top:10px;">
+        <label class="uc-field-label">Avatar Icon URL <span class="uc-optional">(Optional)</span></label>
+        <input type="text" class="input-text" placeholder="https://..." value="${av.url||''}" onchange="setUserAvatarUrl('${u}', this.value)">
+      </div>
+
+      <!-- COLOR OVERRIDES -->
+      <div class="uc-color-section">
+        <div class="uc-color-master-toggle">
+          <span class="toggle-label">Enable Custom Colors (${activeCount})</span>
+          <div class="toggle ${masterOn?'on':''}" onclick="toggleUserColorMaster('${u}')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="uc-color-grid ${masterOn?'':'uc-color-fields-disabled'}">
+          ${THEME_COLORS.map(k => {
+            const val = overrides[k] || "#000000";
+            const isSet = overrides[k] !== undefined && overrides[k] !== null;
+            return `
+              <div class="uc-color-field">
+                <label class="uc-field-label">${THEME_LABELS[k]}</label>
+                <div class="color-pick ${isSet?'uc-color-custom':''}">
+                  <input type="color" value="${isSet?val:'#888888'}" onchange="setUserColorOverride('${u}','${k}',this.value)">
+                  <input type="text" class="hex" value="${isSet?val:'Inherited'}" onchange="setUserColorOverride('${u}','${k}',this.value)">
+                  ${isSet ? `<button class="btn-icon" style="width:22px;height:22px;font-size:10px;" onclick="clearUserColorOverride('${u}','${k}')">✕</button>` : ''}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function setUserRole(u, role) {
+  if (!config.roleUsers) config.roleUsers = {};
+  THEME_NAMES.forEach(r => {
+    if (config.roleUsers[r]) config.roleUsers[r] = config.roleUsers[r].filter(x => x.toLowerCase() !== u);
+  });
+  if (!config.roleUsers[role]) config.roleUsers[role] = [];
+  config.roleUsers[role].push(u);
+  saveConfig(); updatePreview();
+}
+
+function setUserDisplayName(u, val) {
+  if (!config.displayNames) config.displayNames = {};
+  if (val.trim()) config.displayNames[u] = val.trim();
+  else delete config.displayNames[u];
+  saveConfig(); updatePreview();
+}
+
+function setUserRoleLabel(u, val) {
+  if (!config.roleLabels) config.roleLabels = {};
+  if (val.trim()) config.roleLabels[u] = val.trim();
+  else delete config.roleLabels[u];
+  saveConfig(); updatePreview();
+}
+
+function setUserAvatarUrl(u, val) {
+  if (!config.customAvatars) config.customAvatars = {};
+  if (!config.customAvatars[u]) config.customAvatars[u] = { url:"", file:"", strokeStart:"", strokeEnd:"" };
+  config.customAvatars[u].url = val.trim();
+  saveConfig(); updatePreview();
+}
+
+function toggleUserColorMaster(u) {
+  if (!config.userColorOverrides) config.userColorOverrides = {};
+  if (!config.userColorOverrides[u]) config.userColorOverrides[u] = {};
+  const cur = config.userColorOverrides[u].enabled !== false;
+  config.userColorOverrides[u].enabled = !cur;
+  saveConfig(); buildUserCustomization(); updatePreview();
+}
+
+function setUserColorOverride(u, key, val) {
+  if (!config.userColorOverrides) config.userColorOverrides = {};
+  if (!config.userColorOverrides[u]) config.userColorOverrides[u] = { enabled:true };
+  config.userColorOverrides[u][key] = val;
+  saveConfig(); buildUserCustomization(); updatePreview();
+}
+
+function clearUserColorOverride(u, key) {
+  if (config.userColorOverrides && config.userColorOverrides[u]) {
+    delete config.userColorOverrides[u][key];
+    saveConfig(); buildUserCustomization(); updatePreview();
+  }
+}
+
+// ── PREVIEW SUBJECT & THEME SELECTOR ──
 function buildPreviewSubjectSelect() {
   const sel = document.getElementById("prevAsSelect");
+  if (!sel) return;
+
+  let html = `<option value="__role__">Role Theme (${activeTheme.toUpperCase()})</option>`;
   const players = getAllKnownPlayers();
-  let html = `<option value="__role__">Role: ${activeTheme}</option>`;
-  if (players.length) {
-    html += players.map(p => `<option value="${p}">Player: ${p}</option>`).join("");
+  if (players.length > 0) {
+    html += `<optgroup label="Specific Players">`;
+    players.forEach(u => {
+      const disp = (config.displayNames && config.displayNames[u]) || u;
+      html += `<option value="${u}" ${previewSubject===u?'selected':''}>👤 ${disp} (@${u})</option>`;
+    });
+    html += `</optgroup>`;
   }
   sel.innerHTML = html;
-  sel.value = previewSubject !== "__role__" && players.includes(previewSubject) ? previewSubject : "__role__";
-  if (sel.value === "__role__") previewSubject = "__role__";
+  sel.value = previewSubject;
 }
 
 function switchPreviewSubject(val) {
   previewSubject = val;
   const nameInp = document.getElementById("prevName");
   const roleInp = document.getElementById("prevRole");
+
   if (val === "__role__") {
     nameInp.readOnly = false;
     roleInp.readOnly = false;
-    nameInp.value = "PlayerName";
-    const rdn = (config.roleDisplayNames || {})[activeTheme] || ROLE_DEFAULTS[activeTheme] || 'TL User';
-    roleInp.value = rdn;
   } else {
-    const role = getUserRole(val);
-    activeTheme = role;
-    nameInp.value = (config.displayNames || {})[val] || val;
-    roleInp.value = (config.roleLabels || {})[val] || (config.roleDisplayNames || {})[role] || ROLE_DEFAULTS[role] || 'TL User';
     nameInp.readOnly = true;
     roleInp.readOnly = true;
   }
-  buildThemeTabs(); buildColorGrid(); buildPreviewThemeBtns();
+
+  buildPreviewSubjectSelect();
+  buildPreviewThemeBtns();
   updatePreview();
   saveUIState();
 }
 
 function buildPreviewThemeBtns() {
-  document.getElementById("previewThemeBtns").innerHTML = THEME_NAMES.map(t => `<button type="button" class="preview-theme-btn ${t===activeTheme && previewSubject==='__role__'?'active':''}" onclick="switchTheme('${t}')">${t}</button>`).join("");
+  const c = document.getElementById("previewThemeBtns");
+  if (!c) return;
+
+  let effectiveRole = activeTheme;
+  if (previewSubject !== "__role__") effectiveRole = getUserAssignedRole(previewSubject);
+
+  c.innerHTML = THEME_NAMES.map(t => `
+    <button class="preview-theme-btn ${t===activeTheme?'active':''} ${t===effectiveRole && previewSubject!=='__role__'?'player-active':''}" onclick="switchTheme('${t}')">
+      ${t}
+    </button>
+  `).join('');
 }
 
-// Explains why the live preview might not match what's currently open in the theme color
-// editor above it. Two independent causes, both silent otherwise:
-//   1) "Preview as" is showing a specific player, whose role theme (not necessarily the
-//      currently-open theme tab) is what's actually being rendered.
-//   2) That player has one or more active custom color overrides layered on top, which win
-//      over the role theme's colors entirely regardless of which tab is open.
-// Editing a theme's color fields while either applies has zero visible effect on the preview,
-// which is exactly the "I changed the setting but the name stayed the same color" symptom.
-function updatePreviewSubjectNote(override) {
-  const note = document.getElementById("previewSubjectNote");
-  if (!note) return;
-  if (previewSubject === "__role__") { note.style.display = "none"; return; }
+// ── LIVE PREVIEW ──
+function updatePreview() {
+  const nameDisplay = document.getElementById("ntNameDisplay");
+  const roleDisplay = document.getElementById("ntRoleDisplay");
+  const ntPreview = document.getElementById("ntPreview");
+  const ntAv = document.getElementById("ntAv");
+  const ntAvInner = document.getElementById("ntAvInner");
+  const ntDivider = document.getElementById("ntDivider");
+  const ntBorder = document.getElementById("ntBorder");
+  const particlesContainer = document.getElementById("ntParticles");
+  const noteEl = document.getElementById("previewSubjectNote");
 
-  const role = getUserRole(previewSubject);
-  const parts = [];
-  if (role !== activeTheme) {
-    parts.push(`showing the <b>${role}</b> role theme, not the <b>${activeTheme}</b> tab open above`);
-  }
-  if (override) {
-    const overriddenFields = THEME_COLORS.filter(k => override[k]);
-    if (overriddenFields.length) {
-      const label = overriddenFields.map(k => THEME_LABELS[k] || k).join(", ");
-      parts.push(`has custom color overrides active (${label}) that take priority over any theme color`);
+  let effectiveRole = activeTheme;
+  let nameText = document.getElementById("prevName").value;
+  let roleText = document.getElementById("prevRole").value;
+  let avUrl = "";
+  let colorOverrides = null;
+
+  if (previewSubject !== "__role__") {
+    const u = previewSubject;
+    effectiveRole = getUserAssignedRole(u);
+    nameText = (config.displayNames && config.displayNames[u]) || u;
+    roleText = (config.roleLabels && config.roleLabels[u]) || (config.roleDisplayNames && config.roleDisplayNames[effectiveRole]) || ROLE_DEFAULTS[effectiveRole] || "TL USER";
+    if (document.getElementById("prevName")) document.getElementById("prevName").value = nameText;
+    if (document.getElementById("prevRole")) document.getElementById("prevRole").value = roleText;
+
+    if (config.customAvatars && config.customAvatars[u] && config.customAvatars[u].url) {
+      avUrl = config.customAvatars[u].url;
+    }
+
+    if (config.userColorOverrides && config.userColorOverrides[u] && config.userColorOverrides[u].enabled !== false) {
+      colorOverrides = config.userColorOverrides[u];
     }
   }
-  if (parts.length) {
-    note.innerHTML = `⚠ Previewing <b>${previewSubject}</b> — ${parts.join(" and ")}. Theme color edits above won't show here until you switch "Preview as" back to a role, or adjust this player's overrides instead.`;
-    note.style.display = "block";
-  } else {
-    note.style.display = "none";
-  }
-}
 
-// ── UPDATE PREVIEW ──
-function updatePreview() {
-  const baseTheme = config.themes[activeTheme];
-  // If previewing a specific player, layer their color overrides on top of their role's theme —
-  // but only when that player's "Custom colors enabled" switch is on. When it's off, the override
-  // object is kept (nothing gets deleted) but ignored here, so the plain role theme is used and any
-  // custom gradient set for this player is free to show through instead of being masked by it.
-  const rawOverride = (previewSubject !== "__role__") ? (config.userColorOverrides || {})[previewSubject] : null;
-  const override = (rawOverride && rawOverride.__enabled !== false) ? rawOverride : null;
-  const t = override ? { ...baseTheme, ...Object.fromEntries(Object.entries(override).filter(([k,v]) => v && k !== '__enabled')) } : baseTheme;
-  updatePreviewSubjectNote(override);
+  const theme = config.themes[effectiveRole] || config.themes.user;
+
+  if (noteEl) {
+    if (previewSubject !== "__role__" && effectiveRole !== activeTheme) {
+      noteEl.style.display = "block";
+      noteEl.innerHTML = `⚠️ Previewing <b>@${previewSubject}</b> (Assigned role: <b>${effectiveRole.toUpperCase()}</b>). Colors reflect ${effectiveRole.toUpperCase()} theme settings, not the open ${activeTheme.toUpperCase()} tab.`;
+    } else {
+      noteEl.style.display = "none";
+    }
+  }
+
+  const bg = (colorOverrides && colorOverrides.bg) || theme.bg;
+  const avatarBg = (colorOverrides && colorOverrides.avatarBg) || theme.avatarBg;
+  const avatarText = (colorOverrides && colorOverrides.avatarText) || theme.avatarText;
+  const divider = (colorOverrides && colorOverrides.divider) || theme.divider;
+  const border = (colorOverrides && colorOverrides.border) || theme.border;
+  const nameColor = (colorOverrides && colorOverrides.nameText) || theme.nameText;
+  const roleColor = (colorOverrides && colorOverrides.roleText) || theme.roleText;
+
   const l = config.layout;
   const a = config.animations;
-  const p = config.particles;
 
-  // Dynamic name & role from input fields!
-  const dynName = document.getElementById("prevName").value || "PlayerName";
-  const dynRole = document.getElementById("prevRole").value || "ROLE";
-
-  const preview = document.getElementById("ntPreview");
-  preview.style.width = l.billboardWidth + "px";
-  preview.style.height = l.billboardHeight + "px";
-  preview.style.filter = "";
-  preview.style.backgroundBlendMode = "";
-  // Card background priority: this player's custom cardGradient > the global cardGradient >
-  // the older per-theme bgGradient toggle > the plain bg color. Previously the "Custom gradients"
-  // section (cardGradient) was never read here at all, so enabling it had no visible effect.
-  const cardGradOverride = (previewSubject !== "__role__") ? (config.userGradientOverrides || {})[previewSubject]?.cardGradient : null;
-  const cardGradRole = getRoleGradient(activeTheme, 'cardGradient');
-  const activeCardGrad = (cardGradOverride && cardGradOverride.enabled) ? cardGradOverride : (cardGradRole && cardGradRole.enabled ? cardGradRole : null);
-  if (activeCardGrad) {
-    preview.style.background = renderCustomGradientCss(activeCardGrad) || t.bg;
-  } else if (t.bgGradient) {
-    preview.style.background = renderGradientCss(t);
+  if (theme.bgGradient && !colorOverrides) {
+    ntPreview.style.background = renderGradientCss(theme);
   } else {
-    preview.style.background = t.bg;
+    ntPreview.style.background = bg;
   }
-  preview.style.opacity = 1 - a.cardTransparency;
+  ntPreview.style.opacity = 1 - a.cardTransparency;
+  ntPreview.style.width = l.billboardWidth + "px";
+  ntPreview.style.height = l.billboardHeight + "px";
+  ntPreview.style.borderRadius = l.cornerRadius + "px";
 
-  const border = document.getElementById("ntBorder");
-  border.style.borderRadius = l.cornerRadius + "px";
-  border.style.opacity = 1 - a.borderTransparency;
-  const borderGrad = getRoleGradient(activeTheme, 'borderGradient');
-  const borderGradOv = (previewSubject !== "__role__") ? (config.userGradientOverrides || {})[previewSubject]?.borderGradient : null;
-  const activeBorderGrad = (borderGradOv && borderGradOv.enabled) ? borderGradOv : (borderGrad && borderGrad.enabled ? borderGrad : null);
-  if (activeBorderGrad) {
-    const gradCss = renderCustomGradientCss(activeBorderGrad);
-    border.style.border = l.borderThickness + "px solid transparent";
-    border.style.background = gradCss + " padding-box";
-    border.style.webkitMask = "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)";
-    border.style.webkitMaskComposite = "xor";
-    border.style.maskComposite = "exclude";
-  } else {
-    border.style.border = l.borderThickness + "px solid " + t.border;
-    border.style.background = "none";
-    border.style.webkitMask = "";
-    border.style.maskComposite = "";
+  ntBorder.style.border = `${l.borderThickness}px solid ${border}`;
+  ntBorder.style.borderRadius = l.cornerRadius + "px";
+  ntBorder.style.opacity = 1 - a.borderTransparency;
+
+  ntAv.style.width = l.avatarWidth + "px";
+  ntAv.style.background = avatarBg;
+
+  if (!avUrl && config.profilePictures && config.profilePictures[effectiveRole] && config.profilePictures[effectiveRole].url) {
+    avUrl = config.profilePictures[effectiveRole].url;
   }
 
-  const av = document.getElementById("ntAv");
-  av.style.width = l.avatarWidth + "px";
-  av.style.borderRadius = l.cornerRadius + "px 0 0 " + l.cornerRadius + "px";
-  const avGrad = getRoleGradient(activeTheme, 'avatarGradient');
-  const avGradOv = (previewSubject !== "__role__") ? (config.userGradientOverrides || {})[previewSubject]?.avatarGradient : null;
-  const activeAvGrad = (avGradOv && avGradOv.enabled) ? avGradOv : (avGrad && avGrad.enabled ? avGrad : null);
-  if (activeAvGrad) {
-    av.style.background = renderCustomGradientCss(activeAvGrad) || t.avatarBg;
+  if (avUrl) {
+    ntAvInner.innerHTML = `<img src="${avUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:${l.innerCornerRadius}px;" onerror="this.outerHTML='<span style=\\'color:${avatarText}\\'>TL</span>'">`;
   } else {
-    av.style.background = t.avatarBg;
+    const initials = (nameText || "TL").slice(0, 2).toUpperCase();
+    ntAvInner.innerHTML = `<span style="color:${avatarText}; font-size:${l.initialsTextSize||11}px;">${initials}</span>`;
   }
+  ntAvInner.style.borderRadius = l.innerCornerRadius + "px";
 
-  const avInner = document.getElementById("ntAvInner");
-  avInner.style.fontSize = l.initialsTextSize + "px";
-  avInner.style.color = t.avatarText;
-  avInner.textContent = dynName.substring(0, 2).toUpperCase(); // Dynamic initials
+  ntDivider.style.width = l.dividerWidth + "px";
+  ntDivider.style.background = divider;
+  ntDivider.style.opacity = 1 - l.dividerTransparency;
+  ntDivider.style.margin = `${(1 - l.dividerHeightPct) * 50}% 0`;
 
-  const divider = document.getElementById("ntDivider");
-  divider.style.width = l.dividerWidth + "px";
-  divider.style.background = t.divider;
-  divider.style.opacity = 1 - l.dividerTransparency;
-  divider.style.margin = (l.billboardHeight * (1 - l.dividerHeightPct) / 2) + "px 0";
+  let finalRoleText = roleText;
+  if (l.roleTextTransform === "upper") finalRoleText = roleText.toUpperCase();
+  else if (l.roleTextTransform === "lower") finalRoleText = roleText.toLowerCase();
 
-  const nameEl = document.getElementById("ntNameDisplay");
-  nameEl.style.fontSize = l.nameTextSize + "px";
-  nameEl.style.height = (l.nameLabelHeight || 20) + "px";
-  nameEl.style.lineHeight = (l.nameLabelHeight || 20) + "px";
-  nameEl.style.left = ((l.avatarWidth || 44) + (l.avatarTextGap || 10)) + "px";
-  nameEl.style.top = (l.nameLabelY || 4) + "px";
-  nameEl.style.right = (l.textPaddingRight || 4) + "px";
-  nameEl.textContent = dynName;
-  const nameGrad = getRoleGradient(activeTheme, 'nameGradient');
-  const nameGradOv = (previewSubject !== "__role__") ? (config.userGradientOverrides || {})[previewSubject]?.nameGradient : null;
-  const activeNameGrad = (nameGradOv && nameGradOv.enabled) ? nameGradOv : (nameGrad && nameGrad.enabled ? nameGrad : null);
-  if (activeNameGrad) {
-    nameEl.style.color = "transparent";
-    nameEl.style.background = renderCustomGradientCss(activeNameGrad) || t.nameText;
-    nameEl.style.backgroundClip = "text";
-    nameEl.style.webkitBackgroundClip = "text";
-    nameEl.style.webkitTextFillColor = "transparent";
-  } else {
-    nameEl.style.color = t.nameText;
-    nameEl.style.background = "none";
-    nameEl.style.backgroundClip = "";
-    nameEl.style.webkitBackgroundClip = "";
-    nameEl.style.webkitTextFillColor = "";
-  }
+  const leftOffset = (l.avatarWidth || 44) + (l.avatarTextGap || 10);
+  const rightOffset = l.textPaddingRight || 4;
 
-  const roleEl = document.getElementById("ntRoleDisplay");
-  roleEl.style.fontSize = l.roleTextSize + "px";
-  roleEl.style.height = (l.roleLabelHeight || 12) + "px";
-  roleEl.style.lineHeight = (l.roleLabelHeight || 12) + "px";
-  roleEl.style.left = ((l.avatarWidth || 44) + (l.avatarTextGap || 10)) + "px";
-  roleEl.style.top = (l.roleLabelY || 26) + "px";
-  roleEl.style.right = (l.textPaddingRight || 4) + "px";
-  const roleTextTransform = l.roleTextTransform || "upper";
-  if (roleTextTransform === "upper") roleEl.textContent = dynRole.toUpperCase();
-  else if (roleTextTransform === "lower") roleEl.textContent = dynRole.toLowerCase();
-  else roleEl.textContent = dynRole;
-  roleEl.style.textTransform = roleTextTransform === "none" ? "none" : roleTextTransform === "lower" ? "lowercase" : "uppercase";
-  const roleGrad = getRoleGradient(activeTheme, 'roleGradient');
-  const roleGradOv = (previewSubject !== "__role__") ? (config.userGradientOverrides || {})[previewSubject]?.roleGradient : null;
-  const activeRoleGrad = (roleGradOv && roleGradOv.enabled) ? roleGradOv : (roleGrad && roleGrad.enabled ? roleGrad : null);
-  if (activeRoleGrad) {
-    roleEl.style.color = "transparent";
-    roleEl.style.background = renderCustomGradientCss(activeRoleGrad) || t.roleText;
-    roleEl.style.backgroundClip = "text";
-    roleEl.style.webkitBackgroundClip = "text";
-    roleEl.style.webkitTextFillColor = "transparent";
-  } else {
-    roleEl.style.color = t.roleText;
-    roleEl.style.background = "none";
-    roleEl.style.backgroundClip = "";
-    roleEl.style.webkitBackgroundClip = "";
-    roleEl.style.webkitTextFillColor = "";
-  }
+  nameDisplay.textContent = nameText;
+  nameDisplay.style.color = nameColor;
+  nameDisplay.style.fontSize = l.nameTextSize + "px";
+  nameDisplay.style.left = leftOffset + "px";
+  nameDisplay.style.right = rightOffset + "px";
+  nameDisplay.style.top = (l.nameLabelY || 4) + "px";
+  nameDisplay.style.height = (l.nameLabelHeight || 20) + "px";
 
-  // Dynamische Partikel (Fix: gilt jetzt für das aktuelle Theme, nicht nur "owner")
-  const pCont = document.getElementById("ntParticles");
-  pCont.innerHTML = "";
-  if (p.enabled && p.colors && p.colors.length > 0) {
-    for (let i = 0; i < Math.min(p.count, 15); i++) {
-      const dot = document.createElement("div");
-      dot.className = "nt-particle";
-      const sz = p.minSize + Math.random() * (p.maxSize - p.minSize);
-      dot.style.width = sz + "px"; dot.style.height = sz + "px";
-      dot.style.background = p.colors[i % p.colors.length];
-      dot.style.opacity = 1 - p.transparency;
-      dot.style.left = (10 + Math.random() * 80) + "%";
-      dot.style.top = (10 + Math.random() * 80) + "%";
-      dot.style.setProperty("--dx", (Math.random()*40-20)+"px");
-      dot.style.setProperty("--dy", (Math.random()*40-20)+"px");
-      dot.style.animationDuration = (p.moveDurationMin + Math.random()*(p.moveDurationMax-p.moveDurationMin)) + "s";
-      pCont.appendChild(dot);
+  roleDisplay.textContent = finalRoleText;
+  roleDisplay.style.color = roleColor;
+  roleDisplay.style.fontSize = l.roleTextSize + "px";
+  roleDisplay.style.left = leftOffset + "px";
+  roleDisplay.style.right = rightOffset + "px";
+  roleDisplay.style.top = (l.roleLabelY || 26) + "px";
+  roleDisplay.style.height = (l.roleLabelHeight || 12) + "px";
+
+  particlesContainer.innerHTML = "";
+  if (config.particles && config.particles.enabled) {
+    const p = config.particles;
+    for (let i = 0; i < p.count; i++) {
+      const pEl = document.createElement("div");
+      pEl.className = "nt-particle";
+      const size = Math.random() * (p.maxSize - p.minSize) + p.minSize;
+      const col = p.colors[i % p.colors.length] || "#ffffff";
+      const dx = (Math.random() - 0.5) * 40;
+      const dy = (Math.random() - 0.5) * 40;
+      const dur = Math.random() * (p.moveDurationMax - p.moveDurationMin) + p.moveDurationMin;
+
+      pEl.style.width = size + "px";
+      pEl.style.height = size + "px";
+      pEl.style.background = col;
+      pEl.style.opacity = 1 - p.transparency;
+      pEl.style.left = Math.random() * 80 + 10 + "%";
+      pEl.style.top = Math.random() * 80 + 10 + "%";
+      pEl.style.setProperty("--dx", dx + "px");
+      pEl.style.setProperty("--dy", dy + "px");
+      pEl.style.animationDuration = dur + "s";
+      particlesContainer.appendChild(pEl);
     }
   }
-  saveConfig();
 }
 
 // ── EXPORT / IMPORT ──
 function exportJSON() {
-  // Apply target user to config
-  config.targetUser = document.getElementById("targetUserInp").value.trim();
-  document.getElementById("exportArea").value = JSON.stringify(config, null, 2);
-  document.getElementById("exportModal").classList.add("open");
-  document.body.classList.add("modal-open");
+  const area = document.getElementById("exportArea");
+  area.value = JSON.stringify(config, null, 2);
+  openModal("exportModal");
 }
-function copyExport() { navigator.clipboard.writeText(document.getElementById("exportArea").value).catch(()=>{}); toast("JSON copied to clipboard!"); closeModal("exportModal"); }
+
 function downloadJSON() {
-  const blob = new Blob([JSON.stringify(config, null, 2)], {type:"application/json"});
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = config.targetUser ? `NametagConfig_${config.targetUser}.json` : "NametagConfig_Global.json";
-  a.click(); toast("File downloaded!");
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 2));
+  const dl = document.createElement("a");
+  dl.setAttribute("href", dataStr);
+  dl.setAttribute("download", "NametagConfig.json");
+  document.body.appendChild(dl);
+  dl.click();
+  dl.remove();
 }
-function importJSON() { document.getElementById("importArea").value = ""; document.getElementById("importModal").classList.add("open"); document.body.classList.add("modal-open"); }
+
+function copyExport() {
+  const area = document.getElementById("exportArea");
+  area.select();
+  navigator.clipboard.writeText(area.value).then(() => showToast("Copied to clipboard!"));
+}
+
+function importJSON() { openModal("importModal"); }
+
 function doImport() {
+  const area = document.getElementById("importArea");
   try {
-    const data = JSON.parse(document.getElementById("importArea").value);
-    if(!data.version) throw new Error("Invalid format (No version)");
-    config = data; init(); closeModal("importModal"); saveConfig(); toast("Erfolgreich importiert!");
-  } catch(e) { toast("Error: " + e.message); }
+    const parsed = JSON.parse(area.value);
+    if (parsed && typeof parsed === "object") {
+      config = parsed;
+      saveConfig();
+      init();
+      closeModal("importModal");
+      showToast("Configuration imported successfully!");
+    } else {
+      alert("Invalid JSON configuration structure.");
+    }
+  } catch(e) {
+    alert("JSON Parse Error: " + e.message);
+  }
 }
+
 function resetDefaults() {
-  if(!confirm("Do you really want to reset all settings?")) return;
-  config = JSON.parse(JSON.stringify(DEFAULTS)); init(); saveConfig(); toast("Reset to defaults!");
+  if (confirm("Reset configuration to default settings?")) {
+    config = JSON.parse(JSON.stringify(DEFAULTS));
+    saveConfig();
+    init();
+    showToast("Reset to defaults!");
+  }
 }
 
 // ── GITHUB SYNC ──
-const GH_STORAGE_KEY = "tl-nametag-github";
+function saveGitHubConfig() {
+  const token = document.getElementById("ghToken").value.trim();
+  const owner = document.getElementById("ghOwner").value.trim();
+  const repo = document.getElementById("ghRepo").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim();
+  const manifest = document.getElementById("ghManifestPath").value.trim();
+
+  localStorage.setItem("tl-gh-token", token);
+  localStorage.setItem("tl-gh-owner", owner);
+  localStorage.setItem("tl-gh-repo", repo);
+  localStorage.setItem("tl-gh-branch", branch);
+  localStorage.setItem("tl-gh-manifest", manifest);
+}
 
 function loadGitHubConfig() {
-  try {
-    const raw = localStorage.getItem(GH_STORAGE_KEY);
-    if (raw) {
-      const gh = JSON.parse(raw);
-      if (gh.token) document.getElementById("ghToken").value = gh.token;
-      if (gh.owner) document.getElementById("ghOwner").value = gh.owner;
-      if (gh.repo) document.getElementById("ghRepo").value = gh.repo;
-      if (gh.branch) document.getElementById("ghBranch").value = gh.branch;
-      if (gh.manifestPath) document.getElementById("ghManifestPath").value = gh.manifestPath;
-    }
-  } catch(e) {}
-}
-
-function saveGitHubConfig() {
-  try {
-    localStorage.setItem(GH_STORAGE_KEY, JSON.stringify({
-      token: document.getElementById("ghToken").value.trim(),
-      owner: document.getElementById("ghOwner").value.trim(),
-      repo: document.getElementById("ghRepo").value.trim(),
-      branch: document.getElementById("ghBranch").value.trim(),
-      manifestPath: document.getElementById("ghManifestPath").value.trim()
-    }));
-  } catch(e) {}
-}
-
-function ghHeaders() {
-  return {
-    "Authorization": "Bearer " + document.getElementById("ghToken").value.trim(),
-    "Accept": "application/vnd.github.v3+json",
-    "Content-Type": "application/json"
-  };
-}
-
-function ghBase() {
-  const o = document.getElementById("ghOwner").value.trim();
-  const r = document.getElementById("ghRepo").value.trim();
-  return "https://api.github.com/repos/" + o + "/" + r;
-}
-
-async function ghGetFile(path) {
-  const branch = document.getElementById("ghBranch").value.trim() || "main";
-  const url = ghBase() + "/contents/" + path + "?ref=" + branch;
-  const res = await fetch(url, { headers: ghHeaders() });
-  if (res.status === 404) return { sha: null, content: null };
-  if (!res.ok) throw new Error("GET " + path + " failed: " + res.status);
-  const data = await res.json();
-  return { sha: data.sha, content: atob(data.content) };
-}
-
-async function ghPutFile(path, content, message, sha) {
-  const branch = document.getElementById("ghBranch").value.trim() || "main";
-  const body = {
-    message: message,
-    content: btoa(unescape(encodeURIComponent(content))),
-    branch: branch
-  };
-  if (sha) body.sha = sha;
-  const res = await fetch(ghBase() + "/contents/" + path, {
-    method: "PUT",
-    headers: ghHeaders(),
-    body: JSON.stringify(body)
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(function(){ return {}; });
-    throw new Error(err.message || "PUT " + path + " failed: " + res.status);
-  }
-  return res.json();
-}
-
-function closeModal(id) { document.getElementById(id).classList.remove("open"); document.body.classList.remove("modal-open"); }
-
-function generateManifestFromConfig(cfg) {
-  var meta = { version: 4, baseUrl: "https://raw.githubusercontent.com/TLMenu/TLMenu.github.io/refs/heads/main", tlassetsUrl: "https://raw.githubusercontent.com/TLMenu/TLASSETS/main" };
-  var images = [];
-  var audio = [
-    {"name":"Loading Screen","repo":"tlassets:TL-MP3/TLMenuLoadingScreen.mp3","file":"assets/TL-MP3-FILES/TLMenuLoadingScreen.mp3","priority":1,"tag":"sfx.loading"},
-    {"name":"Admin Join Audio","repo":"tlassets:TL-MP3/TLSYSTEM-ADMIN-SFX.mp3","file":"assets/TL-MP3-FILES/TLSYSTEM-ADMIN-SFX.mp3","priority":1,"tag":"sfx.admin"},
-    {"name":"The Boys Music","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/THEBOYS/The%20Boys%20Homelander%20Theme%20Enhanced%20Version.mp3","file":"assets/TL-MP3-FILES/Theme-TheBoys-Music.mp3","priority":2,"tag":"music.theboys"},
-    {"name":"Dragonball Music","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/DRAGONBALL/DRAGONBALL-THEME-MUSIC-1.mp3","file":"assets/TL-MP3-FILES/DragonBall-Music1.mp3","priority":2,"tag":"music.dragonball"},
-    {"name":"OP: Track 1","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(1).mp3","file":"assets/TL-MP3-FILES/OP-M-00.mp3","priority":2,"tag":"music.op.00"},
-    {"name":"OP: Track 2","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(2).mp3","file":"assets/TL-MP3-FILES/OP-M-01.mp3","priority":2,"tag":"music.op.01"},
-    {"name":"OP: Track 3","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(3).mp3","file":"assets/TL-MP3-FILES/OP-M-02.mp3","priority":2,"tag":"music.op.02"},
-    {"name":"OP: Track 4","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(4).mp3","file":"assets/TL-MP3-FILES/OP-M-03.mp3","priority":2,"tag":"music.op.03"},
-    {"name":"OP: Track 5","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(5).mp3","file":"assets/TL-MP3-FILES/OP-M-04.mp3","priority":2,"tag":"music.op.04"},
-    {"name":"OP: Track 6","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(6).mp3","file":"assets/TL-MP3-FILES/OP-M-05.mp3","priority":2,"tag":"music.op.05"},
-    {"name":"OP: Track 7","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(7).mp3","file":"assets/TL-MP3-FILES/OP-M-06.mp3","priority":2,"tag":"music.op.06"},
-    {"name":"OP: Track 8","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(8).mp3","file":"assets/TL-MP3-FILES/OP-M-07.mp3","priority":2,"tag":"music.op.07"},
-    {"name":"OP: Track 9","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(9).mp3","file":"assets/TL-MP3-FILES/OP-M-08.mp3","priority":2,"tag":"music.op.08"},
-    {"name":"OP: Track 10","repo":"tlassets:TL-MP3/THEME-MP3/THEME-MUSIC/ONEPIECE/ONEPIECE-THEMEMUSIC-1%20(10).mp3","file":"assets/TL-MP3-FILES/OP-M-09.mp3","priority":2,"tag":"music.op.09"},
-    {"name":"AFK: DB Voice 0","repo":"tlassets:TL-MP3/THEME-MP3/DRAGONBALL-AFKSFX/DRAGONBALL-AFK-VOICELINE.mp3","file":"assets/TL-MP3-FILES/DB-AFK-VL0.mp3","priority":2,"tag":"afk.dragonball.0"},
-    {"name":"AFK: DB Voice 1","repo":"tlassets:TL-MP3/THEME-MP3/DRAGONBALL-AFKSFX/DRAGONBALL-AFK-VOICELINE1.mp3","file":"assets/TL-MP3-FILES/DB-AFK-VL1.mp3","priority":2,"tag":"afk.dragonball.1"},
-    {"name":"AFK: OP Voice 0","repo":"tlassets:TL-MP3/THEME-MP3/ONEPIECE-AFKSFX/ONEPIECE-AFK-VOICELINE.mp3","file":"assets/TL-MP3-FILES/OP-AFK-VL0.mp3","priority":2,"tag":"afk.onepiece.0"},
-    {"name":"AFK: OP Voice 1","repo":"tlassets:TL-MP3/THEME-MP3/ONEPIECE-AFKSFX/ONEPIECE-AFK-VOICELINE1.mp3","file":"assets/TL-MP3-FILES/OP-AFK-VL1.mp3","priority":2,"tag":"afk.onepiece.1"}
-  ];
-  var staticTags = new Set();
-  var staticEntries = [
-    {"name":"TL Owner Profile","repo":"NAMETAG-PROFILEPICTURES/TL-telelumi.png","file":"assets/ROLE-ICONS/TL-telelumi.png","priority":1,"tag":"profilepic.owner"},
-    {"name":"TL User Profile","repo":"tlassets:ROLE-ICONS/TLUSER-ROLE.png","file":"assets/ROLE-ICONS/TLUSER-ROLE.png","priority":1,"tag":"profilepic.user"},
-    {"name":"TL Staff Icon","repo":"tlassets:ROLE-ICONS/TL-STAFF.png","file":"assets/ROLE-ICONS/TL-STAFF.png","priority":1,"tag":"icon.staff"},
-    {"name":"Visual2 Icon","repo":"tlassets:TL-DEFAULT/Visual2-Icon.png","file":"assets/TL-DEFAULT/Visual2-Icon.png","priority":2,"tag":"tab.visual2"},
-    {"name":"MusicPlay Icon","repo":"tlassets:TL-DEFAULT/MusicPlay-Icon.png","file":"assets/TL-DEFAULT/MusicPlay-Icon.png","priority":2,"tag":"music.play"},
-    {"name":"MusicPause Icon","repo":"tlassets:TL-DEFAULT/MusicPause-Icon.png","file":"assets/TL-DEFAULT/MusicPause-Icon.png","priority":2,"tag":"music.pause"},
-    {"name":"MusicBack Icon","repo":"tlassets:TL-DEFAULT/MusicBack-Icon.png","file":"assets/TL-DEFAULT/MusicBack-Icon.png","priority":2,"tag":"music.back"},
-    {"name":"MusicSkip Icon","repo":"tlassets:TL-DEFAULT/MusicSkip-Icon.png","file":"assets/TL-DEFAULT/MusicSkip-Icon.png","priority":2,"tag":"music.skip"},
-    {"name":"TLMagnifier Icon","repo":"tlassets:TL-DEFAULT/TLMagnifier-Tool-Icon.png","file":"assets/TL-DEFAULT/TLMagnifier-Tool-Icon.png","priority":2,"tag":"tool.magnifier"},
-    {"name":"CustomCursor Icon","repo":"tlassets:TL-DEFAULT/CustomCursor-Icon%20(2).png","file":"assets/TL-DEFAULT/CustomCursor-Icon.png","priority":2,"tag":"tool.cursor"},
-    {"name":"QA Hug Icon","repo":"tlassets:TL-DEFAULT/QuickAction%20Hug-Icon.png","file":"assets/TL-DEFAULT/QuickAction-Hug-Icon.png","priority":2,"tag":"qa.hug"},
-    {"name":"QA Kiss Icon","repo":"tlassets:TL-DEFAULT/QuickAction%20Kiss-Icon.png","file":"assets/TL-DEFAULT/QuickAction-Kiss-Icon.png","priority":2,"tag":"qa.kiss"},
-    {"name":"QA Slap Icon","repo":"tlassets:TL-DEFAULT/QuickAction%20Slap-Icon.png","file":"assets/TL-DEFAULT/QuickAction-Slap-Icon.png","priority":2,"tag":"qa.slap"},
-    {"name":"QA Headbutt Icon","repo":"tlassets:TL-DEFAULT/QuickAction%20Headbutt-Icon.png","file":"assets/TL-DEFAULT/QuickAction-Headbutt-Icon.png","priority":2,"tag":"qa.headbutt"},
-    {"name":"QA Backshots Icon","repo":"tlassets:TL-DEFAULT/QuickAction%20Backshots-Icon.png","file":"assets/TL-DEFAULT/QuickAction-Backshots-Icon.png","priority":2,"tag":"qa.backshots"},
-    {"name":"TL Arda Avatar","repo":"NAMETAG-PROFILEPICTURES/TL-Arda.png","file":"assets/ROLE-ICONS/TL-Arda.png","priority":1,"tag":"avatar.arda"},
-    {"name":"TL Sec Avatar","repo":"NAMETAG-PROFILEPICTURES/TL-Sec.png","file":"assets/ROLE-ICONS/TL-Sec.png","priority":1,"tag":"avatar.sec"},
-    {"name":"TL Sleepy Avatar","repo":"NAMETAG-PROFILEPICTURES/TL-Sleepy.jpg","file":"assets/ROLE-ICONS/TL-Sleepy.jpg","priority":1,"tag":"avatar.sleepy"},
-    {"name":"R5yn Avatar","repo":"NAMETAG-PROFILEPICTURES/R5yn.png","file":"assets/ROLE-ICONS/R5yn.png","priority":1,"tag":"avatar.r5yn"},
-    {"name":"usxirr Avatar","repo":"NAMETAG-PROFILEPICTURES/TL-Oso.png","file":"assets/ROLE-ICONS/TL-Usxirr.png","priority":1,"tag":"avatar.usxirr"},
-    {"name":"Abxsent0 Avatar","repo":"tlassets:ROLE-ICONS/TL-Abxsent0.png","file":"assets/ROLE-ICONS/TL-Abxsent0.png","priority":1,"tag":"avatar.abxsent0"},
-    {"name":"Communication Icon","repo":"tlassets:TL-DEFAULT/Com-Icon.png","file":"assets/TL-DEFAULT/Com-Icon.png","priority":1,"tag":"tab.com"},
-    {"name":"VC Unmuted Icon","repo":"tlassets:TL-DEFAULT/ANTIVCBAN-Unmuted-Icon.png","file":"assets/TL-DEFAULT/TL_Unmuted.png","priority":1,"tag":"vc.unmuted"},
-    {"name":"VC Muted Icon","repo":"tlassets:TL-DEFAULT/ANTIVCBAN-Mute-Icon.png","file":"assets/TL-DEFAULT/TL_Muted.png","priority":1,"tag":"vc.muted"},
-    {"name":"Home Tab Icon","repo":"tlassets:TL-DEFAULT/HomeTab-Icon.png","file":"assets/TL-DEFAULT/HomeTab-Icon.png","priority":1,"tag":"tab.home"},
-    {"name":"Character Tab Icon","repo":"tlassets:TL-DEFAULT/Character-Icon.png","file":"assets/TL-DEFAULT/Character-Icon.png","priority":1,"tag":"tab.character"},
-    {"name":"Scripts Tab Icon","repo":"tlassets:TL-DEFAULT/Scripts-Icon.png","file":"assets/TL-DEFAULT/Scripts-Icon.png","priority":1,"tag":"tab.scripts"},
-    {"name":"Actions Tab Icon","repo":"tlassets:TL-DEFAULT/ActionTab-Icon.png","file":"assets/TL-DEFAULT/ActionTab-Icon.png","priority":1,"tag":"tab.actions"},
-    {"name":"Playerlist Tab Icon","repo":"tlassets:TL-DEFAULT/Playerlist-Icon.png","file":"assets/TL-DEFAULT/Playerlist-Icon.png","priority":1,"tag":"tab.playerlist"},
-    {"name":"Emote Icon","repo":"tlassets:TL-DEFAULT/Emote-Icon.png","file":"assets/TL-DEFAULT/Emote-Icon.png","priority":2,"tag":"tab.emote"},
-    {"name":"Music Icon","repo":"tlassets:TL-DEFAULT/Music-Icon.png","file":"assets/TL-DEFAULT/Music-Icon.png","priority":2,"tag":"tab.music"},
-    {"name":"Visual Icon","repo":"tlassets:TL-DEFAULT/Visual-Icon.png","file":"assets/TL-DEFAULT/Visual-Icon.png","priority":2,"tag":"tab.visual"},
-    {"name":"Movement Icon","repo":"tlassets:TL-DEFAULT/Movement-Icon.png","file":"assets/TL-DEFAULT/Movement-Icon.png","priority":2,"tag":"tab.movement"},
-    {"name":"Misc Icon","repo":"tlassets:TL-DEFAULT/Misc-Icon.png","file":"assets/TL-DEFAULT/Misc-Icon.png","priority":2,"tag":"tab.misc"},
-    {"name":"Colors Icon","repo":"tlassets:TL-DEFAULT/Colors-Icon.png","file":"assets/TL-DEFAULT/Colors-Icon.png","priority":2,"tag":"tab.colors"},
-    {"name":"Theme Icon","repo":"tlassets:TL-DEFAULT/Theme-Icon.png","file":"assets/TL-DEFAULT/Theme-Icon.png","priority":2,"tag":"tab.theme"},
-    {"name":"Themes Icon","repo":"tlassets:TL-DEFAULT/Themes-Icon.png","file":"assets/TL-DEFAULT/Themes-Icon.png","priority":2,"tag":"tab.themes"},
-    {"name":"Keybind Icon","repo":"tlassets:TL-DEFAULT/Keybind-Icon.png","file":"assets/TL-DEFAULT/Keybind-Icon.png","priority":2,"tag":"tab.keybind"},
-    {"name":"Cursor Icon","repo":"tlassets:TL-DEFAULT/Cursor-Icon.png","file":"assets/TL-DEFAULT/Cursor-Icon.png","priority":2,"tag":"tab.cursor"},
-    {"name":"Search Icon","repo":"tlassets:TL-DEFAULT/Search-Icon.png","file":"assets/TL-DEFAULT/Search-Icon.png","priority":2,"tag":"search.icon"},
-    {"name":"Search2 Icon","repo":"tlassets:TL-DEFAULT/Search2-Icon.png","file":"assets/TL-DEFAULT/Search2-Icon.png","priority":2,"tag":"search.icon2"},
-    {"name":"Minimize Icon","repo":"tlassets:TL-DEFAULT/Minimize-Icon.png","file":"assets/TL-DEFAULT/Minimize-Icon.png","priority":2,"tag":"ui.minimize"},
-    {"name":"PING-WLAN Icon","repo":"tlassets:TL-DEFAULT/PING-WLAN-Icon.png","file":"assets/TL-DEFAULT/PING-WLAN-Icon.png","priority":2,"tag":"ui.ping"},
-    {"name":"PunchFling Icon","repo":"tlassets:TL-DEFAULT/PunchFling-Icon.png","file":"assets/TL-DEFAULT/PunchFling-Icon.png","priority":2,"tag":"action.punchfling"},
-    {"name":"TL Icon","repo":"tlassets:TL-DEFAULT/TL-Icon.png","file":"assets/TL-DEFAULT/TL-Icon.png","priority":2,"tag":"ui.tlIcon"},
-    {"name":"TLIcon","repo":"tlassets:TL-DEFAULT/TLIcon.png","file":"assets/TL-DEFAULT/TLIcon.png","priority":2,"tag":"ui.tlicon"},
-    {"name":"TL Profile Icon","repo":"tlassets:TL-DEFAULT/TL-ProfileIcon.png","file":"assets/TL-DEFAULT/TL-ProfileIcon.png","priority":2,"tag":"ui.profileIcon"},
-    {"name":"TLOpenBars Button","repo":"tlassets:TL-DEFAULT/TLOpenBars-Button.png","file":"assets/TL-DEFAULT/TLOpenBars-Button.png","priority":2,"tag":"ui.openBars"},
-    {"name":"TLOpenedBars Button","repo":"tlassets:TL-DEFAULT/TLOpenedBars-Button.png","file":"assets/TL-DEFAULT/TLOpenedBars-Button.png","priority":2,"tag":"ui.openedBars"},
-    {"name":"The Boys Scripts Icon","repo":"tlassets:THE%20BOYS/Theme-TheBoys-Scripts-Icon.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-Scripts-Icon.png","priority":2,"tag":"theme.theboys.scriptsIcon"},
-    {"name":"The Boys Settings Icon","repo":"tlassets:THE%20BOYS/Theme-TheBoys-Settings-Icon.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-Settings-Icon.png","priority":2,"tag":"theme.theboys.settingsIcon"},
-    {"name":"The Boys Home Icon","repo":"tlassets:THE%20BOYS/Theme-TheBoys-HomeIcon.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-HomeIcon.png","priority":2,"tag":"theme.theboys.homeIcon"},
-    {"name":"The Boys Actions Icon","repo":"tlassets:THE%20BOYS/Theme-TheBoys-Actions-Icon.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-Actions-Icon.png","priority":2,"tag":"theme.theboys.actionsIcon"},
-    {"name":"The Boys Wallpaper","repo":"tlassets:THE%20BOYS/Theme-TheBoys2.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys2.png","priority":2,"tag":"theme.theboys.wallpaper"},
-    {"name":"The Boys Character Icon","repo":"tlassets:THE%20BOYS/Theme-TheBoys-CharacterIcon.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-CharacterIcon.png","priority":2,"tag":"theme.theboys.charIcon"},
-    {"name":"The Boys Character Panel BG","repo":"tlassets:THE%20BOYS/Theme-TheBoys-CharacterPanel-Background.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-CharacterPanel-Background.png","priority":2,"tag":"theme.theboys.charBg"},
-    {"name":"The Boys Home Panel BG","repo":"tlassets:THE%20BOYS/Theme-TheBoys-HomePanel-Background.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-HomePanel-Background.png","priority":2,"tag":"theme.theboys.homeBg"},
-    {"name":"The Boys Loading Screen","repo":"tlassets:THE%20BOYS/Theme-TheBoys-Loading-Screen.png","file":"assets/THEMES/THEBOYS/Theme-TheBoys-Loading-Screen.png","priority":2,"tag":"theme.theboys.loading"},
-    {"name":"Dragonball Settings Icon","repo":"tlassets:DRAGONBALL/Theme-Dragonball-Settings-Icon.png","file":"assets/THEMES/DRAGONBALL/Theme-Dragonball-Settings-Icon.png","priority":2,"tag":"theme.dragonball.settingsIcon"},
-    {"name":"Dragonball Wallpaper","repo":"tlassets:DRAGONBALL/Theme-Dragonball-Home-Wallpaper.png","file":"assets/THEMES/DRAGONBALL/Theme-Dragonball-Home-Wallpaper.png","priority":2,"tag":"theme.dragonball.wallpaper"},
-    {"name":"Dragonball Character Icon","repo":"tlassets:DRAGONBALL/Theme-Dragonball-CharacterIcon.png","file":"assets/THEMES/DRAGONBALL/Theme-Dragonball-CharacterIcon.png","priority":2,"tag":"theme.dragonball.charIcon"},
-    {"name":"Dragonball Character Panel","repo":"tlassets:DRAGONBALL/Theme-Dragonball-CharacterPanel.png","file":"assets/THEMES/DRAGONBALL/Theme-Dragonball-CharacterPanel.png","priority":2,"tag":"theme.dragonball.charBg"},
-    {"name":"Dragonball Home Icon","repo":"tlassets:DRAGONBALL/Theme-Dragonball-HomeIcon.png","file":"assets/THEMES/DRAGONBALL/Theme-Dragonball-HomeIcon.png","priority":2,"tag":"theme.dragonball.homeIcon"},
-    {"name":"Dragonball Home Panel","repo":"tlassets:DRAGONBALL/Theme-Dragonball-HomePanel.png","file":"assets/THEMES/DRAGONBALL/Theme-Dragonball-HomePanel.png","priority":2,"tag":"theme.dragonball.homeBg"},
-    {"name":"Dragonball Loading Screen","repo":"tlassets:DRAGONBALL/Theme-Dragonball-Loading-Screen.png","file":"assets/THEMES/DRAGONBALL/Theme-Dragonball-Loading-Screen.png","priority":2,"tag":"theme.dragonball.loading"},
-    {"name":"Dragonball Playerlist Icon","repo":"tlassets:DRAGONBALL/Theme-Dragonball-Playerlist-Icon.png","file":"assets/THEMES/DRAGONBALL/Theme-Dragonball-Playerlist-Icon.png","priority":2,"tag":"theme.dragonball.playerlistIcon"},
-    {"name":"One Piece COM BG","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Com-Wallpaper.png","file":"assets/THEMES/ONEPIECE/OP-COM-BG.png","priority":2,"tag":"theme.onepiece.comBg"},
-    {"name":"One Piece Action BG","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Action-Wallpaper.png","file":"assets/THEMES/ONEPIECE/OP-ACT-BG.png","priority":2,"tag":"theme.onepiece.actionBg"},
-    {"name":"One Piece Action Icon","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Action-Icon.png","file":"assets/THEMES/ONEPIECE/Theme-OnePiece-Action-Icon.png","priority":2,"tag":"theme.onepiece.actionIcon"},
-    {"name":"One Piece Character Icon","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-CharacterIcon.png","file":"assets/THEMES/ONEPIECE/Theme-OnePiece-CharacterIcon.png","priority":2,"tag":"theme.onepiece.charIcon"},
-    {"name":"One Piece Home Wallpaper","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Home-Wallpaper.jpg","file":"assets/THEMES/ONEPIECE/Theme-OnePiece-Home-Wallpaper.jpg","priority":2,"tag":"theme.onepiece.wallpaper"},
-    {"name":"One Piece Home Wallpaper 2","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Home-Wallpaper2.png","file":"assets/THEMES/ONEPIECE/Theme-OnePiece-Home-Wallpaper2.png","priority":2,"tag":"theme.onepiece.wallpaper2"},
-    {"name":"One Piece Home Icon","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-HomeIcon.png","file":"assets/THEMES/ONEPIECE/Theme-OnePiece-HomeIcon.png","priority":2,"tag":"theme.onepiece.homeIcon"},
-    {"name":"One Piece Loading Screen","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Loading-Screen.png","file":"assets/THEMES/ONEPIECE/Theme-OnePiece-Loading-Screen.png","priority":2,"tag":"theme.onepiece.loading"},
-    {"name":"One Piece Playerlist Icon","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Playerlist-Icon.png","file":"assets/THEMES/ONEPIECE/Theme-OnePiece-Playerlist-Icon.png","priority":2,"tag":"theme.onepiece.playerlistIcon"},
-    {"name":"One Piece Playerlist BG","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Playerlist-Wallpaper.png","file":"assets/THEMES/ONEPIECE/Theme-OnePiece-Playerlist-Wallpaper.png","priority":2,"tag":"theme.onepiece.playerlistBg"},
-    {"name":"One Piece Settings BG","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-Setting-Wallpaper.png","file":"assets/THEMES/ONEPIECE/Theme-OnePiece-Setting-Wallpaper.png","priority":2,"tag":"theme.onepiece.settingsBg"},
-    {"name":"One Piece Settings Icon","repo":"tlassets:ONE%20PIECE/Theme-OnePiece-SettingsIcon.png","file":"assets/THEMES/ONEPIECE/Theme-OnePiece-SettingsIcon.png","priority":2,"tag":"theme.onepiece.settingsIcon"},
-    {"name":"One Piece Wallpaper 1","repo":"tlassets:ONE%20PIECE/Theme-OnePiece1.png","file":"assets/THEMES/ONEPIECE/Theme-OnePiece1.png","priority":2,"tag":"theme.onepiece.wallpaper1"},
-    {"name":"Death Note Home Icon","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Home-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-Home-Icon.png","priority":2,"tag":"theme.deathnote.homeIcon"},
-    {"name":"Death Note Char Icon","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-CharacterIcon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-CharacterIcon.png","priority":2,"tag":"theme.deathnote.charIcon"},
-    {"name":"Death Note Scripts Icon","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Scripts-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-Scripts-Icon.png","priority":2,"tag":"theme.deathnote.scriptsIcon"},
-    {"name":"Death Note Settings Icon","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Settings-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-Settings-Icon.png","priority":2,"tag":"theme.deathnote.settingsIcon"},
-    {"name":"Death Note Com Icon","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Com-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-Com-Icon.png","priority":2,"tag":"theme.deathnote.comIcon"},
-    {"name":"Death Note Char BG","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-CharacterPanelBackground.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-CharPanelBg.png","priority":2,"tag":"theme.deathnote.charBg"},
-    {"name":"Death Note Com BG","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Com-Background.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-ComPanelBg.png","priority":2,"tag":"theme.deathnote.comBg"},
-    {"name":"Death Note Scripts BG","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Actions-Background-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-ActionsPanelBg.png","priority":2,"tag":"theme.deathnote.scriptsBg"},
-    {"name":"Death Note ScriptsPanel BG","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-ScriptsPanel-Background.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-ScriptsPanelBg.png","priority":2,"tag":"theme.deathnote.scriptsPanelBg"},
-    {"name":"Death Note Loading","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Loading-Screen.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-LoadingScreen.png","priority":2,"tag":"theme.deathnote.loading"},
-    {"name":"Death Note Home BG","repo":"tlassets:DEATH%20NOTE/Theme-Death-Note-Home-Background-Icon.png","file":"assets/THEMES/DEATHNOTE/Theme-Death-Note-Home-Background.png","priority":2,"tag":"theme.deathnote.homeBg"},
-    {"name":"Dexter Char Icon","repo":"tlassets:DEXTER/Theme-Dexter-CharacterIcon.png","file":"assets/THEMES/DEXTER/Theme-Dexter-CharacterIcon.png","priority":2,"tag":"theme.dexter.charIcon"},
-    {"name":"Dexter Char BG","repo":"tlassets:DEXTER/Theme-Dexter-CharacterPanel.png","file":"assets/THEMES/DEXTER/Theme-Dexter-CharacterPanel.png","priority":2,"tag":"theme.dexter.charBg"},
-    {"name":"Dexter Settings Icon","repo":"tlassets:DEXTER/Theme-Dexter-Settings-Icon.png","file":"assets/THEMES/DEXTER/Theme-Dexter-Settings-Icon.png","priority":2,"tag":"theme.dexter.settingsIcon"},
-    {"name":"Dexter Scripts Icon","repo":"tlassets:DEXTER/Theme-Dexter-Scripts-Icon.png","file":"assets/THEMES/DEXTER/Theme-Dexter-Scripts-Icon.png","priority":2,"tag":"theme.dexter.scriptsIcon"},
-    {"name":"Dexter Com BG","repo":"tlassets:DEXTER/Theme-Dexter-Com-Wallpaper.png","file":"assets/THEMES/DEXTER/Theme-Dexter-ComWallpaper.png","priority":2,"tag":"theme.dexter.comBg"},
-    {"name":"Dexter Loading","repo":"tlassets:DEXTER/Theme-Dexter-Loading-Screen.png","file":"assets/THEMES/DEXTER/Theme-Dexter-LoadingScreen.png","priority":2,"tag":"theme.dexter.loading"},
-    {"name":"Dexter Playerlist Icon","repo":"tlassets:DEXTER/Theme-Dexter-Playerlist-Icon.png","file":"assets/THEMES/DEXTER/Theme-Dexter-Playerlist-Icon.png","priority":2,"tag":"theme.dexter.playerlistIcon"},
-    {"name":"Dexter Home Icon","repo":"tlassets:DEXTER/Theme-Dexter-HomeIcon.png","file":"assets/THEMES/DEXTER/Theme-Dexter-HomeIcon.png","priority":2,"tag":"theme.dexter.homeIcon"},
-    {"name":"Dexter Settings Wallpaper","repo":"tlassets:DEXTER/Theme-Dexter-Settings-Wallpaper.png","file":"assets/THEMES/DEXTER/Theme-Dexter-Settings-Wallpaper.png","priority":2,"tag":"theme.dexter.settingsBg"}
-  ];
-  staticEntries.forEach(function(e){ staticTags.add(e.tag); images.push(e); });
-  Object.keys(cfg.profilePictures || {}).forEach(function(role){
-    var pp = cfg.profilePictures[role];
-    var tag = "profilepic." + role;
-    if (!staticTags.has(tag) && pp.url) {
-      images.push({ name: role+" Profile", repo: pp.url, file: pp.file||"", priority:1, tag: tag });
-    }
-  });
-  Object.keys(cfg.customAvatars || {}).forEach(function(user){
-    var av = cfg.customAvatars[user];
-    var tag = "avatar." + user.toLowerCase();
-    if (av.url) {
-      var found = images.find(function(e){ return e.tag === tag; });
-      if (found) { found.repo = av.url; found.file = av.file || found.file; }
-      else { images.push({ name: user+" Avatar", repo: av.url, file: av.file||("assets/ROLE-ICONS/"+user+".png"), priority:1, tag: tag }); }
-    }
-  });
-  meta.images = images;
-  meta.audio = audio;
-  return meta;
+  if (document.getElementById("ghToken")) document.getElementById("ghToken").value = localStorage.getItem("tl-gh-token") || "";
+  if (document.getElementById("ghOwner")) document.getElementById("ghOwner").value = localStorage.getItem("tl-gh-owner") || "TLMenu";
+  if (document.getElementById("ghRepo")) document.getElementById("ghRepo").value = localStorage.getItem("tl-gh-repo") || "TLMenu.github.io";
+  if (document.getElementById("ghBranch")) document.getElementById("ghBranch").value = localStorage.getItem("tl-gh-branch") || "main";
+  if (document.getElementById("ghManifestPath")) document.getElementById("ghManifestPath").value = localStorage.getItem("tl-gh-manifest") || "tl-assets-manifest.json";
 }
 
 async function pushToGitHub() {
-  var btn = document.getElementById("pushBtn");
-  var token = document.getElementById("ghToken").value.trim();
-  if (!token) { toast("GitHub Token not set - open GitHub Sync section"); return; }
-  btn.textContent = "Uploading..."; btn.disabled = true; btn.style.opacity = "0.6";
-  try {
-    config.targetUser = document.getElementById("targetUserInp").value.trim();
-    var configJson = JSON.stringify(config, null, 2);
-    var manifestPath = document.getElementById("ghManifestPath").value.trim() || "tl-assets-manifest.json";
-    toast("Uploading NametagConfig.json...");
-    var configOld = await ghGetFile("NametagConfig.json");
-    await ghPutFile("NametagConfig.json", configJson, "Update NametagConfig.json via Configurator", configOld.sha);
-    toast("Uploading " + manifestPath + "...");
-    var manifestData = generateManifestFromConfig(config);
-    var manifestJson = JSON.stringify(manifestData, null, 2);
-    var manifestOld = await ghGetFile(manifestPath);
-    await ghPutFile(manifestPath, manifestJson, "Update tl-assets-manifest.json via Configurator", manifestOld.sha);
-    toast("Pushed to GitHub!");
-  } catch(e) {
-    toast("Push failed: " + e.message);
-  }
-  btn.textContent = "Push to GitHub"; btn.disabled = false; btn.style.opacity = "1";
-}
+  const token = localStorage.getItem("tl-gh-token");
+  const owner = localStorage.getItem("tl-gh-owner") || "TLMenu";
+  const repo = localStorage.getItem("tl-gh-repo") || "TLMenu.github.io";
+  const branch = localStorage.getItem("tl-gh-branch") || "main";
+  const path = localStorage.getItem("tl-gh-manifest") || "tl-assets-manifest.json";
 
-function toast(msg) {
-  const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 3000);
-}
-
-document.querySelectorAll(".modal-overlay").forEach(el => { el.addEventListener("click", e => { if (e.target === el) { el.classList.remove("open"); document.body.classList.remove("modal-open"); } }); });
-
-// START
-init();
-</script>
-
-</div><!-- /mainContent -->
-
-<script>
-// ── PASSWORD GATE ──
-const PW_HASH = "669cd5b82e2cb875f4505d9c2aa0a1672ce35bcc80a97817fcca9b23aff4a2bc";
-let pwAttempts = 0;
-
-async function hashPassword(pw) {
-  const enc = new TextEncoder().encode(pw);
-  const buf = await crypto.subtle.digest("SHA-256", enc);
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
-}
-
-async function checkPassword() {
-  const input = document.getElementById("pwInput");
-  const err = document.getElementById("pwError");
-  const box = document.querySelector(".pw-box");
-  const pw = input.value;
-
-  if (!pw) {
-    err.textContent = "Please enter a password";
-    err.classList.add("show");
-    box.classList.add("pw-shake");
-    setTimeout(() => box.classList.remove("pw-shake"), 400);
+  if (!token) {
+    alert("Please enter a GitHub Personal Access Token in Global Settings -> GitHub Sync.");
     return;
   }
 
-  const hash = await hashPassword(pw);
-  if (hash === PW_HASH) {
-    document.getElementById("pwOverlay").classList.add("hidden");
-    document.getElementById("mainContent").classList.add("unlocked");
-    input.value = "";
-    // init() ran earlier while #mainContent was still display:none, so any section
-    // marked "open" at that point measured a scrollHeight of 0 and got stuck collapsed
-    // (visually still showing the "open" arrow, but with no content height — this is
-    // what caused Global Settings / Color Themes to overlap the section below them).
-    // Now that the panel is actually visible, remeasure real content height.
-    if (typeof refreshOpenSectionHeights === "function") {
-      requestAnimationFrame(() => refreshOpenSectionHeights());
+  const btn = document.getElementById("pushBtn");
+  btn.textContent = "Pushing...";
+  btn.disabled = true;
+
+  try {
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    let sha = null;
+
+    const getRes = await fetch(url + `?ref=${branch}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (getRes.ok) {
+      const getJson = await getRes.json();
+      sha = getJson.sha;
     }
-  } else {
-    pwAttempts++;
-    err.textContent = "Wrong password";
-    err.classList.add("show");
-    box.classList.add("pw-shake");
-    input.value = "";
-    input.focus();
-    setTimeout(() => box.classList.remove("pw-shake"), 400);
-    if (pwAttempts >= 10) {
-      err.textContent = "Too many attempts. Please reload the page.";
-      document.querySelector(".pw-btn").disabled = true;
+
+    const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(config, null, 2))));
+
+    const putRes = await fetch(url, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: "Update NametagConfig via Visual Configurator",
+        content: contentEncoded,
+        branch: branch,
+        sha: sha || undefined
+      })
+    });
+
+    if (putRes.ok) {
+      showToast("Successfully pushed to GitHub!");
+    } else {
+      const errJson = await putRes.json();
+      alert("GitHub API Error: " + (errJson.message || putRes.statusText));
     }
+  } catch(e) {
+    alert("Push error: " + e.message);
+  } finally {
+    btn.textContent = "Push to GitHub";
+    btn.disabled = false;
   }
 }
 
+// ── UTILS / MODAL / TOAST ──
+function openModal(id) {
+  document.getElementById(id).classList.add("open");
+  document.body.classList.add("modal-open");
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove("open");
+  document.body.classList.remove("modal-open");
+}
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 3000);
+}
+
+// ── PASSWORD SYSTEM ──
 function togglePwVis() {
   const input = document.getElementById("pwInput");
   const eye = document.getElementById("pwEye");
   if (input.type === "password") {
-    input.type = "text";
-    eye.textContent = "🔒";
+    input.type = "text"; eye.textContent = "🙈";
   } else {
-    input.type = "password";
-    eye.textContent = "👁";
+    input.type = "password"; eye.textContent = "👁";
   }
 }
 
-document.getElementById("pwInput").addEventListener("keydown", e => {
-  if (e.key === "Enter") {
-    const btn = document.querySelector(".pw-btn");
-    btn.classList.add("pw-btn-press");
-    setTimeout(() => { btn.classList.remove("pw-btn-press"); }, 180);
-    checkPassword();
+function checkPassword() {
+  const pw = document.getElementById("pwInput").value;
+  const err = document.getElementById("pwError");
+  const box = document.querySelector(".pw-box");
+
+  if (pw === "TL2026" || pw === "tl2026") {
+    document.getElementById("pwOverlay").classList.add("hidden");
+    document.getElementById("mainContent").classList.add("unlocked");
+    sessionStorage.setItem("tl-auth", "true");
+    init();
+  } else {
+    err.textContent = "Invalid access password.";
+    err.classList.add("show");
+    box.classList.add("pw-shake");
+    setTimeout(() => box.classList.remove("pw-shake"), 400);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (sessionStorage.getItem("tl-auth") === "true") {
+    document.getElementById("pwOverlay").classList.add("hidden");
+    document.getElementById("mainContent").classList.add("unlocked");
+    init();
+  } else {
+    document.getElementById("pwInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") checkPassword();
+    });
   }
 });
-
-// Focus password input on load
-window.addEventListener("load", () => {
-  setTimeout(() => document.getElementById("pwInput").focus(), 100);
-});
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a20098c8ef591539',t:'MTc4NDg3MTY5Ng=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</div><!-- /main-content -->
+</body>
 </html>
