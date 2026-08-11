@@ -1,303 +1,1216 @@
 {
-"version": 4,
-"baseUrl": "https://raw.githubusercontent.com/TLMenu/TLMenu.github.io/refs/heads/main",
-"tlassetsUrl": "https://raw.githubusercontent.com/TLMenu/TLASSETS/main",
-"images": [
-{
-"name": "TL User Profile",
-"repo": "tlassets:ROLE-ICONS/TLUSER-ROLE.png",
-"file": "assets/ROLE-ICONS/TLUSER-ROLE.png",
-"priority": 1,
-"tag": "profilepic.user"
-},
-{
-"name": "Visual2 Icon",
-"repo": "tlassets:TL-DEFAULT/Visual2-Icon.png",
-"file": "assets/TL-DEFAULT/Visual2-Icon.png",
-"priority": 2,
-"tag": "tab.visual2"
-},
-{
-"name": "MusicPlay Icon",
-"repo": "tlassets:TL-DEFAULT/MusicPlay-Icon.png",
-"file": "assets/TL-DEFAULT/MusicPlay-Icon.png",
-"priority": 2,
-"tag": "music.play"
-},
-{
-"name": "MusicPause Icon",
-"repo": "tlassets:TL-DEFAULT/MusicPause-Icon.png",
-"file": "assets/TL-DEFAULT/MusicPause-Icon.png",
-"priority": 2,
-"tag": "music.pause"
-},
-{
-"name": "MusicBack Icon",
-"repo": "tlassets:TL-DEFAULT/MusicBack-Icon.png",
-"file": "assets/TL-DEFAULT/MusicBack-Icon.png",
-"priority": 2,
-"tag": "music.back"
-},
-{
-"name": "MusicSkip Icon",
-"repo": "tlassets:TL-DEFAULT/MusicSkip-Icon.png",
-"file": "assets/TL-DEFAULT/MusicSkip-Icon.png",
-"priority": 2,
-"tag": "music.skip"
-},
-{
-"name": "TLMagnifier Icon",
-"repo": "tlassets:TL-DEFAULT/TLMagnifier-Tool-Icon.png",
-"file": "assets/TL-DEFAULT/TLMagnifier-Tool-Icon.png",
-"priority": 2,
-"tag": "tool.magnifier"
-},
-{
-"name": "CustomCursor Icon",
-"repo": "tlassets:TL-DEFAULT/CustomCursor-Icon%20(2).png",
-"file": "assets/TL-DEFAULT/CustomCursor-Icon.png",
-"priority": 2,
-"tag": "tool.cursor"
-},
-{
-"name": "QA Hug Icon",
-"repo": "tlassets:TL-DEFAULT/QuickAction%20Hug-Icon.png",
-"file": "assets/TL-DEFAULT/QuickAction-Hug-Icon.png",
-"priority": 2,
-"tag": "qa.hug"
-},
-{
-"name": "QA Kiss Icon",
-"repo": "tlassets:TL-DEFAULT/QuickAction%20Kiss-Icon.png",
-"file": "assets/TL-DEFAULT/QuickAction-Kiss-Icon.png",
-"priority": 2,
-"tag": "qa.kiss"
-},
-{
-"name": "QA Slap Icon",
-"repo": "tlassets:TL-DEFAULT/QuickAction%20Slap-Icon.png",
-"file": "assets/TL-DEFAULT/QuickAction-Slap-Icon.png",
-"priority": 2,
-"tag": "qa.slap"
-},
-{
-"name": "QA Headbutt Icon",
-"repo": "tlassets:TL-DEFAULT/QuickAction%20Headbutt-Icon.png",
-"file": "assets/TL-DEFAULT/QuickAction-Headbutt-Icon.png",
-"priority": 2,
-"tag": "qa.headbutt"
-},
-{
-"name": "QA Backshots Icon",
-"repo": "tlassets:TL-DEFAULT/QuickAction%20Backshots-Icon.png",
-"file": "assets/TL-DEFAULT/QuickAction-Backshots-Icon.png",
-"priority": 2,
-"tag": "qa.backshots"
-},
-{
-"name": "Communication Icon",
-"repo": "tlassets:TL-DEFAULT/Com-Icon.png",
-"file": "assets/TL-DEFAULT/Com-Icon.png",
-"priority": 1,
-"tag": "tab.com"
-},
-{
-"name": "VC Unmuted Icon",
-"repo": "tlassets:TL-DEFAULT/ANTIVCBAN-Unmuted-Icon.png",
-"file": "assets/TL-DEFAULT/TL_Unmuted.png",
-"priority": 1,
-"tag": "vc.unmuted"
-},
-{
-"name": "VC Muted Icon",
-"repo": "tlassets:TL-DEFAULT/ANTIVCBAN-Mute-Icon.png",
-"file": "assets/TL-DEFAULT/TL_Muted.png",
-"priority": 1,
-"tag": "vc.muted"
-},
-{
-"name": "Home Tab Icon",
-"repo": "tlassets:TL-DEFAULT/HomeTab-Icon.png",
-"file": "assets/TL-DEFAULT/HomeTab-Icon.png",
-"priority": 1,
-"tag": "tab.home"
-},
-{
-"name": "Character Tab Icon",
-"repo": "tlassets:TL-DEFAULT/Character-Icon.png",
-"file": "assets/TL-DEFAULT/Character-Icon.png",
-"priority": 1,
-"tag": "tab.character"
-},
-{
-"name": "Scripts Tab Icon",
-"repo": "tlassets:TL-DEFAULT/Scripts-Icon.png",
-"file": "assets/TL-DEFAULT/Scripts-Icon.png",
-"priority": 1,
-"tag": "tab.scripts"
-},
-{
-"name": "Actions Tab Icon",
-"repo": "tlassets:TL-DEFAULT/ActionTab-Icon.png",
-"file": "assets/TL-DEFAULT/ActionTab-Icon.png",
-"priority": 1,
-"tag": "tab.actions"
-},
-{
-"name": "Playerlist Tab Icon",
-"repo": "tlassets:TL-DEFAULT/Playerlist-Icon.png",
-"file": "assets/TL-DEFAULT/Playerlist-Icon.png",
-"priority": 1,
-"tag": "tab.playerlist"
-},
-{
-"name": "Emote Icon",
-"repo": "tlassets:TL-DEFAULT/Emote-Icon.png",
-"file": "assets/TL-DEFAULT/Emote-Icon.png",
-"priority": 2,
-"tag": "tab.emote"
-},
-{
-"name": "Music Icon",
-"repo": "tlassets:TL-DEFAULT/Music-Icon.png",
-"file": "assets/TL-DEFAULT/Music-Icon.png",
-"priority": 2,
-"tag": "tab.music"
-},
-{
-"name": "Visual Icon",
-"repo": "tlassets:TL-DEFAULT/Visual-Icon.png",
-"file": "assets/TL-DEFAULT/Visual-Icon.png",
-"priority": 2,
-"tag": "tab.visual"
-},
-{
-"name": "Movement Icon",
-"repo": "tlassets:TL-DEFAULT/Movement-Icon.png",
-"file": "assets/TL-DEFAULT/Movement-Icon.png",
-"priority": 2,
-"tag": "tab.movement"
-},
-{
-"name": "Misc Icon",
-"repo": "tlassets:TL-DEFAULT/Misc-Icon.png",
-"file": "assets/TL-DEFAULT/Misc-Icon.png",
-"priority": 2,
-"tag": "tab.misc"
-},
-{
-"name": "Colors Icon",
-"repo": "tlassets:TL-DEFAULT/Colors-Icon.png",
-"file": "assets/TL-DEFAULT/Colors-Icon.png",
-"priority": 2,
-"tag": "tab.colors"
-},
-{
-"name": "Theme Icon",
-"repo": "tlassets:TL-DEFAULT/Theme-Icon.png",
-"file": "assets/TL-DEFAULT/Theme-Icon.png",
-"priority": 2,
-"tag": "tab.theme"
-},
-{
-"name": "Themes Icon",
-"repo": "tlassets:TL-DEFAULT/Themes-Icon.png",
-"file": "assets/TL-DEFAULT/Themes-Icon.png",
-"priority": 2,
-"tag": "tab.themes"
-},
-{
-"name": "Keybind Icon",
-"repo": "tlassets:TL-DEFAULT/Keybind-Icon.png",
-"file": "assets/TL-DEFAULT/Keybind-Icon.png",
-"priority": 2,
-"tag": "tab.keybind"
-},
-{
-"name": "Cursor Icon",
-"repo": "tlassets:TL-DEFAULT/Cursor-Icon.png",
-"file": "assets/TL-DEFAULT/Cursor-Icon.png",
-"priority": 2,
-"tag": "tab.cursor"
-},
-{
-"name": "Search Icon",
-"repo": "tlassets:TL-DEFAULT/Search-Icon.png",
-"file": "assets/TL-DEFAULT/Search-Icon.png",
-"priority": 2,
-"tag": "search.icon"
-},
-{
-"name": "Search2 Icon",
-"repo": "tlassets:TL-DEFAULT/Search2-Icon.png",
-"file": "assets/TL-DEFAULT/Search2-Icon.png",
-"priority": 2,
-"tag": "search.icon2"
-},
-{
-"name": "Minimize Icon",
-"repo": "tlassets:TL-DEFAULT/Minimize-Icon.png",
-"file": "assets/TL-DEFAULT/Minimize-Icon.png",
-"priority": 2,
-"tag": "ui.minimize"
-},
-{
-"name": "PING-WLAN Icon",
-"repo": "tlassets:TL-DEFAULT/PING-WLAN-Icon.png",
-"file": "assets/TL-DEFAULT/PING-WLAN-Icon.png",
-"priority": 2,
-"tag": "ui.ping"
-},
-{
-"name": "PunchFling Icon",
-"repo": "tlassets:TL-DEFAULT/PunchFling-Icon.png",
-"file": "assets/TL-DEFAULT/PunchFling-Icon.png",
-"priority": 2,
-"tag": "action.punchfling"
-},
-{
-"name": "TL Icon",
-"repo": "tlassets:TL-DEFAULT/TL-Icon.png",
-"file": "assets/TL-DEFAULT/TL-Icon.png",
-"priority": 2,
-"tag": "ui.tlIcon"
-},
-{
-"name": "TLIcon",
-"repo": "tlassets:TL-DEFAULT/TLIcon.png",
-"file": "assets/TL-DEFAULT/TLIcon.png",
-"priority": 2,
-"tag": "ui.tlicon"
-},
-{
-"name": "TL Profile Icon",
-"repo": "tlassets:TL-DEFAULT/TL-ProfileIcon.png",
-"file": "assets/TL-DEFAULT/TL-ProfileIcon.png",
-"priority": 2,
-"tag": "ui.profileIcon"
-},
-{
-"name": "TLOpenBars Button",
-"repo": "tlassets:TL-DEFAULT/TLOpenBars-Button.png",
-"file": "assets/TL-DEFAULT/TLOpenBars-Button.png",
-"priority": 2,
-"tag": "ui.openBars"
-},
-{
-"name": "TLOpenedBars Button",
-"repo": "tlassets:TL-DEFAULT/TLOpenedBars-Button.png",
-"file": "assets/TL-DEFAULT/TLOpenedBars-Button.png",
-"priority": 2,
-"tag": "ui.openedBars"
-}
-],
-"audio": [
-{
-"name": "Loading Screen",
-"repo": "tlassets:TL-MP3/TLMenuLoadingScreen.mp3",
-"file": "assets/TL-MP3-FILES/TLMenuLoadingScreen.mp3",
-"priority": 1,
-"tag": "sfx.loading"
-}
-]
+  "version": 1,
+  "enabled": true,
+  "targetUser": "",
+  "themes": {
+    "user": {
+      "bg": "#12161A",
+      "avatarBg": "#12161A",
+      "avatarText": "#121212",
+      "divider": "#ffffff",
+      "border": "#12161A",
+      "nameText": "#ffffff",
+      "roleText": "#ffffff",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#00008f",
+        "#0E0E18"
+      ],
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "admin": {
+      "bg": "#220E0E",
+      "avatarBg": "#2A1212",
+      "avatarText": "#FF6464",
+      "divider": "#FF6464",
+      "border": "#DC5050",
+      "nameText": "#FF8C8C",
+      "roleText": "#C83C3C",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#220E0E",
+        "#150808"
+      ],
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "owner": {
+      "bg": "transparent",
+      "avatarBg": "transparent",
+      "avatarText": "transparent",
+      "divider": "transparent",
+      "border": "transparent",
+      "nameText": "transparent",
+      "roleText": "transparent",
+      "bgGradient": true,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#097160",
+        "#2f4fee",
+        "#2feed8"
+      ],
+      "bgGradientAngle": 133,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#00aaff",
+            "#c8ff00",
+            "#a04646"
+          ],
+          "transparency": [
+            1,
+            0.5
+          ],
+          "rotation": 65,
+          "offset": [
+            -0.55,
+            0.55
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#ffffff",
+            "#00aaff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 196,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#ffffff",
+            "#00aaff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 196,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#ffffff",
+            "#00aaff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 177,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "developer": {
+      "bg": "#0C1428",
+      "avatarBg": "#101A34",
+      "avatarText": "#64B4FF",
+      "divider": "#64B4FF",
+      "border": "#50A0F0",
+      "nameText": "#8CD2FF",
+      "roleText": "#3C82DC",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#0C1428",
+        "#060A18"
+      ],
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "advertising": {
+      "bg": "#1C0E24",
+      "avatarBg": "#24122E",
+      "avatarText": "#C878FF",
+      "divider": "#C878FF",
+      "border": "#B464F0",
+      "nameText": "#E6AAFF",
+      "roleText": "#A050D2",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#1C0E24",
+        "#100818"
+      ],
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "moderator": {
+      "bg": "#221C0A",
+      "avatarBg": "#2A220C",
+      "avatarText": "#FFC83C",
+      "divider": "#FFC83C",
+      "border": "#F0B428",
+      "nameText": "#FFDC64",
+      "roleText": "#DCA01E",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#221C0A",
+        "#141006"
+      ],
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "staff": {
+      "bg": "#0A1C10",
+      "avatarBg": "#0C2A14",
+      "avatarText": "#4ADE80",
+      "divider": "#4ADE80",
+      "border": "#22C55E",
+      "nameText": "#6EEAA0",
+      "roleText": "#16A34A",
+      "bgGradient": false,
+      "bgGradientType": "linear",
+      "bgGradientColors": [
+        "#0A1C10",
+        "#061008"
+      ],
+      "bgGradientAngle": 0,
+      "gradients": {
+        "cardGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#1A1A22"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 90,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "avatarGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#160E1E"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 180,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "nameGradient": {
+          "enabled": true,
+          "type": "Linear",
+          "colors": [
+            "#097152",
+            "#ffffff",
+            "#c8ff00"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "roleGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#8850CC"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "borderGradient": {
+          "enabled": false,
+          "type": "Linear",
+          "colors": [
+            "#B87CFF",
+            "#AA64FF"
+          ],
+          "transparency": [
+            0,
+            0
+          ],
+          "rotation": 0,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
+    }
+  },
+  "layout": {
+    "billboardWidth": 231,
+    "billboardHeight": 45,
+    "studsOffsetY": 3.4,
+    "avatarWidth": 45,
+    "cornerRadius": 13,
+    "innerCornerRadius": 10,
+    "borderThickness": 3,
+    "dividerWidth": 2,
+    "dividerHeightPct": 0.5,
+    "dividerTransparency": 0.75,
+    "nameTextSize": 15,
+    "nameFont": "GothamBold",
+    "roleTextSize": 9,
+    "roleFont": "GothamBold",
+    "initialsTextSize": 11,
+    "avatarTextGap": 10,
+    "textPaddingRight": 4,
+    "nameLabelHeight": 25,
+    "nameLabelY": 4,
+    "roleLabelHeight": 15,
+    "roleLabelY": 26,
+    "roleTextTransform": "upper",
+    "avatarImagePadding": 3,
+    "distanceScaleEnabled": true,
+    "distanceScaleNear": 10,
+    "distanceScaleFar": 60,
+    "distanceScaleMin": 0.35
+  },
+  "animations": {
+    "fadeInDuration": 0.25,
+    "fadeInEasing": "Quad",
+    "cardTransparency": 0.1,
+    "borderTransparency": 0.7
+  },
+  "particles": {
+    "enabled": true,
+    "count": 5,
+    "minSize": 2,
+    "maxSize": 2,
+    "transparency": 0,
+    "moveDurationMin": 2,
+    "moveDurationMax": 5,
+    "colors": [
+      "#FFFFFF"
+    ]
+  },
+  "roleKeywords": {
+    "owner": [
+      "owner"
+    ],
+    "developer": [
+      "developer",
+      "dev"
+    ],
+    "moderator": [
+      "moderator",
+      "mod"
+    ],
+    "admin": [
+      "admin",
+      "administrator"
+    ],
+    "advertising": [
+      "advertising",
+      "ad"
+    ],
+    "staff": [
+      "supporter",
+      "sup"
+    ],
+    "user": [
+      "user"
+    ]
+  },
+  "roleUsers": {
+    "owner": [
+      "bigboy14big",
+      "sch1ampenbefruchter5",
+      "Affen_rpg",
+      "roblox_user_11058752884"
+    ],
+    "admin": [
+      "6363737299"
+    ],
+    "developer": [],
+    "moderator": [
+      "Maxblack006",
+      "Carlosmagegirls"
+    ],
+    "advertising": [],
+    "staff": [],
+    "user": [
+      "Bananen_esser100",
+      "X1_77X",
+      "24KFYTAX",
+      "larp888885",
+      "marmeladenmomm_y",
+      "craftyxd704",
+      "PetnachdeinerWahl",
+      "TicklishTara",
+      "Dunega58",
+      "Felixalbrachttttt"
+    ]
+  },
+  "roleLabels": {
+    "6363737299": "TL ADMIN",
+    "Maxblack006": "H-Moderator",
+    "24KFYTAX": "prettiest",
+    "Carlosmagegirls": "T-Mod",
+    "bigboy14big": "TL Owner",
+    "marmeladenmomm_y": "Leck",
+    "larp888885": "TL DADDY",
+    "craftyxd704": "DADDY",
+    "PetnachdeinerWahl": "is it pink?",
+    "TicklishTara": "Leben & Leben lassen",
+    "sch1ampenbefruchter5": "TL Co.Owner",
+    "Dunega58": "Ich hasse meines gleichen",
+    "Affen_rpg": "TL Owner",
+    "Felixalbrachttttt": "TL Soße",
+    "roblox_user_11058752884": "Co. Owner"
+  },
+  "displayNames": {
+    "6363737299": "CengiZ",
+    "Bananen_esser100": "Cid",
+    "X1_77X": "91v0",
+    "Maxblack006": "Straight",
+    "24KFYTAX": "asianbeauty",
+    "Carlosmagegirls": "David",
+    "bigboy14big": "telelumi",
+    "larp888885": "Larp",
+    "marmeladenmomm_y": "NiggaHunter",
+    "craftyxd704": "Daddyficker69",
+    "PetnachdeinerWahl": "Fotzenhunter",
+    "TicklishTara": "Night",
+    "sch1ampenbefruchter5": "Arda",
+    "Dunega58": "Neger",
+    "Affen_rpg": "telelumi",
+    "Felixalbrachttttt": "Klossmitsoss",
+    "roblox_user_11058752884": "Arda"
+  },
+  "roleDisplayNames": {
+    "staff": "TL Supporter"
+  },
+  "userColorOverrides": {
+    "Bananen_esser100": {
+      "__enabled": true,
+      "avatarBg": "transparent",
+      "bg": "transparent",
+      "roleText": "#ffffff",
+      "border": "#404040",
+      "divider": "#000000",
+      "avatarText": "transparent"
+    },
+    "X1_77X": {
+      "avatarBg": "transparent",
+      "bg": "transparent",
+      "__enabled": true
+    },
+    "Maxblack006": {
+      "__enabled": true,
+      "avatarText": "transparent",
+      "divider": "transparent",
+      "border": "#6b6b6b",
+      "nameText": "#6b6b6b",
+      "roleText": "#4f4f4f",
+      "avatarBg": "transparent",
+      "bg": "transparent"
+    },
+    "24KFYTAX": {
+      "__enabled": true,
+      "nameText": "#000000",
+      "roleText": "#ffffff"
+    },
+    "larp888885": {
+      "bg": "#5028bd"
+    },
+    "craftyxd704": {
+      "bg": "#cd3ca6"
+    },
+    "PetnachdeinerWahl": {
+      "bg": "#ff00ae"
+    },
+    "TicklishTara": {
+      "bg": "#4f0f67",
+      "__enabled": true,
+      "avatarBg": "#4f0f67",
+      "avatarText": "#4f0f67"
+    },
+    "Felixalbrachttttt": {
+      "bg": "#eadb3e"
+    },
+    "Affen_rpg": {
+      "__enabled": true
+    },
+    "roblox_user_11058752884": {
+      "enabled": true,
+      "bg": "#0f56ae"
+    }
+  },
+  "userGradientOverrides": {
+    "Bananen_esser100": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#8B0000",
+          "#000000"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 90,
+        "offset": [
+          0,
+          0
+        ]
+      }
+    },
+    "X1_77X": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#54258d",
+          "#1b1b64"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 223,
+        "offset": [
+          0,
+          0
+        ]
+      }
+    },
+    "Maxblack006": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#5e1717",
+          "#370b0b"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 78,
+        "offset": [
+          0,
+          0
+        ]
+      }
+    },
+    "24KFYTAX": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": [
+          "#242424",
+          "#bababa",
+          "#000000"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 201,
+        "offset": [
+          0,
+          0
+        ]
+      }
+    },
+    "bigboy14big": {
+      "cardGradient": {
+        "enabled": false,
+        "type": "Linear",
+        "colors": [
+          "#00aaff",
+          "#c8ff00",
+          "#a04646"
+        ],
+        "transparency": [
+          1,
+          0.5
+        ],
+        "rotation": 65,
+        "offset": [
+          -0.55,
+          0.55
+        ]
+      }
+    },
+    "Affen_rpg": {
+      "nameGradient": {
+        "enabled": false,
+        "type": "Linear",
+        "colors": [
+          "#ffffff",
+          "#00aaff",
+          "#c8ff00"
+        ],
+        "transparency": [
+          0,
+          0
+        ],
+        "rotation": 196,
+        "offset": [
+          0,
+          0
+        ]
+      },
+      "cardGradient": {
+        "enabled": false,
+        "type": "Linear",
+        "colors": [
+          "#00aaff",
+          "#c8ff00",
+          "#a04646"
+        ],
+        "transparency": [
+          1,
+          0.5
+        ],
+        "rotation": 65,
+        "offset": [
+          -0.55,
+          0.55
+        ]
+      }
+    }
+  },
+  "gradients": {
+    "cardGradient": {
+      "enabled": false,
+      "type": "Linear",
+      "colors": [
+        "#B87CFF",
+        "#1A1A22"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
+      "rotation": 90,
+      "offset": [
+        0,
+        0
+      ]
+    },
+    "avatarGradient": {
+      "enabled": false,
+      "type": "Linear",
+      "colors": [
+        "#B87CFF",
+        "#160E1E"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
+      "rotation": 180,
+      "offset": [
+        0,
+        0
+      ]
+    },
+    "nameGradient": {
+      "enabled": true,
+      "type": "Linear",
+      "colors": [
+        "#097152",
+        "#ffffff",
+        "#c8ff00"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
+      "rotation": 0,
+      "offset": [
+        0,
+        0
+      ]
+    },
+    "roleGradient": {
+      "enabled": false,
+      "type": "Linear",
+      "colors": [
+        "#B87CFF",
+        "#8850CC"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
+      "rotation": 0,
+      "offset": [
+        0,
+        0
+      ]
+    },
+    "borderGradient": {
+      "enabled": false,
+      "type": "Linear",
+      "colors": [
+        "#B87CFF",
+        "#AA64FF"
+      ],
+      "transparency": [
+        0,
+        0
+      ],
+      "rotation": 0,
+      "offset": [
+        0,
+        0
+      ]
+    }
+  },
+  "profilePictures": {
+    "owner": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
+    },
+    "user": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TLUSER-ROLE.png",
+      "file": "assets/ROLE-ICONS/TLUSER-ROLE.png"
+    },
+    "staff": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
+    },
+    "admin": {
+      "file": "assets/ROLE-ICONS/TL-STAFF.png",
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png"
+    },
+    "moderator": {
+      "file": "assets/ROLE-ICONS/TL-STAFF.png",
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png"
+    },
+    "developer": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
+    }
+  },
+  "customAvatars": {
+    "Bananen_esser100": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/Cid.png",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    },
+    "X1_77X": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/91v0.png",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    },
+    "24KFYTAX": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-Asiianbeauty.jpg",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    },
+    "Carlosmagegirls": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/David.png",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    }
+  }
 }
