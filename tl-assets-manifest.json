@@ -698,56 +698,56 @@
     },
     {
       "name": "staff Profile",
-      "repo": "tlassets:ROLE-ICONS/TL-STAFF.png",
+      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
       "priority": 1,
       "tag": "profilepic.staff"
     },
     {
       "name": "admin Profile",
-      "repo": "tlassets:ROLE-ICONS/TL-STAFF.png",
+      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
       "priority": 1,
       "tag": "profilepic.admin"
     },
     {
       "name": "moderator Profile",
-      "repo": "tlassets:ROLE-ICONS/TL-STAFF.png",
+      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
       "priority": 1,
       "tag": "profilepic.moderator"
     },
     {
       "name": "developer Profile",
-      "repo": "tlassets:ROLE-ICONS/TL-STAFF.png",
+      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png",
       "priority": 1,
       "tag": "profilepic.developer"
     },
     {
       "name": "Bananen_esser100 Avatar",
-      "repo": "tlassets:ROLE-ICONS/Cid.png",
+      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/Cid.png",
       "file": "assets/ROLE-ICONS/Bananen_esser100.png",
       "priority": 1,
       "tag": "avatar.bananen_esser100"
     },
     {
       "name": "X1_77X Avatar",
-      "repo": "tlassets:ROLE-ICONS/91v0.png",
+      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/91v0.png",
       "file": "assets/ROLE-ICONS/X1_77X.png",
       "priority": 1,
       "tag": "avatar.x1_77x"
     },
     {
       "name": "24KFYTAX Avatar",
-      "repo": "tlassets:ROLE-ICONS/TL-Asiianbeauty.jpg",
+      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-Asiianbeauty.jpg",
       "file": "assets/ROLE-ICONS/24KFYTAX.png",
       "priority": 1,
       "tag": "avatar.24kfytax"
     },
     {
       "name": "Carlosmagegirls Avatar",
-      "repo": "tlassets:ROLE-ICONS/David.png",
+      "repo": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/David.png",
       "file": "assets/ROLE-ICONS/Carlosmagegirls.png",
       "priority": 1,
       "tag": "avatar.carlosmagegirls"
@@ -879,20 +879,6 @@
       "file": "assets/TL-MP3-FILES/OP-AFK-VL1.mp3",
       "priority": 2,
       "tag": "afk.onepiece.1"
-    },
-    {
-      "name": "AFK: TB Voice 0",
-      "repo": "tlassets:TL-MP3/THEME-MP3/THEBOYS-AFKSFX/THEBOYS-AFK-VOICELINE.mp3",
-      "file": "assets/TL-MP3-FILES/TB-AFK-VL0.mp3",
-      "priority": 2,
-      "tag": "afk.theboys.0"
-    },
-    {
-      "name": "AFK: TB Voice 1",
-      "repo": "tlassets:TL-MP3/THEME-MP3/THEBOYS-AFKSFX/THEBOYS-AFK-VOICELINE1.mp3",
-      "file": "assets/TL-MP3-FILES/TB-AFK-VL1.mp3",
-      "priority": 2,
-      "tag": "afk.theboys.1"
     }
   ]
 }
