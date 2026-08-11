@@ -219,7 +219,7 @@
       "border": "transparent",
       "nameText": "transparent",
       "roleText": "transparent",
-      "bgGradient": true,
+      "bgGradient": false,
       "bgGradientType": "linear",
       "bgGradientColors": [
         "#097160",
@@ -838,7 +838,9 @@
       "PetnachdeinerWahl",
       "TicklishTara",
       "Dunega58",
-      "Felixalbrachttttt"
+      "Felixalbrachttttt",
+      "abdulrachman67676767",
+      "unbekannt_421"
     ]
   },
   "roleLabels": {
@@ -856,7 +858,9 @@
     "Dunega58": "Ich hasse meines gleichen",
     "Affen_rpg": "TL Owner",
     "Felixalbrachttttt": "TL Soße",
-    "roblox_user_11058752884": "Co. Owner"
+    "roblox_user_11058752884": "Co. Owner",
+    "abdulrachman67676767": "NIGGA",
+    "unbekannt_421": "Affen König"
   },
   "displayNames": {
     "6363737299": "CengiZ",
@@ -875,7 +879,9 @@
     "Dunega58": "Neger",
     "Affen_rpg": "telelumi",
     "Felixalbrachttttt": "Klossmitsoss",
-    "roblox_user_11058752884": "Arda"
+    "roblox_user_11058752884": "Arda",
+    "abdulrachman67676767": "Abdul Jr",
+    "unbekannt_421": "Unbekannt"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -934,6 +940,20 @@
     "roblox_user_11058752884": {
       "enabled": true,
       "bg": "#0f56ae"
+    },
+    "abdulrachman67676767": {
+      "enabled": true,
+      "bg": "#45399d",
+      "avatarBg": "#45399d"
+    },
+    "unbekannt_421": {
+      "enabled": true,
+      "bg": "#ff0000",
+      "avatarBg": "#ff0000",
+      "border": "#ffffff",
+      "divider": "#ffffff",
+      "nameText": "#ffffff",
+      "avatarText": "#ffffff"
     }
   },
   "userGradientOverrides": {
