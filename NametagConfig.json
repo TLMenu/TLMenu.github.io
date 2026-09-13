@@ -212,12 +212,12 @@
       }
     },
     "owner": {
-      "bg": "transparent",
+      "bg": "#f0de19",
       "avatarBg": "transparent",
-      "avatarText": "transparent",
+      "avatarText": "#ffffff",
       "divider": "transparent",
       "border": "transparent",
-      "nameText": "transparent",
+      "nameText": "#ffffff",
       "roleText": "transparent",
       "bgGradient": false,
       "bgGradientType": "linear",
@@ -885,7 +885,8 @@
     "Felixalbrachttttt": "Klossmitsoss",
     "abdulrachman67676767": "Abdul Jr",
     "unbekannt_421": "Unbekannt",
-    "roblox_user_11058752884": "Arda"
+    "roblox_user_11058752884": "Arda",
+    "animationzflux": "telelumi"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -957,6 +958,15 @@
     },
     "roblox_user_11058752884": {
       "enabled": true
+    },
+    "animationzflux": {
+      "enabled": true,
+      "avatarBg": "transparent",
+      "bg": "transparent",
+      "avatarText": "transparent",
+      "divider": "transparent",
+      "border": "transparent",
+      "roleText": "transparent"
     }
   },
   "userGradientOverrides": {
