@@ -212,9 +212,9 @@
       }
     },
     "owner": {
-      "bg": "#f0de19",
+      "bg": "transparent",
       "avatarBg": "transparent",
-      "avatarText": "#ffffff",
+      "avatarText": "transparent",
       "divider": "transparent",
       "border": "transparent",
       "nameText": "#ffffff",
