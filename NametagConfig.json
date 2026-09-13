@@ -212,7 +212,7 @@
       }
     },
     "owner": {
-      "bg": "#f0de19",
+      "bg": "#000000",
       "avatarBg": "transparent",
       "avatarText": "#ffffff",
       "divider": "transparent",
