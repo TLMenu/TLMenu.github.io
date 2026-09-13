@@ -212,12 +212,12 @@
       }
     },
     "owner": {
-      "bg": "#f0de19",
-      "avatarBg": "transparent",
-      "avatarText": "#ffffff",
-      "divider": "transparent",
+      "bg": "#000000",
+      "avatarBg": "#000000",
+      "avatarText": "#000000",
+      "divider": "#000000",
       "border": "transparent",
-      "nameText": "#ffffff",
+      "nameText": "#6e0c0c",
       "roleText": "transparent",
       "bgGradient": false,
       "bgGradientType": "linear",
