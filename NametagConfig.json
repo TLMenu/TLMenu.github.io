@@ -212,9 +212,9 @@
       }
     },
     "owner": {
-      "bg": "transparent",
+      "bg": "#f0de19",
       "avatarBg": "transparent",
-      "avatarText": "transparent",
+      "avatarText": "#ffffff",
       "divider": "transparent",
       "border": "transparent",
       "nameText": "#ffffff",
@@ -844,7 +844,9 @@
       "Dunega58",
       "Felixalbrachttttt",
       "abdulrachman67676767",
-      "unbekannt_421"
+      "unbekannt_421",
+      "cano_g65",
+      "lingo676767"
     ]
   },
   "roleLabels": {
@@ -886,7 +888,9 @@
     "abdulrachman67676767": "Abdul Jr",
     "unbekannt_421": "Unbekannt",
     "roblox_user_11058752884": "Arda",
-    "animationzflux": "telelumi"
+    "animationzflux": "telelumi",
+    "cano_g65": "Cano",
+    "lingo676767": "Hikky"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -967,6 +971,17 @@
       "divider": "transparent",
       "border": "transparent",
       "roleText": "transparent"
+    },
+    "cano_g65": {
+      "enabled": true,
+      "bg": "#ffffff",
+      "avatarText": "#000000",
+      "nameText": "#000000"
+    },
+    "lingo676767": {
+      "enabled": true,
+      "bg": "#0f85b8",
+      "avatarBg": "#0f85b8"
     }
   },
   "userGradientOverrides": {
