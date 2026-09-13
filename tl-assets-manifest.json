@@ -212,12 +212,12 @@
       }
     },
     "owner": {
-      "bg": "transparent",
+      "bg": "#f0de19",
       "avatarBg": "transparent",
-      "avatarText": "transparent",
+      "avatarText": "#ffffff",
       "divider": "transparent",
       "border": "transparent",
-      "nameText": "transparent",
+      "nameText": "#ffffff",
       "roleText": "transparent",
       "bgGradient": false,
       "bgGradientType": "linear",
@@ -822,7 +822,8 @@
     ],
     "admin": [
       "6363737299",
-      "fufu1732"
+      "fufu1732",
+      "lynxxcurrent2003"
     ],
     "developer": [],
     "moderator": [
@@ -843,7 +844,8 @@
       "Dunega58",
       "Felixalbrachttttt",
       "abdulrachman67676767",
-      "unbekannt_421"
+      "unbekannt_421",
+      "lingo676767"
     ]
   },
   "roleLabels": {
@@ -884,7 +886,10 @@
     "Felixalbrachttttt": "Klossmitsoss",
     "abdulrachman67676767": "Abdul Jr",
     "unbekannt_421": "Unbekannt",
-    "roblox_user_11058752884": "Arda"
+    "roblox_user_11058752884": "Arda",
+    "animationzflux": "telelumi",
+    "lingo676767": "Hikky",
+    "cano_g65": "Cano_G65"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -956,6 +961,24 @@
     },
     "roblox_user_11058752884": {
       "enabled": true
+    },
+    "animationzflux": {
+      "enabled": true,
+      "avatarBg": "transparent",
+      "bg": "transparent",
+      "avatarText": "transparent",
+      "divider": "transparent",
+      "border": "transparent",
+      "roleText": "transparent"
+    },
+    "lingo676767": {
+      "enabled": true,
+      "bg": "#0f85b8",
+      "avatarBg": "#0f85b8"
+    },
+    "cano_g65": {
+      "enabled": true,
+      "bg": "#159cb7"
     }
   },
   "userGradientOverrides": {
