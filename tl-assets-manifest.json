@@ -212,7 +212,7 @@
       }
     },
     "owner": {
-      "bg": "#f0de19",
+      "bg": "#000000",
       "avatarBg": "transparent",
       "avatarText": "#ffffff",
       "divider": "transparent",
@@ -823,7 +823,8 @@
     "admin": [
       "6363737299",
       "fufu1732",
-      "lynxxcurrent2003"
+      "lynxxcurrent2003",
+      "erinsword333"
     ],
     "developer": [],
     "moderator": [
