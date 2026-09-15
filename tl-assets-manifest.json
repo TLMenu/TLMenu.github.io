@@ -212,7 +212,7 @@
       }
     },
     "owner": {
-      "bg": "#000000",
+      "bg": "#f0de19",
       "avatarBg": "transparent",
       "avatarText": "#ffffff",
       "divider": "transparent",
@@ -866,7 +866,8 @@
     "Felixalbrachttttt": "TL Soße",
     "abdulrachman67676767": "NIGGA",
     "unbekannt_421": "Affen König",
-    "roblox_user_11058752884": "Co. Owner"
+    "roblox_user_11058752884": "Co. Owner",
+    "fufu1732": "Manager/Head Admin"
   },
   "displayNames": {
     "6363737299": "CengiZ",
@@ -890,7 +891,8 @@
     "roblox_user_11058752884": "Arda",
     "animationzflux": "telelumi",
     "lingo676767": "Hikky",
-    "cano_g65": "Cano_G65"
+    "cano_g65": "Cano_G65",
+    "fufu1732": "Fufu Black Manager"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -980,6 +982,14 @@
     "cano_g65": {
       "enabled": true,
       "bg": "#159cb7"
+    },
+    "fufu1732": {
+      "enabled": true,
+      "nameText": "#000000",
+      "roleText": "#e5dcdc",
+      "border": "#000000",
+      "bg": "#650b0b",
+      "avatarBg": "#650b0b"
     }
   },
   "userGradientOverrides": {
