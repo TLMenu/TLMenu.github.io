@@ -212,11 +212,11 @@
       }
     },
     "owner": {
-      "bg": "#f0de19",
-      "avatarBg": "transparent",
+      "bg": "#000000",
+      "avatarBg": "#000000",
       "avatarText": "#ffffff",
-      "divider": "transparent",
-      "border": "transparent",
+      "divider": "#000000",
+      "border": "#000000",
       "nameText": "#ffffff",
       "roleText": "transparent",
       "bgGradient": false,
@@ -818,7 +818,6 @@
     ],
     "admin": [
       "6363737299",
-      "fufu1732",
       "lynxxcurrent2003",
       "erinsword333",
       "carlosmagegirls"
