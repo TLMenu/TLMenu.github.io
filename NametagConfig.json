@@ -4,11 +4,11 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "#12161A",
-      "avatarBg": "#12161A",
-      "avatarText": "#121212",
+      "bg": "#101419",
+      "avatarBg": "#101419",
+      "avatarText": "#000000",
       "divider": "#ffffff",
-      "border": "#12161A",
+      "border": "#000000",
       "nameText": "#ffffff",
       "roleText": "#ffffff",
       "bgGradient": false,
@@ -820,7 +820,8 @@
       "6363737299",
       "lynxxcurrent2003",
       "erinsword333",
-      "carlosmagegirls"
+      "carlosmagegirls",
+      "fufu1732"
     ],
     "developer": [],
     "moderator": [
@@ -855,7 +856,6 @@
     "craftyxd704": "DADDY",
     "PetnachdeinerWahl": "is it pink?",
     "TicklishTara": "Leben & Leben lassen",
-    "sch1ampenbefruchter5": "TL Co.Owner",
     "Dunega58": "Ich hasse meines gleichen",
     "Affen_rpg": "TL Owner",
     "Felixalbrachttttt": "TL Soße",
@@ -877,7 +877,6 @@
     "craftyxd704": "Daddyficker69",
     "PetnachdeinerWahl": "Fotzenhunter",
     "TicklishTara": "Night",
-    "sch1ampenbefruchter5": "Arda",
     "Dunega58": "Neger",
     "Affen_rpg": "telelumi",
     "Felixalbrachttttt": "Klossmitsoss",
@@ -984,7 +983,9 @@
       "roleText": "#e5dcdc",
       "border": "#000000",
       "bg": "#650b0b",
-      "avatarBg": "#650b0b"
+      "avatarBg": "#650b0b",
+      "divider": "#757575",
+      "avatarText": "#757575"
     }
   },
   "userGradientOverrides": {
@@ -1236,6 +1237,10 @@
     "developer": {
       "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
       "file": "assets/ROLE-ICONS/TL-STAFF.png"
+    },
+    "advertising": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": ""
     }
   },
   "customAvatars": {
