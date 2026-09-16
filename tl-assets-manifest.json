@@ -212,13 +212,13 @@
       }
     },
     "owner": {
-      "bg": "#0a0a0a",
-      "avatarBg": "#0a0a0a",
-      "avatarText": "#0a0a0a",
-      "divider": "#0a0a0a",
-      "border": "#0a0a0a",
+      "bg": "#f0de19",
+      "avatarBg": "transparent",
+      "avatarText": "#ffffff",
+      "divider": "transparent",
+      "border": "transparent",
       "nameText": "#ffffff",
-      "roleText": "#0a0a0a",
+      "roleText": "transparent",
       "bgGradient": false,
       "bgGradientType": "linear",
       "bgGradientColors": [
@@ -813,23 +813,19 @@
   },
   "roleUsers": {
     "owner": [
-      "bigboy14big",
-      "sch1ampenbefruchter5",
       "Affen_rpg",
-      "roblox_user_11058752884",
-      "18372824",
-      "animationzflux"
+      "18372824"
     ],
     "admin": [
       "6363737299",
       "fufu1732",
       "lynxxcurrent2003",
-      "erinsword333"
+      "erinsword333",
+      "carlosmagegirls"
     ],
     "developer": [],
     "moderator": [
-      "Maxblack006",
-      "Carlosmagegirls"
+      "Maxblack006"
     ],
     "advertising": [],
     "staff": [],
