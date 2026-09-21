@@ -842,7 +842,6 @@
       "abdulrachman67676767",
       "unbekannt_421",
       "lingo676767",
-      "fufu1732"
     ]
   },
   "roleLabels": {
@@ -862,7 +861,6 @@
     "abdulrachman67676767": "NIGGA",
     "unbekannt_421": "Affen König",
     "roblox_user_11058752884": "Co. Owner",
-    "fufu1732": "Manager/Head Admin"
   },
   "displayNames": {
     "6363737299": "CengiZ",
@@ -886,7 +884,6 @@
     "animationzflux": "telelumi",
     "lingo676767": "Hikky",
     "cano_g65": "Cano_G65",
-    "fufu1732": "Fufu Black Manager"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -976,17 +973,6 @@
     "cano_g65": {
       "enabled": true,
       "bg": "#159cb7"
-    },
-    "fufu1732": {
-      "enabled": true,
-      "nameText": "#000000",
-      "roleText": "#e5dcdc",
-      "border": "#000000",
-      "bg": "#650b0b",
-      "avatarBg": "#650b0b",
-      "divider": "#757575",
-      "avatarText": "#757575"
-    }
   },
   "userGradientOverrides": {
     "Bananen_esser100": {
