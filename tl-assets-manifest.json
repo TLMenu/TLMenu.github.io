@@ -841,8 +841,7 @@
       "Felixalbrachttttt",
       "abdulrachman67676767",
       "unbekannt_421",
-      "lingo676767",
-      "fufu1732"
+      "lingo676767"
     ]
   },
   "roleLabels": {
@@ -862,7 +861,7 @@
     "abdulrachman67676767": "NIGGA",
     "unbekannt_421": "Affen König",
     "roblox_user_11058752884": "Co. Owner",
-    "fufu1732": "Manager/Head Admin"
+    "fufu1732": "Black Nigga"
   },
   "displayNames": {
     "6363737299": "CengiZ",
@@ -886,7 +885,7 @@
     "animationzflux": "telelumi",
     "lingo676767": "Hikky",
     "cano_g65": "Cano_G65",
-    "fufu1732": "Fufu Black Manager"
+    "fufu1732": "TL Fufu Manager"
   },
   "roleDisplayNames": {
     "staff": "TL Supporter"
@@ -978,14 +977,11 @@
       "bg": "#159cb7"
     },
     "fufu1732": {
-      "enabled": true,
+      "__enabled": true,
+      "bg": "#cb0606",
       "nameText": "#000000",
-      "roleText": "#e5dcdc",
-      "border": "#000000",
-      "bg": "#650b0b",
-      "avatarBg": "#650b0b",
-      "divider": "#757575",
-      "avatarText": "#757575"
+      "avatarBg": "#cb0606",
+      "roleText": "#000000"
     }
   },
   "userGradientOverrides": {
@@ -1267,6 +1263,12 @@
       "file": "",
       "strokeStart": "#FFFFFF",
       "strokeEnd": "#000000"
+    },
+    "fufu1732": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": "",
+      "strokeStart": "",
+      "strokeEnd": ""
     }
   }
 }
