@@ -943,39 +943,39 @@
       "__enabled": true
     },
     "abdulrachman67676767": {
-      "enabled": true,
       "bg": "#45399d",
-      "avatarBg": "#45399d"
+      "avatarBg": "#45399d",
+      "__enabled": true
     },
     "unbekannt_421": {
-      "enabled": true,
       "bg": "#ff0000",
       "avatarBg": "#ff0000",
       "border": "#ffffff",
       "divider": "#ffffff",
       "nameText": "#ffffff",
-      "avatarText": "#ffffff"
+      "avatarText": "#ffffff",
+      "__enabled": true
     },
     "roblox_user_11058752884": {
-      "enabled": true
+      "__enabled": true
     },
     "animationzflux": {
-      "enabled": true,
       "avatarBg": "transparent",
       "bg": "transparent",
       "avatarText": "transparent",
       "divider": "transparent",
       "border": "transparent",
-      "roleText": "transparent"
+      "roleText": "transparent",
+      "__enabled": true
     },
     "lingo676767": {
-      "enabled": true,
       "bg": "#0f85b8",
-      "avatarBg": "#0f85b8"
+      "avatarBg": "#0f85b8",
+      "__enabled": true
     },
     "cano_g65": {
-      "enabled": true,
-      "bg": "#159cb7"
+      "bg": "#159cb7",
+      "__enabled": true
     },
     "fufu1732": {
       "__enabled": true,
