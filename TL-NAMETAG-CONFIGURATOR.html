@@ -623,7 +623,7 @@ body.modal-open { overflow: hidden; }
         </div>
         <div class="field">
           <label class="field-label">Manifest Files Path</label>
-          <input type="text" class="input-text" id="ghManifestPath" value="tl-assets-manifest.json" placeholder="tl-assets-manifest.json" onchange="saveGitHubConfig()">
+          <input type="text" class="input-text" id="ghManifestPath" value="NametagConfig.json" placeholder="NametagConfig.json" onchange="saveGitHubConfig()">
         </div>
         <div style="font-size: 11px; color: var(--t3); margin-top: 4px; line-height: 1.5;">
           Config is saved per-browser. Token is <b>never</b> sent anywhere except the GitHub API. Push commits directly to your repo.
@@ -1449,7 +1449,7 @@ function renderUserEditCard(u) {
   const roleLbl = (config.roleLabels && config.roleLabels[u]) || "";
   const av = (config.customAvatars && config.customAvatars[u]) || { url:"", file:"", strokeStart:"", strokeEnd:"" };
   const overrides = (config.userColorOverrides && config.userColorOverrides[u]) || {};
-  const masterOn = overrides.enabled !== false;
+  const masterOn = overrides.__enabled === true;
   const activeCount = THEME_COLORS.filter(k => overrides[k] !== undefined && overrides[k] !== null).length;
 
   return `
@@ -1539,14 +1539,14 @@ function setUserAvatarUrl(u, val) {
 function toggleUserColorMaster(u) {
   if (!config.userColorOverrides) config.userColorOverrides = {};
   if (!config.userColorOverrides[u]) config.userColorOverrides[u] = {};
-  const cur = config.userColorOverrides[u].enabled !== false;
-  config.userColorOverrides[u].enabled = !cur;
+  const cur = config.userColorOverrides[u].__enabled === true;
+  config.userColorOverrides[u].__enabled = !cur;
   saveConfig(); buildUserCustomization(); updatePreview();
 }
 
 function setUserColorOverride(u, key, val) {
   if (!config.userColorOverrides) config.userColorOverrides = {};
-  if (!config.userColorOverrides[u]) config.userColorOverrides[u] = { enabled:true };
+  if (!config.userColorOverrides[u]) config.userColorOverrides[u] = { __enabled:true };
   config.userColorOverrides[u][key] = val;
   saveConfig(); buildUserCustomization(); updatePreview();
 }
@@ -1640,7 +1640,7 @@ function updatePreview() {
       avUrl = config.customAvatars[u].url;
     }
 
-    if (config.userColorOverrides && config.userColorOverrides[u] && config.userColorOverrides[u].enabled !== false) {
+    if (config.userColorOverrides && config.userColorOverrides[u] && config.userColorOverrides[u].__enabled === true) {
       colorOverrides = config.userColorOverrides[u];
     }
   }
@@ -1822,7 +1822,7 @@ function loadGitHubConfig() {
   if (document.getElementById("ghOwner")) document.getElementById("ghOwner").value = localStorage.getItem("tl-gh-owner") || "TLMenu";
   if (document.getElementById("ghRepo")) document.getElementById("ghRepo").value = localStorage.getItem("tl-gh-repo") || "TLMenu.github.io";
   if (document.getElementById("ghBranch")) document.getElementById("ghBranch").value = localStorage.getItem("tl-gh-branch") || "main";
-  if (document.getElementById("ghManifestPath")) document.getElementById("ghManifestPath").value = localStorage.getItem("tl-gh-manifest") || "tl-assets-manifest.json";
+  if (document.getElementById("ghManifestPath")) document.getElementById("ghManifestPath").value = localStorage.getItem("tl-gh-manifest") || "NametagConfig.json";
 }
 
 async function pushToGitHub() {
@@ -1830,7 +1830,7 @@ async function pushToGitHub() {
   const owner = localStorage.getItem("tl-gh-owner") || "TLMenu";
   const repo = localStorage.getItem("tl-gh-repo") || "TLMenu.github.io";
   const branch = localStorage.getItem("tl-gh-branch") || "main";
-  const path = localStorage.getItem("tl-gh-manifest") || "tl-assets-manifest.json";
+  const path = localStorage.getItem("tl-gh-manifest") || "NametagConfig.json";
 
   if (!token) {
     alert("Please enter a GitHub Personal Access Token in Global Settings -> GitHub Sync.");
