@@ -1263,12 +1263,12 @@ function removeKeyword(role, idx) {
 }
 
 function addRoleUser(role, inputEl) {
-  const val = inputEl.value.trim().toLowerCase();
+  const val = inputEl.value.trim();
   if (!val) return;
   if (!config.roleUsers) config.roleUsers = {};
   THEME_NAMES.forEach(r => {
     if (config.roleUsers[r]) {
-      config.roleUsers[r] = config.roleUsers[r].filter(u => u.toLowerCase() !== val);
+      config.roleUsers[r] = config.roleUsers[r].filter(u => u.toLowerCase() !== val.toLowerCase());
     }
   });
   if (!config.roleUsers[role]) config.roleUsers[role] = [];
