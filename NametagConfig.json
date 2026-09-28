@@ -814,7 +814,8 @@
   "roleUsers": {
     "owner": [
       "Affen_rpg",
-      "18372824"
+      "18372824",
+      "burgunDyxglow"
     ],
     "admin": [
       "6363737299",
@@ -943,39 +944,39 @@
       "__enabled": true
     },
     "abdulrachman67676767": {
+      "enabled": true,
       "bg": "#45399d",
-      "avatarBg": "#45399d",
-      "__enabled": true
+      "avatarBg": "#45399d"
     },
     "unbekannt_421": {
+      "enabled": true,
       "bg": "#ff0000",
       "avatarBg": "#ff0000",
       "border": "#ffffff",
       "divider": "#ffffff",
       "nameText": "#ffffff",
-      "avatarText": "#ffffff",
-      "__enabled": true
+      "avatarText": "#ffffff"
     },
     "roblox_user_11058752884": {
-      "__enabled": true
+      "enabled": true
     },
     "animationzflux": {
+      "enabled": true,
       "avatarBg": "transparent",
       "bg": "transparent",
       "avatarText": "transparent",
       "divider": "transparent",
       "border": "transparent",
-      "roleText": "transparent",
-      "__enabled": true
+      "roleText": "transparent"
     },
     "lingo676767": {
+      "enabled": true,
       "bg": "#0f85b8",
-      "avatarBg": "#0f85b8",
-      "__enabled": true
+      "avatarBg": "#0f85b8"
     },
     "cano_g65": {
-      "bg": "#159cb7",
-      "__enabled": true
+      "enabled": true,
+      "bg": "#159cb7"
     },
     "fufu1732": {
       "__enabled": true,
