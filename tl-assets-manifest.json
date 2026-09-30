@@ -4,18 +4,18 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "#4b4849",
+      "bg": "#4d4d4d",
       "avatarBg": "#4b4849",
       "avatarText": "#ffffff",
       "divider": "#ffffff",
       "border": "#b0b0b0",
       "nameText": "#ffffff",
       "roleText": "#ffffff",
-      "bgGradient": false,
+      "bgGradient": true,
       "bgGradientType": "linear",
       "bgGradientColors": [
-        "#1A1A22",
-        "#0E0E18"
+        "#707070",
+        "#303030"
       ],
       "bgGradientAngle": 0,
       "gradients": {
@@ -210,18 +210,18 @@
       }
     },
     "owner": {
-      "bg": "#160E1E",
-      "avatarBg": "#160E1E",
+      "bg": "#194fcc",
+      "avatarBg": "transparent",
       "avatarText": "#ffffff",
       "divider": "#ffffff",
-      "border": "#000000",
-      "nameText": "#2d1466",
-      "roleText": "#2d1466",
-      "bgGradient": false,
+      "border": "#ffffff",
+      "nameText": "#ffffff",
+      "roleText": "#ffffff",
+      "bgGradient": true,
       "bgGradientType": "linear",
       "bgGradientColors": [
-        "#160E1E",
-        "#0D0814"
+        "#0e4ee1",
+        "#2b97c5"
       ],
       "bgGradientAngle": 0,
       "gradients": {
@@ -734,11 +734,11 @@
     "innerCornerRadius": 1,
     "borderThickness": 4,
     "dividerWidth": 2,
-    "dividerHeightPct": 0.6,
+    "dividerHeightPct": 0.9,
     "dividerTransparency": 0.75,
-    "nameTextSize": 16,
+    "nameTextSize": 18,
     "nameFont": "GothamBold",
-    "roleTextSize": 9,
+    "roleTextSize": 10,
     "roleFont": "GothamBold",
     "initialsTextSize": 11,
     "avatarTextGap": 10,
@@ -755,10 +755,10 @@
     "distanceScaleMin": 0.35
   },
   "animations": {
-    "fadeInDuration": 0.4,
-    "fadeInEasing": "Back",
-    "cardTransparency": 0.1,
-    "borderTransparency": 0.7
+    "fadeInDuration": 0.8,
+    "fadeInEasing": "Quad",
+    "cardTransparency": 0,
+    "borderTransparency": 0.6
   },
   "particles": {
     "enabled": true,
