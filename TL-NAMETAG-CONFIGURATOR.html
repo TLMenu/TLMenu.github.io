@@ -836,6 +836,12 @@ function saveConfig() {
   } catch(e) {}
 }
 
+let _saveT;
+function saveConfigSoon() {
+  clearTimeout(_saveT);
+  _saveT = setTimeout(() => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(config)); } catch(e) {} }, 250);
+}
+
 function saveUIState() {
   try {
     const sections = [];
@@ -907,6 +913,7 @@ function init() {
   buildParticles(); buildKeywords(); buildProfilePictures(); buildUserCustomization();
   buildGradients(); buildPreviewThemeBtns(); buildPreviewSubjectSelect(); updatePreview();
   loadUIState();
+  buildThemeTabs(); buildColorGrid(); buildGradients(); buildPreviewThemeBtns(); buildPreviewSubjectSelect(); updatePreview();
   refreshOpenSectionHeights();
 }
 
@@ -946,7 +953,7 @@ function switchTheme(t) {
   roleInp.readOnly = false;
   const rdn = (config.roleDisplayNames || {})[t] || ROLE_DEFAULTS[t] || 'TL User';
   roleInp.value = rdn;
-  buildThemeTabs(); buildColorGrid(); buildPreviewThemeBtns(); buildPreviewSubjectSelect(); updatePreview();
+  buildThemeTabs(); buildColorGrid(); buildGradients(); buildPreviewThemeBtns(); buildPreviewSubjectSelect(); updatePreview();
   saveUIState();
 }
 
@@ -1012,6 +1019,7 @@ function buildColorGrid() {
     </div>
   `;
   c.innerHTML = gradFields + gradSection;
+  refreshOpenSectionHeights();
 }
 
 function addGradColor(theme) {
@@ -1064,19 +1072,19 @@ function buildLayout() {
   const c = document.getElementById("layoutBody");
   const l = config.layout;
   c.innerHTML = `
-    <div class="field"><label class="field-label">Width (px)</label><div class="slider-wrap"><input type="range" min="150" max="400" value="${l.billboardWidth}" oninput="l.billboardWidth=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.billboardWidth}px</span></div></div>
-    <div class="field"><label class="field-label">Height (px)</label><div class="slider-wrap"><input type="range" min="30" max="80" value="${l.billboardHeight}" oninput="l.billboardHeight=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.billboardHeight}px</span></div></div>
-    <div class="field"><label class="field-label">Corner Radius (px)</label><div class="slider-wrap"><input type="range" min="0" max="24" value="${l.cornerRadius}" oninput="l.cornerRadius=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.cornerRadius}px</span></div></div>
-    <div class="field"><label class="field-label">Avatar Inner Corner Radius (px)</label><div class="slider-wrap"><input type="range" min="0" max="20" value="${l.innerCornerRadius}" oninput="l.innerCornerRadius=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.innerCornerRadius}px</span></div></div>
-    <div class="field"><label class="field-label">Border Thickness (px)</label><div class="slider-wrap"><input type="range" min="0" max="5" value="${l.borderThickness}" oninput="l.borderThickness=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.borderThickness}px</span></div></div>
-    <div class="field"><label class="field-label">Divider Width (px)</label><div class="slider-wrap"><input type="range" min="0" max="4" value="${l.dividerWidth}" oninput="l.dividerWidth=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.dividerWidth}px</span></div></div>
-    <div class="field"><label class="field-label">Divider Height (%)</label><div class="slider-wrap"><input type="range" min="0.2" max="1" step="0.05" value="${l.dividerHeightPct}" oninput="l.dividerHeightPct=+this.value; this.nextElementSibling.textContent=Math.round(this.value*100)+'%'; updatePreview()"><span class="slider-val">${Math.round(l.dividerHeightPct*100)}%</span></div></div>
-    <div class="field"><label class="field-label">Divider Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${l.dividerTransparency}" oninput="l.dividerTransparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${l.dividerTransparency}</span></div></div>
-    <div class="field"><label class="field-label">Name Font Size</label><div class="slider-wrap"><input type="range" min="8" max="24" value="${l.nameTextSize}" oninput="l.nameTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.nameTextSize}px</span></div></div>
-    <div class="field"><label class="field-label">Role Font Size</label><div class="slider-wrap"><input type="range" min="6" max="18" value="${l.roleTextSize}" oninput="l.roleTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.roleTextSize}px</span></div></div>
-    <div class="field"><label class="field-label">Name Font</label><select onchange="l.nameFont=this.value; updatePreview()">${FONT_OPTIONS.map(f=>`<option value="${f}" ${l.nameFont===f?'selected':''}>${f}</option>`).join('')}</select></div>
-    <div class="field"><label class="field-label">Role Font</label><select onchange="l.roleFont=this.value; updatePreview()">${FONT_OPTIONS.map(f=>`<option value="${f}" ${l.roleFont===f?'selected':''}>${f}</option>`).join('')}</select></div>
-    <div class="field"><label class="field-label">Role Text Transform</label><select onchange="l.roleTextTransform=this.value; updatePreview()"><option value="upper" ${l.roleTextTransform==='upper'?'selected':''}>UPPERCASE</option><option value="none" ${l.roleTextTransform==='none'?'selected':''}>As Typed</option><option value="lower" ${l.roleTextTransform==='lower'?'selected':''}>lowercase</option></select></div>
+    <div class="field"><label class="field-label">Width (px)</label><div class="slider-wrap"><input type="range" min="150" max="400" value="${l.billboardWidth}" oninput="config.layout.billboardWidth=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.billboardWidth}px</span></div></div>
+    <div class="field"><label class="field-label">Height (px)</label><div class="slider-wrap"><input type="range" min="30" max="80" value="${l.billboardHeight}" oninput="config.layout.billboardHeight=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.billboardHeight}px</span></div></div>
+    <div class="field"><label class="field-label">Corner Radius (px)</label><div class="slider-wrap"><input type="range" min="0" max="24" value="${l.cornerRadius}" oninput="config.layout.cornerRadius=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.cornerRadius}px</span></div></div>
+    <div class="field"><label class="field-label">Avatar Inner Corner Radius (px)</label><div class="slider-wrap"><input type="range" min="0" max="20" value="${l.innerCornerRadius}" oninput="config.layout.innerCornerRadius=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.innerCornerRadius}px</span></div></div>
+    <div class="field"><label class="field-label">Border Thickness (px)</label><div class="slider-wrap"><input type="range" min="0" max="5" value="${l.borderThickness}" oninput="config.layout.borderThickness=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.borderThickness}px</span></div></div>
+    <div class="field"><label class="field-label">Divider Width (px)</label><div class="slider-wrap"><input type="range" min="0" max="4" value="${l.dividerWidth}" oninput="config.layout.dividerWidth=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.dividerWidth}px</span></div></div>
+    <div class="field"><label class="field-label">Divider Height (%)</label><div class="slider-wrap"><input type="range" min="0.2" max="1" step="0.05" value="${l.dividerHeightPct}" oninput="config.layout.dividerHeightPct=+this.value; this.nextElementSibling.textContent=Math.round(this.value*100)+'%'; updatePreview()"><span class="slider-val">${Math.round(l.dividerHeightPct*100)}%</span></div></div>
+    <div class="field"><label class="field-label">Divider Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${l.dividerTransparency}" oninput="config.layout.dividerTransparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${l.dividerTransparency}</span></div></div>
+    <div class="field"><label class="field-label">Name Font Size</label><div class="slider-wrap"><input type="range" min="8" max="24" value="${l.nameTextSize}" oninput="config.layout.nameTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.nameTextSize}px</span></div></div>
+    <div class="field"><label class="field-label">Role Font Size</label><div class="slider-wrap"><input type="range" min="6" max="18" value="${l.roleTextSize}" oninput="config.layout.roleTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.roleTextSize}px</span></div></div>
+    <div class="field"><label class="field-label">Name Font</label><select onchange="config.layout.nameFont=this.value; updatePreview()">${FONT_OPTIONS.map(f=>`<option value="${f}" ${l.nameFont===f?'selected':''}>${f}</option>`).join('')}</select></div>
+    <div class="field"><label class="field-label">Role Font</label><select onchange="config.layout.roleFont=this.value; updatePreview()">${FONT_OPTIONS.map(f=>`<option value="${f}" ${l.roleFont===f?'selected':''}>${f}</option>`).join('')}</select></div>
+    <div class="field"><label class="field-label">Role Text Transform</label><select onchange="config.layout.roleTextTransform=this.value; updatePreview()"><option value="upper" ${l.roleTextTransform==='upper'?'selected':''}>UPPERCASE</option><option value="none" ${l.roleTextTransform==='none'?'selected':''}>As Typed</option><option value="lower" ${l.roleTextTransform==='lower'?'selected':''}>lowercase</option></select></div>
   `;
 }
 
@@ -1085,10 +1093,10 @@ function buildAnimation() {
   const c = document.getElementById("animBody");
   const a = config.animations;
   c.innerHTML = `
-    <div class="field"><label class="field-label">Fade In Duration (sec)</label><div class="slider-wrap"><input type="range" min="0.1" max="2" step="0.1" value="${a.fadeInDuration}" oninput="a.fadeInDuration=+this.value; this.nextElementSibling.textContent=this.value+'s'"><span class="slider-val">${a.fadeInDuration}s</span></div></div>
-    <div class="field"><label class="field-label">Easing Style</label><select onchange="a.fadeInEasing=this.value">${EASING_OPTIONS.map(e=>`<option value="${e}" ${a.fadeInEasing===e?'selected':''}>${e}</option>`).join('')}</select></div>
-    <div class="field"><label class="field-label">Card Background Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${a.cardTransparency}" oninput="a.cardTransparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${a.cardTransparency}</span></div></div>
-    <div class="field"><label class="field-label">Border Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${a.borderTransparency}" oninput="a.borderTransparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${a.borderTransparency}</span></div></div>
+    <div class="field"><label class="field-label">Fade In Duration (sec)</label><div class="slider-wrap"><input type="range" min="0.1" max="2" step="0.1" value="${a.fadeInDuration}" oninput="config.animations.fadeInDuration=+this.value; this.nextElementSibling.textContent=this.value+'s'; saveConfigSoon()"><span class="slider-val">${a.fadeInDuration}s</span></div></div>
+    <div class="field"><label class="field-label">Easing Style</label><select onchange="config.animations.fadeInEasing=this.value; saveConfigSoon()">${EASING_OPTIONS.map(e=>`<option value="${e}" ${a.fadeInEasing===e?'selected':''}>${e}</option>`).join('')}</select></div>
+    <div class="field"><label class="field-label">Card Background Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${a.cardTransparency}" oninput="config.animations.cardTransparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${a.cardTransparency}</span></div></div>
+    <div class="field"><label class="field-label">Border Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${a.borderTransparency}" oninput="config.animations.borderTransparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${a.borderTransparency}</span></div></div>
   `;
 }
 
@@ -1097,11 +1105,11 @@ function buildParticles() {
   const c = document.getElementById("particleBody");
   const p = config.particles;
   c.innerHTML = `
-    <div class="toggle-wrap"><span class="toggle-label">Particles Enabled</span><div class="toggle ${p.enabled?'on':''}" onclick="p.enabled=!p.enabled; toggleSwitch(this); updatePreview()"><div class="toggle-knob"></div></div></div>
-    <div class="field"><label class="field-label">Particle Count</label><div class="slider-wrap"><input type="range" min="1" max="12" value="${p.count}" oninput="p.count=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${p.count}</span></div></div>
-    <div class="field"><label class="field-label">Min Size (px)</label><div class="slider-wrap"><input type="range" min="1" max="8" value="${p.minSize}" oninput="p.minSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${p.minSize}px</span></div></div>
-    <div class="field"><label class="field-label">Max Size (px)</label><div class="slider-wrap"><input type="range" min="2" max="12" value="${p.maxSize}" oninput="p.maxSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${p.maxSize}px</span></div></div>
-    <div class="field"><label class="field-label">Particle Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${p.transparency}" oninput="p.transparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${p.transparency}</span></div></div>
+    <div class="toggle-wrap"><span class="toggle-label">Particles Enabled</span><div class="toggle ${p.enabled?'on':''}" onclick="config.particles.enabled=!config.particles.enabled; toggleSwitch(this); updatePreview()"><div class="toggle-knob"></div></div></div>
+    <div class="field"><label class="field-label">Particle Count</label><div class="slider-wrap"><input type="range" min="1" max="12" value="${p.count}" oninput="config.particles.count=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${p.count}</span></div></div>
+    <div class="field"><label class="field-label">Min Size (px)</label><div class="slider-wrap"><input type="range" min="1" max="8" value="${p.minSize}" oninput="config.particles.minSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${p.minSize}px</span></div></div>
+    <div class="field"><label class="field-label">Max Size (px)</label><div class="slider-wrap"><input type="range" min="2" max="12" value="${p.maxSize}" oninput="config.particles.maxSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${p.maxSize}px</span></div></div>
+    <div class="field"><label class="field-label">Particle Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${p.transparency}" oninput="config.particles.transparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${p.transparency}</span></div></div>
   `;
 }
 
@@ -1125,6 +1133,8 @@ function getGradForRole(role, targetKey) {
   return config.themes[role].gradients[targetKey];
 }
 
+function RG(role, key) { return getGradForRole(role, key); }
+
 function buildGradients() {
   const c = document.getElementById("gradientBody");
   if (!c) return;
@@ -1140,6 +1150,7 @@ function buildGradients() {
 
   const sectionsHtml = GRAD_TARGETS.map(gt => {
     const g = getGradForRole(activeTheme, gt.key);
+    const ref = `RG('${activeTheme}','${gt.key}')`;
     const isCustomized = JSON.stringify(g) !== JSON.stringify((config.gradients && config.gradients[gt.key]) || {});
     return `
       <div style="background:rgba(0,0,0,0.2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px; margin-bottom:12px;">
@@ -1149,12 +1160,12 @@ function buildGradients() {
         </div>
         <div class="toggle-wrap" style="margin-bottom:8px; padding:8px 12px;">
           <span class="toggle-label" style="font-size:11.5px;">Enable Gradient</span>
-          <div class="toggle ${g.enabled?'on':''}" onclick="g.enabled=!g.enabled; toggleSwitch(this); updatePreview(); buildGradients();"><div class="toggle-knob"></div></div>
+          <div class="toggle ${g.enabled?'on':''}" onclick="${ref}.enabled=!${ref}.enabled; toggleSwitch(this); updatePreview(); buildGradients();"><div class="toggle-knob"></div></div>
         </div>
         ${g.enabled ? `
           <div class="field" style="margin-bottom:8px;">
             <label class="field-label">Type</label>
-            <select style="padding:6px 10px; font-size:11.5px;" onchange="g.type=this.value; updatePreview()">
+            <select style="padding:6px 10px; font-size:11.5px;" onchange="${ref}.type=this.value; updatePreview()">
               <option value="Linear" ${g.type==='Linear'?'selected':''}>Linear</option>
               <option value="Radial" ${g.type==='Radial'?'selected':''}>Radial</option>
             </select>
@@ -1163,22 +1174,22 @@ function buildGradients() {
             <div class="field" style="margin:0;">
               <label class="field-label">Color 1</label>
               <div class="color-pick" style="padding:3px;">
-                <input type="color" value="${g.colors[0]||'#B87CFF'}" onchange="g.colors[0]=this.value; this.nextElementSibling.value=this.value; updatePreview()">
-                <input type="text" class="hex" value="${g.colors[0]||'#B87CFF'}" onchange="g.colors[0]=this.value; this.previousElementSibling.value=this.value; updatePreview()">
+                <input type="color" value="${g.colors[0]||'#B87CFF'}" onchange="${ref}.colors[0]=this.value; this.nextElementSibling.value=this.value; updatePreview()">
+                <input type="text" class="hex" value="${g.colors[0]||'#B87CFF'}" onchange="${ref}.colors[0]=this.value; this.previousElementSibling.value=this.value; updatePreview()">
               </div>
             </div>
             <div class="field" style="margin:0;">
               <label class="field-label">Color 2</label>
               <div class="color-pick" style="padding:3px;">
-                <input type="color" value="${g.colors[1]||'#1A1A22'}" onchange="g.colors[1]=this.value; this.nextElementSibling.value=this.value; updatePreview()">
-                <input type="text" class="hex" value="${g.colors[1]||'#1A1A22'}" onchange="g.colors[1]=this.value; this.previousElementSibling.value=this.value; updatePreview()">
+                <input type="color" value="${g.colors[1]||'#1A1A22'}" onchange="${ref}.colors[1]=this.value; this.nextElementSibling.value=this.value; updatePreview()">
+                <input type="text" class="hex" value="${g.colors[1]||'#1A1A22'}" onchange="${ref}.colors[1]=this.value; this.previousElementSibling.value=this.value; updatePreview()">
               </div>
             </div>
           </div>
           <div class="field" style="margin-bottom:4px;">
             <label class="field-label">Rotation (${g.rotation}°)</label>
             <div class="slider-wrap">
-              <input type="range" min="0" max="360" value="${g.rotation}" oninput="g.rotation=+this.value; this.nextElementSibling.textContent=this.value+'°'; updatePreview()">
+              <input type="range" min="0" max="360" value="${g.rotation}" oninput="${ref}.rotation=+this.value; this.nextElementSibling.textContent=this.value+'°'; updatePreview()">
               <span class="slider-val">${g.rotation}°</span>
             </div>
           </div>
@@ -1188,6 +1199,7 @@ function buildGradients() {
   }).join('');
 
   c.innerHTML = tabsHtml + sectionsHtml;
+  refreshOpenSectionHeights();
 }
 
 function resetRoleGradToGlobal(role, targetKey) {
@@ -1611,6 +1623,11 @@ function buildPreviewThemeBtns() {
 }
 
 // ── LIVE PREVIEW ──
+function gradCssRoblox(g) {
+  // Roblox UIGradient rotation 0 = left→right; CSS 90deg = left→right
+  return renderCustomGradientCss(Object.assign({}, g, { rotation: (g.rotation || 0) + 90 }));
+}
+
 function updatePreview() {
   const nameDisplay = document.getElementById("ntNameDisplay");
   const roleDisplay = document.getElementById("ntRoleDisplay");
@@ -1667,7 +1684,7 @@ function updatePreview() {
   const l = config.layout;
   const a = config.animations;
 
-  if (theme.bgGradient && !colorOverrides) {
+  if (theme.bgGradient && !(colorOverrides && colorOverrides.bg)) {
     ntPreview.style.background = renderGradientCss(theme);
   } else {
     ntPreview.style.background = bg;
@@ -1723,6 +1740,37 @@ function updatePreview() {
   roleDisplay.style.right = rightOffset + "px";
   roleDisplay.style.top = (l.roleLabelY || 26) + "px";
   roleDisplay.style.height = (l.roleLabelHeight || 12) + "px";
+
+  // Per-role target gradients (only this role's own settings; explicit per-player colors win)
+  const tg = (k, ovKey) => {
+    const g = theme.gradients && theme.gradients[k];
+    return (g && g.enabled && !(colorOverrides && colorOverrides[ovKey])) ? gradCssRoblox(g) : null;
+  };
+  const cardG = tg("cardGradient", "bg");
+  if (cardG) ntPreview.style.background = cardG;
+  ntAv.style.background = tg("avatarGradient", "avatarBg") || avatarBg;
+  const setTextGrad = (el, css, color) => {
+    el.style.background = css || "";
+    el.style.webkitBackgroundClip = el.style.backgroundClip = css ? "text" : "";
+    el.style.webkitTextFillColor = css ? "transparent" : "";
+    el.style.color = css ? "transparent" : color;
+  };
+  setTextGrad(nameDisplay, tg("nameGradient", "nameText"), nameColor);
+  setTextGrad(roleDisplay, tg("roleGradient", "roleText"), roleColor);
+  const bdG = tg("borderGradient", "border");
+  if (bdG) {
+    ntBorder.style.border = `${l.borderThickness}px solid transparent`;
+    ntBorder.style.background = bdG;
+    ntBorder.style.backgroundOrigin = "border-box";
+    ntBorder.style.webkitMask = ntBorder.style.mask = "linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)";
+    ntBorder.style.webkitMaskComposite = "xor";
+    ntBorder.style.maskComposite = "exclude";
+  } else {
+    ntBorder.style.background = "";
+    ntBorder.style.webkitMask = ntBorder.style.mask = "";
+    ntBorder.style.webkitMaskComposite = ntBorder.style.maskComposite = "";
+  }
+  saveConfigSoon();
 
   particlesContainer.innerHTML = "";
   if (config.particles && config.particles.enabled) {
