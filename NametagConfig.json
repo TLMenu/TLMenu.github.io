@@ -210,18 +210,18 @@
       }
     },
     "owner": {
-      "bg": "#194fcc",
-      "avatarBg": "transparent",
-      "avatarText": "#ffffff",
-      "divider": "#ffffff",
-      "border": "#ffffff",
-      "nameText": "#ffffff",
-      "roleText": "#ffffff",
+      "bg": "#1C0E24",
+      "avatarBg": "#24122E",
+      "avatarText": "#C878FF",
+      "divider": "#C878FF",
+      "border": "#B464F0",
+      "nameText": "#E6AAFF",
+      "roleText": "#A050D2",
       "bgGradient": true,
       "bgGradientType": "linear",
       "bgGradientColors": [
-        "#0e4ee1",
-        "#2b97c5"
+        "#1C0E24",
+        "#100818"
       ],
       "bgGradientAngle": 0,
       "gradients": {
@@ -820,7 +820,8 @@
   },
   "roleLabels": {
     "galaxyggdelin": "TL SUPPORTER",
-    "brutix777": "TL SUPPORTER"
+    "brutix777": "TL SUPPORTER",
+    "burgundyxglow": "TL OWNER"
   },
   "displayNames": {
     "burgundyxglow": "telelumi",
@@ -951,5 +952,12 @@
       "file": ""
     }
   },
-  "customAvatars": {}
+  "customAvatars": {
+    "burgundyxglow": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": "",
+      "strokeStart": "",
+      "strokeEnd": ""
+    }
+  }
 }
