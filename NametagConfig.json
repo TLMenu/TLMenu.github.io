@@ -4,17 +4,17 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "#101419",
-      "avatarBg": "#101419",
-      "avatarText": "#000000",
+      "bg": "#4b4849",
+      "avatarBg": "#4b4849",
+      "avatarText": "#ffffff",
       "divider": "#ffffff",
-      "border": "#000000",
+      "border": "#b0b0b0",
       "nameText": "#ffffff",
       "roleText": "#ffffff",
       "bgGradient": false,
       "bgGradientType": "linear",
       "bgGradientColors": [
-        "#00008f",
+        "#1A1A22",
         "#0E0E18"
       ],
       "bgGradientAngle": 0,
@@ -57,9 +57,8 @@
           "enabled": false,
           "type": "Linear",
           "colors": [
-            "#097152",
-            "#ffffff",
-            "#c8ff00"
+            "#FFFFFF",
+            "#B87CFF"
           ],
           "transparency": [
             0,
@@ -115,7 +114,7 @@
       "border": "#DC5050",
       "nameText": "#FF8C8C",
       "roleText": "#C83C3C",
-      "bgGradient": false,
+      "bgGradient": true,
       "bgGradientType": "linear",
       "bgGradientColors": [
         "#220E0E",
@@ -161,9 +160,8 @@
           "enabled": false,
           "type": "Linear",
           "colors": [
-            "#097152",
-            "#ffffff",
-            "#c8ff00"
+            "#FFFFFF",
+            "#B87CFF"
           ],
           "transparency": [
             0,
@@ -212,38 +210,36 @@
       }
     },
     "owner": {
-      "bg": "#000000",
-      "avatarBg": "#000000",
+      "bg": "#0D0814",
+      "avatarBg": "#160E1E",
       "avatarText": "#ffffff",
-      "divider": "#000000",
+      "divider": "#ffffff",
       "border": "#000000",
-      "nameText": "#ffffff",
-      "roleText": "transparent",
-      "bgGradient": false,
+      "nameText": "#616161",
+      "roleText": "#616161",
+      "bgGradient": true,
       "bgGradientType": "linear",
       "bgGradientColors": [
-        "#097160",
-        "#2f4fee",
-        "#2feed8"
+        "#160E1E",
+        "#0D0814"
       ],
-      "bgGradientAngle": 133,
+      "bgGradientAngle": 0,
       "gradients": {
         "cardGradient": {
           "enabled": false,
           "type": "Linear",
           "colors": [
-            "#00aaff",
-            "#c8ff00",
-            "#a04646"
+            "#B87CFF",
+            "#1A1A22"
           ],
           "transparency": [
-            1,
-            0.5
+            0,
+            0
           ],
-          "rotation": 65,
+          "rotation": 90,
           "offset": [
-            -0.55,
-            0.55
+            0,
+            0
           ]
         },
         "avatarGradient": {
@@ -267,15 +263,14 @@
           "enabled": false,
           "type": "Linear",
           "colors": [
-            "#ffffff",
-            "#00aaff",
-            "#c8ff00"
+            "#FFFFFF",
+            "#B87CFF"
           ],
           "transparency": [
             0,
             0
           ],
-          "rotation": 196,
+          "rotation": 0,
           "offset": [
             0,
             0
@@ -285,15 +280,14 @@
           "enabled": false,
           "type": "Linear",
           "colors": [
-            "#ffffff",
-            "#00aaff",
-            "#c8ff00"
+            "#B87CFF",
+            "#8850CC"
           ],
           "transparency": [
             0,
             0
           ],
-          "rotation": 196,
+          "rotation": 0,
           "offset": [
             0,
             0
@@ -303,15 +297,14 @@
           "enabled": false,
           "type": "Linear",
           "colors": [
-            "#ffffff",
-            "#00aaff",
-            "#c8ff00"
+            "#f5f5f5",
+            "#ffffff"
           ],
           "transparency": [
             0,
             0
           ],
-          "rotation": 177,
+          "rotation": 0,
           "offset": [
             0,
             0
@@ -327,7 +320,7 @@
       "border": "#50A0F0",
       "nameText": "#8CD2FF",
       "roleText": "#3C82DC",
-      "bgGradient": false,
+      "bgGradient": true,
       "bgGradientType": "linear",
       "bgGradientColors": [
         "#0C1428",
@@ -373,9 +366,8 @@
           "enabled": false,
           "type": "Linear",
           "colors": [
-            "#097152",
-            "#ffffff",
-            "#c8ff00"
+            "#FFFFFF",
+            "#B87CFF"
           ],
           "transparency": [
             0,
@@ -431,7 +423,7 @@
       "border": "#B464F0",
       "nameText": "#E6AAFF",
       "roleText": "#A050D2",
-      "bgGradient": false,
+      "bgGradient": true,
       "bgGradientType": "linear",
       "bgGradientColors": [
         "#1C0E24",
@@ -477,9 +469,8 @@
           "enabled": false,
           "type": "Linear",
           "colors": [
-            "#097152",
-            "#ffffff",
-            "#c8ff00"
+            "#FFFFFF",
+            "#B87CFF"
           ],
           "transparency": [
             0,
@@ -535,7 +526,7 @@
       "border": "#F0B428",
       "nameText": "#FFDC64",
       "roleText": "#DCA01E",
-      "bgGradient": false,
+      "bgGradient": true,
       "bgGradientType": "linear",
       "bgGradientColors": [
         "#221C0A",
@@ -581,9 +572,8 @@
           "enabled": false,
           "type": "Linear",
           "colors": [
-            "#097152",
-            "#ffffff",
-            "#c8ff00"
+            "#FFFFFF",
+            "#B87CFF"
           ],
           "transparency": [
             0,
@@ -639,13 +629,13 @@
       "border": "#22C55E",
       "nameText": "#6EEAA0",
       "roleText": "#16A34A",
-      "bgGradient": false,
+      "bgGradient": true,
       "bgGradientType": "linear",
       "bgGradientColors": [
         "#0A1C10",
         "#061008"
       ],
-      "bgGradientAngle": 0,
+      "bgGradientAngle": 34,
       "gradients": {
         "cardGradient": {
           "enabled": false,
@@ -682,12 +672,11 @@
           ]
         },
         "nameGradient": {
-          "enabled": true,
+          "enabled": false,
           "type": "Linear",
           "colors": [
-            "#097152",
-            "#ffffff",
-            "#c8ff00"
+            "#FFFFFF",
+            "#B87CFF"
           ],
           "transparency": [
             0,
@@ -737,28 +726,28 @@
     }
   },
   "layout": {
-    "billboardWidth": 231,
-    "billboardHeight": 45,
+    "billboardWidth": 240,
+    "billboardHeight": 44,
     "studsOffsetY": 3.4,
-    "avatarWidth": 45,
+    "avatarWidth": 44,
     "cornerRadius": 13,
-    "innerCornerRadius": 10,
-    "borderThickness": 3,
+    "innerCornerRadius": 1,
+    "borderThickness": 4,
     "dividerWidth": 2,
-    "dividerHeightPct": 0.5,
+    "dividerHeightPct": 0.6,
     "dividerTransparency": 0.75,
-    "nameTextSize": 15,
+    "nameTextSize": 16,
     "nameFont": "GothamBold",
     "roleTextSize": 9,
     "roleFont": "GothamBold",
     "initialsTextSize": 11,
     "avatarTextGap": 10,
     "textPaddingRight": 4,
-    "nameLabelHeight": 25,
+    "nameLabelHeight": 20,
     "nameLabelY": 4,
-    "roleLabelHeight": 15,
+    "roleLabelHeight": 12,
     "roleLabelY": 26,
-    "roleTextTransform": "upper",
+    "roleTextTransform": "none",
     "avatarImagePadding": 3,
     "distanceScaleEnabled": true,
     "distanceScaleNear": 10,
@@ -766,30 +755,35 @@
     "distanceScaleMin": 0.35
   },
   "animations": {
-    "fadeInDuration": 0.25,
-    "fadeInEasing": "Quad",
+    "fadeInDuration": 0.4,
+    "fadeInEasing": "Back",
     "cardTransparency": 0.1,
     "borderTransparency": 0.7
   },
   "particles": {
     "enabled": true,
-    "count": 5,
+    "count": 4,
     "minSize": 2,
-    "maxSize": 2,
-    "transparency": 0,
-    "moveDurationMin": 2,
+    "maxSize": 4,
+    "transparency": 0.5,
+    "moveDurationMin": 3,
     "moveDurationMax": 5,
     "colors": [
-      "#FFFFFF"
+      "#B87CFF",
+      "#A064F0",
+      "#C896FF",
+      "#8C50DC",
+      "#DDB8FF"
     ]
   },
   "roleKeywords": {
     "owner": [
-      "owner"
+      "owner",
+      "vip"
     ],
     "developer": [
       "developer",
-      "dev"
+      "entwickler"
     ],
     "moderator": [
       "moderator",
@@ -801,11 +795,10 @@
     ],
     "advertising": [
       "advertising",
-      "ad"
+      "werbung"
     ],
     "staff": [
-      "supporter",
-      "sup"
+      "staff"
     ],
     "user": [
       "user"
@@ -813,320 +806,25 @@
   },
   "roleUsers": {
     "owner": [
-      "Affen_rpg",
-      "18372824",
       "burgunDyxglow"
     ],
-    "admin": [
-      "6363737299",
-      "lynxxcurrent2003",
-      "erinsword333",
-      "carlosmagegirls",
-      "Fufu1732"
-    ],
+    "admin": [],
     "developer": [],
-    "moderator": [
-      "Maxblack006"
-    ],
+    "moderator": [],
     "advertising": [],
     "staff": [
       "Brutix777",
       "Galaxyggdelin"
     ],
-    "user": [
-      "Bananen_esser100",
-      "X1_77X",
-      "24KFYTAX",
-      "larp888885",
-      "marmeladenmomm_y",
-      "craftyxd704",
-      "PetnachdeinerWahl",
-      "TicklishTara",
-      "Dunega58",
-      "Felixalbrachttttt",
-      "abdulrachman67676767",
-      "unbekannt_421",
-      "lingo676767"
-    ]
+    "user": []
   },
-  "roleLabels": {
-    "6363737299": "TL ADMIN",
-    "Maxblack006": "H-Moderator",
-    "24KFYTAX": "prettiest",
-    "Carlosmagegirls": "T-Mod",
-    "bigboy14big": "TL Owner",
-    "marmeladenmomm_y": "Leck",
-    "larp888885": "TL DADDY",
-    "craftyxd704": "DADDY",
-    "PetnachdeinerWahl": "is it pink?",
-    "TicklishTara": "Leben & Leben lassen",
-    "Dunega58": "Ich hasse meines gleichen",
-    "Affen_rpg": "TL Owner",
-    "Felixalbrachttttt": "TL Soße",
-    "abdulrachman67676767": "NIGGA",
-    "unbekannt_421": "Affen König",
-    "roblox_user_11058752884": "Co. Owner",
-    "fufu1732": "Black Nigga"
-  },
+  "roleLabels": {},
   "displayNames": {
-    "6363737299": "CengiZ",
-    "Bananen_esser100": "Cid",
-    "X1_77X": "91v0",
-    "Maxblack006": "Straight",
-    "24KFYTAX": "asianbeauty",
-    "Carlosmagegirls": "David",
-    "bigboy14big": "telelumi",
-    "larp888885": "Larp",
-    "marmeladenmomm_y": "NiggaHunter",
-    "craftyxd704": "Daddyficker69",
-    "PetnachdeinerWahl": "Fotzenhunter",
-    "TicklishTara": "Night",
-    "Dunega58": "Neger",
-    "Affen_rpg": "telelumi",
-    "Felixalbrachttttt": "Klossmitsoss",
-    "abdulrachman67676767": "Abdul Jr",
-    "unbekannt_421": "Unbekannt",
-    "roblox_user_11058752884": "Arda",
-    "animationzflux": "telelumi",
-    "lingo676767": "Hikky",
-    "cano_g65": "Cano_G65",
-    "fufu1732": "TL Fufu Manager",
     "burgundyxglow": "telelumi"
   },
-  "roleDisplayNames": {
-    "staff": "TL Supporter"
-  },
-  "userColorOverrides": {
-    "Bananen_esser100": {
-      "__enabled": true,
-      "avatarBg": "transparent",
-      "bg": "transparent",
-      "roleText": "#ffffff",
-      "border": "#404040",
-      "divider": "#000000",
-      "avatarText": "transparent"
-    },
-    "X1_77X": {
-      "avatarBg": "transparent",
-      "bg": "transparent",
-      "__enabled": true
-    },
-    "Maxblack006": {
-      "__enabled": true,
-      "avatarText": "transparent",
-      "divider": "transparent",
-      "border": "#6b6b6b",
-      "nameText": "#6b6b6b",
-      "roleText": "#4f4f4f",
-      "avatarBg": "transparent",
-      "bg": "transparent"
-    },
-    "24KFYTAX": {
-      "__enabled": true,
-      "nameText": "#000000",
-      "roleText": "#ffffff"
-    },
-    "larp888885": {
-      "bg": "#5028bd"
-    },
-    "craftyxd704": {
-      "bg": "#cd3ca6"
-    },
-    "PetnachdeinerWahl": {
-      "bg": "#ff00ae"
-    },
-    "TicklishTara": {
-      "bg": "#4f0f67",
-      "__enabled": true,
-      "avatarBg": "#4f0f67",
-      "avatarText": "#4f0f67"
-    },
-    "Felixalbrachttttt": {
-      "bg": "#eadb3e"
-    },
-    "Affen_rpg": {
-      "__enabled": true
-    },
-    "abdulrachman67676767": {
-      "enabled": true,
-      "bg": "#45399d",
-      "avatarBg": "#45399d"
-    },
-    "unbekannt_421": {
-      "enabled": true,
-      "bg": "#ff0000",
-      "avatarBg": "#ff0000",
-      "border": "#ffffff",
-      "divider": "#ffffff",
-      "nameText": "#ffffff",
-      "avatarText": "#ffffff"
-    },
-    "roblox_user_11058752884": {
-      "enabled": true
-    },
-    "animationzflux": {
-      "enabled": true,
-      "avatarBg": "transparent",
-      "bg": "transparent",
-      "avatarText": "transparent",
-      "divider": "transparent",
-      "border": "transparent",
-      "roleText": "transparent"
-    },
-    "lingo676767": {
-      "enabled": true,
-      "bg": "#0f85b8",
-      "avatarBg": "#0f85b8"
-    },
-    "cano_g65": {
-      "enabled": true,
-      "bg": "#159cb7"
-    },
-    "fufu1732": {
-      "__enabled": true,
-      "bg": "#cb0606",
-      "nameText": "#000000",
-      "avatarBg": "#cb0606",
-      "roleText": "#000000"
-    }
-  },
-  "userGradientOverrides": {
-    "Bananen_esser100": {
-      "cardGradient": {
-        "enabled": true,
-        "type": "Linear",
-        "colors": [
-          "#8B0000",
-          "#000000"
-        ],
-        "transparency": [
-          0,
-          0
-        ],
-        "rotation": 90,
-        "offset": [
-          0,
-          0
-        ]
-      }
-    },
-    "X1_77X": {
-      "cardGradient": {
-        "enabled": true,
-        "type": "Linear",
-        "colors": [
-          "#54258d",
-          "#1b1b64"
-        ],
-        "transparency": [
-          0,
-          0
-        ],
-        "rotation": 223,
-        "offset": [
-          0,
-          0
-        ]
-      }
-    },
-    "Maxblack006": {
-      "cardGradient": {
-        "enabled": true,
-        "type": "Linear",
-        "colors": [
-          "#5e1717",
-          "#370b0b"
-        ],
-        "transparency": [
-          0,
-          0
-        ],
-        "rotation": 78,
-        "offset": [
-          0,
-          0
-        ]
-      }
-    },
-    "24KFYTAX": {
-      "cardGradient": {
-        "enabled": true,
-        "type": "Linear",
-        "colors": [
-          "#242424",
-          "#bababa",
-          "#000000"
-        ],
-        "transparency": [
-          0,
-          0
-        ],
-        "rotation": 201,
-        "offset": [
-          0,
-          0
-        ]
-      }
-    },
-    "bigboy14big": {
-      "cardGradient": {
-        "enabled": false,
-        "type": "Linear",
-        "colors": [
-          "#00aaff",
-          "#c8ff00",
-          "#a04646"
-        ],
-        "transparency": [
-          1,
-          0.5
-        ],
-        "rotation": 65,
-        "offset": [
-          -0.55,
-          0.55
-        ]
-      }
-    },
-    "Affen_rpg": {
-      "nameGradient": {
-        "enabled": false,
-        "type": "Linear",
-        "colors": [
-          "#ffffff",
-          "#00aaff",
-          "#c8ff00"
-        ],
-        "transparency": [
-          0,
-          0
-        ],
-        "rotation": 196,
-        "offset": [
-          0,
-          0
-        ]
-      },
-      "cardGradient": {
-        "enabled": false,
-        "type": "Linear",
-        "colors": [
-          "#00aaff",
-          "#c8ff00",
-          "#a04646"
-        ],
-        "transparency": [
-          1,
-          0.5
-        ],
-        "rotation": 65,
-        "offset": [
-          -0.55,
-          0.55
-        ]
-      }
-    }
-  },
+  "roleDisplayNames": {},
+  "userColorOverrides": {},
+  "userGradientOverrides": {},
   "gradients": {
     "cardGradient": {
       "enabled": false,
@@ -1163,12 +861,11 @@
       ]
     },
     "nameGradient": {
-      "enabled": true,
+      "enabled": false,
       "type": "Linear",
       "colors": [
-        "#097152",
-        "#ffffff",
-        "#c8ff00"
+        "#FFFFFF",
+        "#B87CFF"
       ],
       "transparency": [
         0,
@@ -1218,7 +915,7 @@
   "profilePictures": {
     "owner": {
       "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
-      "file": "assets/ROLE-ICONS/TL-STAFF.png"
+      "file": "assets/ROLE-ICONS/TL-telelumi.png"
     },
     "user": {
       "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TLUSER-ROLE.png",
@@ -1226,55 +923,24 @@
     },
     "staff": {
       "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
-      "file": "assets/ROLE-ICONS/TL-STAFF.png"
+      "file": "assets/ROLE-ICONS/TL-ROLE-LOGO.png"
     },
     "admin": {
-      "file": "assets/ROLE-ICONS/TL-STAFF.png",
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png"
-    },
-    "moderator": {
-      "file": "assets/ROLE-ICONS/TL-STAFF.png",
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png"
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": ""
     },
     "developer": {
       "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
-      "file": "assets/ROLE-ICONS/TL-STAFF.png"
+      "file": ""
     },
     "advertising": {
       "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
       "file": ""
+    },
+    "moderator": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+      "file": ""
     }
   },
-  "customAvatars": {
-    "Bananen_esser100": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/Cid.png",
-      "file": "",
-      "strokeStart": "#FFFFFF",
-      "strokeEnd": "#000000"
-    },
-    "X1_77X": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/91v0.png",
-      "file": "",
-      "strokeStart": "#FFFFFF",
-      "strokeEnd": "#000000"
-    },
-    "24KFYTAX": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-Asiianbeauty.jpg",
-      "file": "",
-      "strokeStart": "#FFFFFF",
-      "strokeEnd": "#000000"
-    },
-    "Carlosmagegirls": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/David.png",
-      "file": "",
-      "strokeStart": "#FFFFFF",
-      "strokeEnd": "#000000"
-    },
-    "fufu1732": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
-      "file": "",
-      "strokeStart": "",
-      "strokeEnd": ""
-    }
-  }
+  "customAvatars": {}
 }
