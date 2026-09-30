@@ -800,9 +800,7 @@
     "staff": [
       "staff"
     ],
-    "user": [
-      "user"
-    ]
+    "user": []
   },
   "roleUsers": {
     "owner": [
