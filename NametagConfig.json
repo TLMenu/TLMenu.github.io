@@ -210,14 +210,14 @@
       }
     },
     "owner": {
-      "bg": "#0D0814",
+      "bg": "#160E1E",
       "avatarBg": "#160E1E",
       "avatarText": "#ffffff",
       "divider": "#ffffff",
       "border": "#000000",
-      "nameText": "#616161",
-      "roleText": "#616161",
-      "bgGradient": true,
+      "nameText": "#2d1466",
+      "roleText": "#2d1466",
+      "bgGradient": false,
       "bgGradientType": "linear",
       "bgGradientColors": [
         "#160E1E",
@@ -818,12 +818,21 @@
     ],
     "user": []
   },
-  "roleLabels": {},
+  "roleLabels": {
+    "galaxyggdelin": "TL SUPPORTER",
+    "brutix777": "TL SUPPORTER"
+  },
   "displayNames": {
-    "burgundyxglow": "telelumi"
+    "burgundyxglow": "telelumi",
+    "brutix777": "Brutix",
+    "galaxyggdelin": "Deylin"
   },
   "roleDisplayNames": {},
-  "userColorOverrides": {},
+  "userColorOverrides": {
+    "burgundyxglow": {
+      "__enabled": false
+    }
+  },
   "userGradientOverrides": {},
   "gradients": {
     "cardGradient": {
