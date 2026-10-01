@@ -1,4 +1,4 @@
---!nocheck
+﻿--!nocheck
 -- Standalone Module: NametagSystem
 -- Extracted from TLMenu
 
@@ -257,51 +257,57 @@ function NametagSystem.Init(ctx)
                     enabled = true,
                     themes = {
                         user = {
-                            bg = "#1A1A22", avatarBg = "#1F1F2C", avatarText = "#A0A0C0",
-                            divider = "#A0A0C0", border = "#A0A0B4", nameText = "#E6E6F0", roleText = "#7878A0",
-                            bgGradient = false, bgGradientType = "linear", bgGradientColors = {"#1A1A22", "#0E0E18"}, bgGradientAngle = 0,
-                            bgGradientStart = "#1A1A22", bgGradientEnd = "#0E0E18", bgGradientRotation = 0,
+                            bg = "#12141a", avatarBg = "#181b24", avatarText = "#94a3b8",
+                            divider = "#334155", border = "#262c3a", nameText = "#f1f5f9", roleText = "#64748b",
+                            bgGradient = false, bgGradientType = "Linear", bgGradientColors = {"#12141a", "#0a0c10"}, bgGradientAngle = 0,
+                            bgGradientStart = "#12141a", bgGradientEnd = "#0a0c10", bgGradientRotation = 0,
                         },
                         admin = {
-                            bg = "#220E0E", avatarBg = "#2A1212", avatarText = "#FF6464",
-                            divider = "#FF6464", border = "#DC5050", nameText = "#FF8C8C", roleText = "#C83C3C",
-                            bgGradient = false, bgGradientType = "linear", bgGradientColors = {"#220E0E", "#150808"}, bgGradientAngle = 0,
-                            bgGradientStart = "#220E0E", bgGradientEnd = "#150808", bgGradientRotation = 0,
+                            bg = "#1e1114", avatarBg = "#281418", avatarText = "#fb7185",
+                            divider = "#4c1d24", border = "#3f1a20", nameText = "#ffe4e6", roleText = "#e11d48",
+                            bgGradient = false, bgGradientType = "Linear", bgGradientColors = {"#1e1114", "#12080a"}, bgGradientAngle = 0,
+                            bgGradientStart = "#1e1114", bgGradientEnd = "#12080a", bgGradientRotation = 0,
                         },
                         owner = {
-                            bg = "#160E1E", avatarBg = "#1B1226", avatarText = "#B87CFF",
-                            divider = "#B87CFF", border = "#AA64FF", nameText = "#DDB8FF", roleText = "#8850CC",
-                            bgGradient = false, bgGradientType = "linear", bgGradientColors = {"#160E1E", "#0D0814"}, bgGradientAngle = 0,
-                            bgGradientStart = "#160E1E", bgGradientEnd = "#0D0814", bgGradientRotation = 0,
+                            bg = "#161024", avatarBg = "#1f1533", avatarText = "#c084fc",
+                            divider = "#3b2354", border = "#311c47", nameText = "#f3e8ff", roleText = "#a855f7",
+                            bgGradient = false, bgGradientType = "Linear", bgGradientColors = {"#161024", "#0c0814"}, bgGradientAngle = 0,
+                            bgGradientStart = "#161024", bgGradientEnd = "#0c0814", bgGradientRotation = 0,
                         },
                         developer = {
-                            bg = "#0C1428", avatarBg = "#101A34", avatarText = "#64B4FF",
-                            divider = "#64B4FF", border = "#50A0F0", nameText = "#8CD2FF", roleText = "#3C82DC",
-                            bgGradient = false, bgGradientType = "linear", bgGradientColors = {"#0C1428", "#060A18"}, bgGradientAngle = 0,
-                            bgGradientStart = "#0C1428", bgGradientEnd = "#060A18", bgGradientRotation = 0,
+                            bg = "#0d1726", avatarBg = "#122035", avatarText = "#60a5fa",
+                            divider = "#1e3a5f", border = "#1a304e", nameText = "#eff6ff", roleText = "#3b82f6",
+                            bgGradient = false, bgGradientType = "Linear", bgGradientColors = {"#0d1726", "#070c14"}, bgGradientAngle = 0,
+                            bgGradientStart = "#0d1726", bgGradientEnd = "#070c14", bgGradientRotation = 0,
                         },
                         advertising = {
-                            bg = "#1C0E24", avatarBg = "#24122E", avatarText = "#C878FF",
-                            divider = "#C878FF", border = "#B464F0", nameText = "#E6AAFF", roleText = "#A050D2",
-                            bgGradient = false, bgGradientType = "linear", bgGradientColors = {"#1C0E24", "#100818"}, bgGradientAngle = 0,
-                            bgGradientStart = "#1C0E24", bgGradientEnd = "#100818", bgGradientRotation = 0,
+                            bg = "#1c1024", avatarBg = "#251432", avatarText = "#e879f9",
+                            divider = "#421f52", border = "#351942", nameText = "#fae8ff", roleText = "#c026d3",
+                            bgGradient = false, bgGradientType = "Linear", bgGradientColors = {"#1c1024", "#0f0814"}, bgGradientAngle = 0,
+                            bgGradientStart = "#1c1024", bgGradientEnd = "#0f0814", bgGradientRotation = 0,
                         },
                         moderator = {
-                            bg = "#221C0A", avatarBg = "#2A220C", avatarText = "#FFC83C",
-                            divider = "#FFC83C", border = "#F0B428", nameText = "#FFDC64", roleText = "#DCA01E",
-                            bgGradient = false, bgGradientType = "linear", bgGradientColors = {"#221C0A", "#141006"}, bgGradientAngle = 0,
-                            bgGradientStart = "#221C0A", bgGradientEnd = "#141006", bgGradientRotation = 0,
+                            bg = "#1c170d", avatarBg = "#272011", avatarText = "#facc15",
+                            divider = "#463817", border = "#382d13", nameText = "#fefce8", roleText = "#ca8a04",
+                            bgGradient = false, bgGradientType = "Linear", bgGradientColors = {"#1c170d", "#100d07"}, bgGradientAngle = 0,
+                            bgGradientStart = "#1c170d", bgGradientEnd = "#100d07", bgGradientRotation = 0,
+                        },
+                        staff = {
+                            bg = "#0d1e16", avatarBg = "#12281d", avatarText = "#4ade80",
+                            divider = "#1c432d", border = "#163624", nameText = "#f0fdf4", roleText = "#22c55e",
+                            bgGradient = false, bgGradientType = "Linear", bgGradientColors = {"#0d1e16", "#07120d"}, bgGradientAngle = 0,
+                            bgGradientStart = "#0d1e16", bgGradientEnd = "#07120d", bgGradientRotation = 0,
                         },
                     },
                     layout = {
-                        billboardWidth = 240, billboardHeight = 44, studsOffsetY = 3.4,
-                        avatarWidth = 44, cornerRadius = 8, innerCornerRadius = 5,
-                        borderThickness = 1, dividerWidth = 1, dividerHeightPct = 0.6,
+                        billboardWidth = 230, billboardHeight = 42, studsOffsetY = 3.5,
+                        avatarWidth = 42, cornerRadius = 11, innerCornerRadius = 8,
+                        borderThickness = 1, dividerWidth = 1, dividerHeightPct = 0.5,
                         dividerTransparency = 0.75, nameTextSize = 13, nameFont = "GothamBold",
                         roleTextSize = 9, roleFont = "GothamBold", initialsTextSize = 11,
-                        avatarTextGap = 10, textPaddingRight = 4,
-                        nameLabelHeight = 20, nameLabelY = 4,
-                        roleLabelHeight = 12, roleLabelY = 26,
+                        avatarTextGap = 10, textPaddingRight = 6,
+                        nameLabelHeight = 18, nameLabelY = 4,
+                        roleLabelHeight = 12, roleLabelY = 24,
                         roleTextTransform = "upper",
                         avatarImagePadding = 3,
                         distanceScaleEnabled = true,
@@ -311,7 +317,7 @@ function NametagSystem.Init(ctx)
                     },
                     animations = {
                         fadeInDuration = 0.3, fadeInEasing = "Quad",
-                        cardTransparency = 0, borderTransparency = 0.3,
+                        cardTransparency = 0.05, borderTransparency = 0.25,
                     },
                     particles = {
                         enabled = true, count = 4, minSize = 2, maxSize = 4,
@@ -399,6 +405,7 @@ function NametagSystem.Init(ctx)
 
                 
     local _NT_CONFIG = {}
+    local _NT_updateAllFn = nil -- Set after UpdateAll is defined; called after remote config loads
 
     local function _NT_deepCopy(orig)
         if type(orig) ~= "table" then return orig end
@@ -548,6 +555,10 @@ function NametagSystem.Init(ctx)
                     end
                 end
             end)
+            -- After both requests finish, rebuild nametags with fresh config
+            if _NT_updateAllFn then
+                task.spawn(_NT_updateAllFn)
+            end
         end)
     end
     _NT_loadConfig()
@@ -688,454 +699,35 @@ local function _NT_buildColorSeq(rawColors, rawTransparencies)
 end
 
 local function _NT_applyGradient(target, gradCfg)
-                    if not target or not gradCfg or not gradCfg.enabled then return nil, {} end
-                    
-                    local _GRAD_TYPE_MAP = {
-                        linear = "Linear", radial = "Radial", conic = "Conic", angular = "Angular",
-                        mesh = "Mesh", color = "Color", blend = "Blend", colorblend = "Blend",
-                        duotone = "Duotone", multicolor = "Multicolor", smooth = "Smooth",
-                        soft = "Soft", glass = "Glass", neon = "Neon", metallic = "Metallic",
-                        iridescent = "Iridescent", holographic = "Holographic", aurora = "Aurora",
-                        sunset = "Sunset", spectrum = "Spectrum", liquid = "Liquid",
-                        dynamic = "Dynamic", fluid = "Fluid", chromatic = "Chromatic",
-                        ombre = "Ombre", fade = "Fade", transition = "ColorTransition",
-                        colortransition = "ColorTransition", overlay = "Overlay",
-                        gradmesh = "Mesh", flow = "Flow", wave = "Wave",
-                    }
-                    local rawType = tostring(gradCfg.type or "Linear"):lower()
-                    local gType = _GRAD_TYPE_MAP[rawType] or "Linear"
-                    local colors = gradCfg.colors or { "#FFFFFF", "#000000" }
-                    local trans = gradCfg.transparency or { 0, 0 }
-                    local rot = tonumber(gradCfg.rotation) or 0
-                    local cs, ns = _NT_buildColorSeq(colors, trans)
-                    local conns = {}
+    if not target or not gradCfg or not gradCfg.enabled then return nil, {} end
+    
+    local colors = gradCfg.colors or { "#FFFFFF", "#000000" }
+    local trans = gradCfg.transparency or { 0, 0 }
+    local rot = tonumber(gradCfg.rotation) or 0
+    local cs, ns = _NT_buildColorSeq(colors, trans)
+    local conns = {}
 
-                    if gType == "Linear" then
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = cs; ug.Transparency = ns
-                        ug.Rotation = rot
-                        ug.Offset = Vector2.new(gradCfg.offset and gradCfg.offset[1] or 0, gradCfg.offset and gradCfg.offset[2] or 0)
-                        return ug, conns
+    local ug = Instance.new("UIGradient", target)
+    ug.Color = cs
+    ug.Transparency = ns
+    ug.Rotation = rot
+    ug.Offset = Vector2.new(gradCfg.offset and gradCfg.offset[1] or 0, gradCfg.offset and gradCfg.offset[2] or 0)
 
-                    elseif gType == "Radial" then
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = cs; ug.Transparency = ns
-                        ug.Rotation = rot; ug.Style = Enum.GradientStyle.Radial
-                        return ug, conns
+    if gradCfg.animated and _NT_canAnimateGradient() then
+        local alive = { alive = true, parent = target }
+        _NT_GRADIENT_ANIM_ALIVE[#_NT_GRADIENT_ANIM_ALIVE + 1] = alive
+        local speed = tonumber(gradCfg.speed) or 1
+        task.spawn(function()
+            local t = 0
+            while alive.alive and target and target.Parent do
+                t = t + task.wait(_NT_GRADIENT_ANIM_INTERVAL)
+                pcall(function() ug.Rotation = (rot + t * speed * 45) % 360 end)
+            end
+        end)
+    end
 
-                    elseif gType == "Conic" or gType == "Angular" then
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = cs; ug.Transparency = ns
-                        ug.Rotation = rot; ug.Style = Enum.GradientStyle.Radial
-                        if not _NT_canAnimateGradient() then return ug, conns end
-                        local alive = { alive = true, parent = target }
-                        _NT_GRADIENT_ANIM_ALIVE[#_NT_GRADIENT_ANIM_ALIVE + 1] = alive
-                        local speed = gradCfg.speed or 0.5
-                        task.spawn(function()
-                            local t = 0
-                            while alive.alive and target and target.Parent do
-                                t = t + task.wait(_NT_GRADIENT_ANIM_INTERVAL)
-                                pcall(function() ug.Rotation = (rot + t * speed * 360) % 360 end)
-                            end
-                        end)
-                        return ug, conns
-
-                    elseif gType == "Mesh" then
-                        local layers = gradCfg.layers
-                        if type(layers) ~= "table" or #layers == 0 then
-                            layers = {
-                                { colors = colors, transparency = trans, rotation = rot },
-                                { colors = { colors[#colors] or "#000000", colors[1] or "#FFFFFF" }, transparency = { 0.5, 0.5 }, rotation = (rot + 90) % 360 },
-                            }
-                        end
-                        for _, layer in ipairs(layers) do
-                            local lcs, lns = _NT_buildColorSeq(layer.colors, layer.transparency)
-                            local lug = Instance.new("UIGradient", target)
-                            lug.Color = lcs; lug.Transparency = lns
-                            lug.Rotation = layer.rotation or rot
-                            lug.Offset = Vector2.new(0.5, 0.5)
-                        end
-                        return nil, conns
-
-                    elseif gType == "Color" or gType == "ColorTransition" then
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = cs; ug.Transparency = ns
-                        ug.Rotation = rot; ug.Style = Enum.GradientStyle.Linear
-                        return ug, conns
-
-                    elseif gType == "Blend" then
-                        local ug = Instance.new("UIGradient", target)
-                        local blendT = gradCfg.transparency or { 0, 0.5 }
-                        local blendNS = NumberSequence.new({
-                            NumberSequenceKeypoint.new(0, math.clamp(blendT[1] or 0, 0, 0.9)),
-                            NumberSequenceKeypoint.new(0.5, math.clamp(blendT[2] or 0.3, 0, 0.9)),
-                            NumberSequenceKeypoint.new(1, math.clamp(blendT[1] or 0, 0, 0.9)),
-                        })
-                        ug.Color = cs; ug.Transparency = blendNS
-                        ug.Rotation = rot
-                        return ug, conns
-
-                    elseif gType == "Duotone" then
-                        local c1 = _NT_parseColor(colors[1] or "#FFFFFF")
-                        local c2 = _NT_parseColor(colors[2] or "#000000")
-                        target.BackgroundColor3 = c1
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = ColorSequence.new(c2, c1)
-                        ug.Transparency = NumberSequence.new({
-                            NumberSequenceKeypoint.new(0, 0),
-                            NumberSequenceKeypoint.new(0.5, 0.3),
-                            NumberSequenceKeypoint.new(1, 0),
-                        })
-                        ug.Rotation = rot
-                        return ug, conns
-
-                    elseif gType == "Multicolor" or gType == "Spectrum" then
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = cs; ug.Transparency = ns
-                        ug.Rotation = rot
-                        if not _NT_canAnimateGradient() then return ug, conns end
-                        local alive = { alive = true, parent = target }
-                        _NT_GRADIENT_ANIM_ALIVE[#_NT_GRADIENT_ANIM_ALIVE + 1] = alive
-                        local speed = gradCfg.speed or 0.3
-                        task.spawn(function()
-                            local t = 0
-                            while alive.alive and target and target.Parent do
-                                t = t + task.wait(_NT_GRADIENT_ANIM_INTERVAL)
-                                pcall(function() ug.Rotation = (rot + t * speed * 120) % 360 end)
-                            end
-                        end)
-                        return ug, conns
-
-                    elseif gType == "Smooth" then
-                        local smoothT = trans
-                        if #smoothT == 2 then
-                            smoothT = { smoothT[1], (smoothT[1] + smoothT[2]) / 2, smoothT[2] }
-                        end
-                        local smoothCS = {}
-                        for i = 1, #colors do
-                            local t = (i - 1) / math.max(1, #colors - 1)
-                            smoothCS[#smoothCS + 1] = ColorSequenceKeypoint.new(t, _NT_parseColor(colors[i]))
-                        end
-                        if #smoothCS == 2 then
-                            local mid = _NT_parseColor(colors[1]):Lerp(_NT_parseColor(colors[2]), 0.5)
-                            smoothCS = {
-                                ColorSequenceKeypoint.new(0, _NT_parseColor(colors[1])),
-                                ColorSequenceKeypoint.new(0.5, mid),
-                                ColorSequenceKeypoint.new(1, _NT_parseColor(colors[2])),
-                            }
-                        end
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = ColorSequence.new(smoothCS)
-                        ug.Transparency = ns; ug.Rotation = rot
-                        return ug, conns
-
-                    elseif gType == "Soft" then
-                        local ug = Instance.new("UIGradient", target)
-                        local softColors = {}
-                        for i = 1, #colors do
-                            local c = _NT_parseColor(colors[i]):Lerp(Color3.new(1, 1, 1), 0.2)
-                            softColors[#softColors + 1] = ColorSequenceKeypoint.new((i - 1) / math.max(1, #colors - 1), c)
-                        end
-                        if #softColors == 2 then
-                            local c1 = _NT_parseColor(colors[1]):Lerp(Color3.new(1, 1, 1), 0.2)
-                            local c2 = _NT_parseColor(colors[2]):Lerp(Color3.new(1, 1, 1), 0.2)
-                            local mid = c1:Lerp(c2, 0.5)
-                            softColors = {
-                                ColorSequenceKeypoint.new(0, c1),
-                                ColorSequenceKeypoint.new(0.35, mid),
-                                ColorSequenceKeypoint.new(0.65, mid),
-                                ColorSequenceKeypoint.new(1, c2),
-                            }
-                        end
-                        ug.Color = ColorSequence.new(softColors)
-                        ug.Transparency = ns; ug.Rotation = rot
-                        ug.Style = Enum.GradientStyle.Radial
-                        return ug, conns
-
-                    elseif gType == "Glass" then
-                        local ug = Instance.new("UIGradient", target)
-                        local glassNS = NumberSequence.new({
-                            NumberSequenceKeypoint.new(0, 0.3),
-                            NumberSequenceKeypoint.new(0.3, 0),
-                            NumberSequenceKeypoint.new(0.6, 0.15),
-                            NumberSequenceKeypoint.new(1, 0.5),
-                        })
-                        ug.Color = cs; ug.Transparency = glassNS
-                        ug.Rotation = rot + 45
-                        return ug, conns
-
-                    elseif gType == "Neon" then
-                        local ug = Instance.new("UIGradient", target)
-                        local neonCS = {}
-                        for i = 1, #colors do
-                            local c = _NT_parseColor(colors[i])
-                            local brightC = c:Lerp(Color3.new(1, 1, 1), 0.5)
-                            local softC = c:Lerp(Color3.new(1, 1, 1), 0.2)
-                            local base = (i - 1) / #colors
-                            neonCS[#neonCS + 1] = ColorSequenceKeypoint.new(math.clamp(base, 0, 1), softC)
-                            neonCS[#neonCS + 1] = ColorSequenceKeypoint.new(math.clamp(base + 0.2 / #colors, 0, 1), brightC)
-                            neonCS[#neonCS + 1] = ColorSequenceKeypoint.new(math.clamp(base + 0.4 / #colors, 0, 1), softC)
-                        end
-                        neonCS[#neonCS + 1] = ColorSequenceKeypoint.new(1, neonCS[1].Value)
-                        ug.Color = ColorSequence.new(neonCS)
-                        ug.Transparency = NumberSequence.new({
-                            NumberSequenceKeypoint.new(0, 0),
-                            NumberSequenceKeypoint.new(0.25, 0.1),
-                            NumberSequenceKeypoint.new(0.5, 0),
-                            NumberSequenceKeypoint.new(0.75, 0.1),
-                            NumberSequenceKeypoint.new(1, 0),
-                        })
-                        ug.Rotation = rot
-                        if not _NT_canAnimateGradient() then return ug, conns end
-                        local alive = { alive = true, parent = target }
-                        _NT_GRADIENT_ANIM_ALIVE[#_NT_GRADIENT_ANIM_ALIVE + 1] = alive
-                        local speed = gradCfg.speed or 1
-                        task.spawn(function()
-                            local t = 0
-                            while alive.alive and target and target.Parent do
-                                t = t + task.wait(_NT_GRADIENT_ANIM_INTERVAL)
-                                pcall(function() ug.Rotation = (rot + t * speed * 60) % 360 end)
-                            end
-                        end)
-                        return ug, conns
-
-                    elseif gType == "Metallic" then
-                        local ug = Instance.new("UIGradient", target)
-                        local metCS = {}
-                        for i = 1, #colors do
-                            local c = _NT_parseColor(colors[i])
-                            local metDark = c:Lerp(Color3.new(0, 0, 0), 0.45)
-                            local metMid = c:Lerp(Color3.new(1, 1, 1), 0.15)
-                            local metLight = c:Lerp(Color3.new(1, 1, 1), 0.5)
-                            local base = (i - 1) / #colors
-                            metCS[#metCS + 1] = ColorSequenceKeypoint.new(math.clamp(base, 0, 1), metDark)
-                            metCS[#metCS + 1] = ColorSequenceKeypoint.new(math.clamp(base + 0.15 / #colors, 0, 1), metMid)
-                            metCS[#metCS + 1] = ColorSequenceKeypoint.new(math.clamp(base + 0.35 / #colors, 0, 1), metLight)
-                            metCS[#metCS + 1] = ColorSequenceKeypoint.new(math.clamp(base + 0.5 / #colors, 0, 1), metMid)
-                        end
-                        metCS[#metCS + 1] = ColorSequenceKeypoint.new(1, metCS[1].Value)
-                        ug.Color = ColorSequence.new(metCS)
-                        ug.Transparency = ns; ug.Rotation = rot
-                        return ug, conns
-
-                    elseif gType == "Iridescent" or gType == "Holographic" then
-                        local ug = Instance.new("UIGradient", target)
-                        local iriCS = {}
-                        for i = 1, #colors do
-                            local c = _NT_parseColor(colors[i])
-                            local brightC = c:Lerp(Color3.new(1, 1, 1), 0.3)
-                            local t = (i - 1) / math.max(1, #colors - 1)
-                            iriCS[#iriCS + 1] = ColorSequenceKeypoint.new(t, brightC)
-                        end
-                        if #iriCS < 4 then
-                            local c1 = _NT_parseColor(colors[1])
-                            local c2 = _NT_parseColor(colors[2] or colors[1])
-                            local c3 = _NT_parseColor(colors[3] or colors[2] or colors[1])
-                            local mid1 = c1:Lerp(c2, 0.33):Lerp(Color3.new(1,1,1), 0.2)
-                            local mid2 = c2:Lerp(c3, 0.66):Lerp(Color3.new(1,1,1), 0.2)
-                            iriCS = {
-                                ColorSequenceKeypoint.new(0, c1:Lerp(Color3.new(1,1,1), 0.3)),
-                                ColorSequenceKeypoint.new(0.33, mid1),
-                                ColorSequenceKeypoint.new(0.66, mid2),
-                                ColorSequenceKeypoint.new(1, (c2 or c1):Lerp(Color3.new(1,1,1), 0.3)),
-                            }
-                        end
-                        ug.Color = ColorSequence.new(iriCS)
-                        ug.Transparency = NumberSequence.new({
-                            NumberSequenceKeypoint.new(0, 0),
-                            NumberSequenceKeypoint.new(0.25, 0.05),
-                            NumberSequenceKeypoint.new(0.5, 0),
-                            NumberSequenceKeypoint.new(0.75, 0.05),
-                            NumberSequenceKeypoint.new(1, 0),
-                        })
-                        ug.Rotation = rot
-                        if not _NT_canAnimateGradient() then return ug, conns end
-                        local alive = { alive = true, parent = target }
-                        _NT_GRADIENT_ANIM_ALIVE[#_NT_GRADIENT_ANIM_ALIVE + 1] = alive
-                        local speed = gradCfg.speed or 0.4
-                        task.spawn(function()
-                            local t = 0
-                            while alive.alive and target and target.Parent do
-                                t = t + task.wait(_NT_GRADIENT_ANIM_INTERVAL)
-                                pcall(function() ug.Rotation = (rot + t * speed * 90) % 360 end)
-                            end
-                        end)
-                        return ug, conns
-
-                    elseif gType == "Aurora" then
-                        local ug = Instance.new("UIGradient", target)
-                        local auCS = {}
-                        for i = 1, #colors do
-                            local c = _NT_parseColor(colors[i])
-                            local t = (i - 1) / math.max(1, #colors - 1)
-                            auCS[#auCS + 1] = ColorSequenceKeypoint.new(t, c)
-                        end
-                        if #auCS < 3 then
-                            local c1 = _NT_parseColor(colors[1])
-                            local c2 = _NT_parseColor(colors[2] or colors[1])
-                            local mid = c1:Lerp(c2, 0.5)
-                            auCS = {
-                                ColorSequenceKeypoint.new(0, c1),
-                                ColorSequenceKeypoint.new(0.5, mid),
-                                ColorSequenceKeypoint.new(1, c2),
-                            }
-                        end
-                        ug.Color = ColorSequence.new(auCS)
-                        ug.Transparency = NumberSequence.new({
-                            NumberSequenceKeypoint.new(0, 0.1),
-                            NumberSequenceKeypoint.new(0.3, 0),
-                            NumberSequenceKeypoint.new(0.7, 0),
-                            NumberSequenceKeypoint.new(1, 0.1),
-                        })
-                        ug.Rotation = rot
-                        if not _NT_canAnimateGradient() then return ug, conns end
-                        local alive = { alive = true, parent = target }
-                        _NT_GRADIENT_ANIM_ALIVE[#_NT_GRADIENT_ANIM_ALIVE + 1] = alive
-                        local speed = gradCfg.speed or 0.3
-                        task.spawn(function()
-                            local t = 0
-                            while alive.alive and target and target.Parent do
-                                t = t + task.wait(_NT_GRADIENT_ANIM_INTERVAL)
-                                pcall(function() ug.Rotation = (rot + t * speed * 50) % 360 end)
-                            end
-                        end)
-                        return ug, conns
-
-                    elseif gType == "Sunset" then
-                        local ug = Instance.new("UIGradient", target)
-                        local ssCS = {}
-                        for i = 1, #colors do
-                            local c = _NT_parseColor(colors[i])
-                            local t = (i - 1) / math.max(1, #colors - 1)
-                            ssCS[#ssCS + 1] = ColorSequenceKeypoint.new(t, c)
-                        end
-                        ug.Color = ColorSequence.new(ssCS)
-                        ug.Transparency = ns; ug.Rotation = rot
-                        return ug, conns
-
-                    elseif gType == "Liquid" or gType == "Fluid" then
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = cs
-                        ug.Style = Enum.GradientStyle.Radial
-                        ug.Transparency = ns; ug.Rotation = rot
-                        if not _NT_canAnimateGradient() then return ug, conns end
-                        local alive = { alive = true, parent = target }
-                        _NT_GRADIENT_ANIM_ALIVE[#_NT_GRADIENT_ANIM_ALIVE + 1] = alive
-                        local speed = gradCfg.speed or 0.5
-                        task.spawn(function()
-                            local t = 0
-                            while alive.alive and target and target.Parent do
-                                t = t + task.wait(_NT_GRADIENT_ANIM_INTERVAL)
-                                pcall(function()
-                                    ug.Rotation = (rot + math.sin(t * speed) * 45) % 360
-                                    ug.Offset = Vector2.new(math.sin(t * speed * 0.7) * 0.15, math.cos(t * speed * 0.5) * 0.15)
-                                end)
-                            end
-                        end)
-                        return ug, conns
-
-                    elseif gType == "Dynamic" or gType == "Flow" then
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = cs; ug.Transparency = ns; ug.Rotation = rot
-                        if not _NT_canAnimateGradient() then return ug, conns end
-                        local alive = { alive = true, parent = target }
-                        _NT_GRADIENT_ANIM_ALIVE[#_NT_GRADIENT_ANIM_ALIVE + 1] = alive
-                        local speed = gradCfg.speed or 1
-                        task.spawn(function()
-                            local t = 0
-                            while alive.alive and target and target.Parent do
-                                t = t + task.wait(_NT_GRADIENT_ANIM_INTERVAL)
-                                pcall(function()
-                                    ug.Rotation = (rot + t * speed * 30) % 360
-                                    ug.Offset = Vector2.new(math.sin(t * speed * 0.4) * 0.2, 0)
-                                end)
-                            end
-                        end)
-                        return ug, conns
-
-                    elseif gType == "Chromatic" then
-                        local ug = Instance.new("UIGradient", target)
-                        local chCS = {}
-                        for i = 1, #colors do
-                            local c = _NT_parseColor(colors[i])
-                            chCS[#chCS + 1] = ColorSequenceKeypoint.new((i - 1) / math.max(1, #colors - 1), c)
-                        end
-                        if #chCS < 3 then
-                            local extra = _NT_parseColor(colors[1] or "#FFFFFF"):Lerp(_NT_parseColor(colors[2] or "#000000"), 0.5)
-                            table.insert(chCS, 2, ColorSequenceKeypoint.new(0.5, extra))
-                        end
-                        ug.Color = ColorSequence.new(chCS)
-                        ug.Transparency = ns; ug.Rotation = rot
-                        if not _NT_canAnimateGradient() then return ug, conns end
-                        local alive = { alive = true, parent = target }
-                        _NT_GRADIENT_ANIM_ALIVE[#_NT_GRADIENT_ANIM_ALIVE + 1] = alive
-                        local speed = gradCfg.speed or 0.6
-                        task.spawn(function()
-                            local t = 0
-                            while alive.alive and target and target.Parent do
-                                t = t + task.wait(_NT_GRADIENT_ANIM_INTERVAL)
-                                pcall(function()
-                                    local shift = (t * speed * 0.3) % 1
-                                    ug.Offset = Vector2.new(shift - 0.5, 0)
-                                end)
-                            end
-                        end)
-                        return ug, conns
-
-                    elseif gType == "Ombre" or gType == "Fade" then
-                        local ug = Instance.new("UIGradient", target)
-                        local oC1 = _NT_parseColor(colors[1] or "#000000")
-                        local oC2 = _NT_parseColor(colors[2] or "#FFFFFF")
-                        ug.Color = ColorSequence.new(oC1, oC1, oC2, oC2)
-                        ug.Transparency = NumberSequence.new({
-                            NumberSequenceKeypoint.new(0, 0),
-                            NumberSequenceKeypoint.new(0.4, 0),
-                            NumberSequenceKeypoint.new(0.6, 0.4),
-                            NumberSequenceKeypoint.new(1, 0.8),
-                        })
-                        ug.Rotation = rot
-                        return ug, conns
-
-                    elseif gType == "Wave" then
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = cs
-                        local waveNS = {}
-                        local freq = gradCfg.frequency or 4
-                        local amp = gradCfg.amplitude or 0.3
-                        for i = 0, 10 do
-                            local t = i / 10
-                            local baseT = trans[1] or 0
-                            waveNS[#waveNS + 1] = NumberSequenceKeypoint.new(t, baseT + amp * math.abs(math.sin(t * freq * math.pi)))
-                        end
-                        ug.Transparency = NumberSequence.new(waveNS)
-                        ug.Rotation = rot
-                        if not _NT_canAnimateGradient() then return ug, conns end
-                        local alive = { alive = true, parent = target }
-                        _NT_GRADIENT_ANIM_ALIVE[#_NT_GRADIENT_ANIM_ALIVE + 1] = alive
-                        local speed = gradCfg.speed or 0.5
-                        task.spawn(function()
-                            local t = 0
-                            while alive.alive and target and target.Parent do
-                                t = t + task.wait(_NT_GRADIENT_ANIM_INTERVAL)
-                                pcall(function() ug.Offset = Vector2.new(math.sin(t * speed) * 0.2, 0) end)
-                            end
-                        end)
-                        return ug, conns
-
-                    elseif gType == "Overlay" then
-                        local ug = Instance.new("UIGradient", target)
-                        ug.Color = cs
-                        ug.Transparency = NumberSequence.new({
-                            NumberSequenceKeypoint.new(0, 0.2),
-                            NumberSequenceKeypoint.new(0.5, 0),
-                            NumberSequenceKeypoint.new(1, 0.2),
-                        })
-                        ug.Rotation = rot + 45
-                        return ug, conns
-                    end
-
-                    return nil, conns
-                end
+    return ug, conns
+end
 
 -- Multi-Target Website Gradient Resolver (Per-Player Overrides > Per-Role Theme Gradients > Global Gradients)
 local function _NT_resolveGradientSet(playerName, roleKey, theme)
@@ -1772,6 +1364,7 @@ end
             end
         end
     end
+    _NT_updateAllFn = UpdateAll -- Now that UpdateAll is defined, hook it for async config reload
 
     -- Hook player lifecycle to ONLY create nametags for qualified players
     _SvcPlr.PlayerAdded:Connect(function(player)
@@ -1799,7 +1392,7 @@ end
     end
 
     -- Initial creation for existing qualified players
-    task.delay(0.5, UpdateAll)
+    task.delay(3.0, UpdateAll)
 
     -- Export module functions
     NametagSystem.CreateNametag = CreateCustomNametag
