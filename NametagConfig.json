@@ -4,761 +4,131 @@
   "targetUser": "",
   "themes": {
     "user": {
-      "bg": "#4d4d4d",
-      "avatarBg": "#4d4d4d",
-      "avatarText": "#ffffff",
-      "divider": "#ffffff",
-      "border": "#b0b0b0",
-      "nameText": "#ffffff",
-      "roleText": "#ffffff",
-      "bgGradient": true,
-      "bgGradientType": "linear",
-      "bgGradientColors": [
-        "#707070",
-        "#303030"
-      ],
-      "bgGradientAngle": 0,
-      "gradients": {
-        "cardGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#1A1A22"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 90,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "avatarGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#160E1E"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 180,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "nameGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#FFFFFF",
-            "#B87CFF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "roleGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#8850CC"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "borderGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#AA64FF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        }
-      }
+      "bg": "#101218",
+      "avatarBg": "#171A24",
+      "avatarText": "#9CA3AF",
+      "divider": "#4B5563",
+      "border": "#374151",
+      "nameText": "#F3F4F6",
+      "roleText": "#9CA3AF",
+      "bgGradient": false,
+      "bgGradientType": "Linear",
+      "bgGradientColors": ["#141722", "#0C0E14"],
+      "bgGradientAngle": 90
     },
     "admin": {
-      "bg": "#220E0E",
-      "avatarBg": "#2A1212",
-      "avatarText": "#FF6464",
-      "divider": "#FF6464",
-      "border": "#DC5050",
-      "nameText": "#FF8C8C",
-      "roleText": "#C83C3C",
-      "bgGradient": true,
-      "bgGradientType": "linear",
-      "bgGradientColors": [
-        "#220E0E",
-        "#150808"
-      ],
-      "bgGradientAngle": 0,
-      "gradients": {
-        "cardGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#1A1A22"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 90,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "avatarGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#160E1E"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 180,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "nameGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#FFFFFF",
-            "#B87CFF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "roleGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#8850CC"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "borderGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#AA64FF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        }
-      }
+      "bg": "#180A0C",
+      "avatarBg": "#260F13",
+      "avatarText": "#F87171",
+      "divider": "#EF4444",
+      "border": "#DC2626",
+      "nameText": "#FEE2E2",
+      "roleText": "#F87171",
+      "bgGradient": false,
+      "bgGradientType": "Linear",
+      "bgGradientColors": ["#240D10", "#100507"],
+      "bgGradientAngle": 90
     },
     "owner": {
-      "bg": "#1C0E24",
-      "avatarBg": "#24122E",
-      "avatarText": "#C878FF",
-      "divider": "#C878FF",
-      "border": "#B464F0",
-      "nameText": "#E6AAFF",
-      "roleText": "#A050D2",
-      "bgGradient": true,
-      "bgGradientType": "linear",
-      "bgGradientColors": [
-        "#1C0E24",
-        "#100818"
-      ],
-      "bgGradientAngle": 0,
-      "gradients": {
-        "cardGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#1A1A22"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 90,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "avatarGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#160E1E"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 180,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "nameGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#FFFFFF",
-            "#B87CFF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "roleGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#8850CC"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "borderGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#f5f5f5",
-            "#ffffff"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        }
-      }
+      "bg": "#12091A",
+      "avatarBg": "#1B0D29",
+      "avatarText": "#C084FC",
+      "divider": "#A855F7",
+      "border": "#9333EA",
+      "nameText": "#F3E8FF",
+      "roleText": "#C084FC",
+      "bgGradient": false,
+      "bgGradientType": "Linear",
+      "bgGradientColors": ["#1C0E2B", "#0D0614"],
+      "bgGradientAngle": 90
     },
     "developer": {
-      "bg": "#0C1428",
-      "avatarBg": "#101A34",
-      "avatarText": "#64B4FF",
-      "divider": "#64B4FF",
-      "border": "#50A0F0",
-      "nameText": "#8CD2FF",
-      "roleText": "#3C82DC",
-      "bgGradient": true,
-      "bgGradientType": "linear",
-      "bgGradientColors": [
-        "#0C1428",
-        "#060A18"
-      ],
-      "bgGradientAngle": 0,
-      "gradients": {
-        "cardGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#1A1A22"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 90,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "avatarGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#160E1E"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 180,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "nameGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#FFFFFF",
-            "#B87CFF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "roleGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#8850CC"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "borderGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#AA64FF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        }
-      }
+      "bg": "#081324",
+      "avatarBg": "#0E1E38",
+      "avatarText": "#60A5FA",
+      "divider": "#38BDF8",
+      "border": "#2563EB",
+      "nameText": "#E0F2FE",
+      "roleText": "#60A5FA",
+      "bgGradient": false,
+      "bgGradientType": "Linear",
+      "bgGradientColors": ["#0C1C35", "#040A15"],
+      "bgGradientAngle": 90
     },
     "advertising": {
-      "bg": "#1C0E24",
-      "avatarBg": "#24122E",
-      "avatarText": "#C878FF",
-      "divider": "#C878FF",
-      "border": "#B464F0",
-      "nameText": "#E6AAFF",
-      "roleText": "#A050D2",
-      "bgGradient": true,
-      "bgGradientType": "linear",
-      "bgGradientColors": [
-        "#1C0E24",
-        "#100818"
-      ],
-      "bgGradientAngle": 0,
-      "gradients": {
-        "cardGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#1A1A22"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 90,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "avatarGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#160E1E"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 180,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "nameGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#FFFFFF",
-            "#B87CFF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "roleGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#8850CC"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "borderGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#AA64FF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        }
-      }
+      "bg": "#18081A",
+      "avatarBg": "#280D2C",
+      "avatarText": "#F472B6",
+      "divider": "#EC4899",
+      "border": "#DB2777",
+      "nameText": "#FCE7F3",
+      "roleText": "#F472B6",
+      "bgGradient": false,
+      "bgGradientType": "Linear",
+      "bgGradientColors": ["#230A26", "#0E0410"],
+      "bgGradientAngle": 90
     },
     "moderator": {
-      "bg": "#221C0A",
-      "avatarBg": "#2A220C",
-      "avatarText": "#FFC83C",
-      "divider": "#FFC83C",
-      "border": "#F0B428",
-      "nameText": "#FFDC64",
-      "roleText": "#DCA01E",
-      "bgGradient": true,
-      "bgGradientType": "linear",
-      "bgGradientColors": [
-        "#221C0A",
-        "#141006"
-      ],
-      "bgGradientAngle": 0,
-      "gradients": {
-        "cardGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#1A1A22"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 90,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "avatarGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#160E1E"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 180,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "nameGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#FFFFFF",
-            "#B87CFF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "roleGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#8850CC"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "borderGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#AA64FF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        }
-      }
+      "bg": "#171106",
+      "avatarBg": "#261C0A",
+      "avatarText": "#FBBF24",
+      "divider": "#F59E0B",
+      "border": "#D97706",
+      "nameText": "#FEF3C7",
+      "roleText": "#FBBF24",
+      "bgGradient": false,
+      "bgGradientType": "Linear",
+      "bgGradientColors": ["#221A08", "#0E0B03"],
+      "bgGradientAngle": 90
     },
     "staff": {
-      "bg": "#0A1C10",
-      "avatarBg": "#0C2A14",
-      "avatarText": "#4ADE80",
-      "divider": "#4ADE80",
-      "border": "#22C55E",
-      "nameText": "#6EEAA0",
-      "roleText": "#16A34A",
-      "bgGradient": true,
-      "bgGradientType": "linear",
-      "bgGradientColors": [
-        "#0A1C10",
-        "#061008"
-      ],
-      "bgGradientAngle": 34,
-      "gradients": {
-        "cardGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#1A1A22"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 90,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "avatarGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#160E1E"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 180,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "nameGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#FFFFFF",
-            "#B87CFF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "roleGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#8850CC"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        },
-        "borderGradient": {
-          "enabled": false,
-          "type": "Linear",
-          "colors": [
-            "#B87CFF",
-            "#AA64FF"
-          ],
-          "transparency": [
-            0,
-            0
-          ],
-          "rotation": 0,
-          "offset": [
-            0,
-            0
-          ]
-        }
-      }
+      "bg": "#07170E",
+      "avatarBg": "#0D2517",
+      "avatarText": "#34D399",
+      "divider": "#10B981",
+      "border": "#059669",
+      "nameText": "#D1FAE5",
+      "roleText": "#34D399",
+      "bgGradient": false,
+      "bgGradientType": "Linear",
+      "bgGradientColors": ["#0B2114", "#040F09"],
+      "bgGradientAngle": 90
     }
   },
   "layout": {
-    "billboardWidth": 240,
-    "billboardHeight": 44,
-    "studsOffsetY": 3.4,
-    "avatarWidth": 44,
-    "cornerRadius": 13,
-    "innerCornerRadius": 1,
-    "borderThickness": 4,
-    "dividerWidth": 2,
-    "dividerHeightPct": 0.9,
-    "dividerTransparency": 0.75,
-    "nameTextSize": 18,
+    "billboardWidth": 230,
+    "billboardHeight": 42,
+    "studsOffsetY": 3.5,
+    "avatarWidth": 42,
+    "cornerRadius": 11,
+    "innerCornerRadius": 8,
+    "borderThickness": 1,
+    "dividerWidth": 1,
+    "dividerHeightPct": 0.5,
+    "dividerTransparency": 0.78,
+    "nameTextSize": 13,
     "nameFont": "GothamBold",
-    "roleTextSize": 10,
+    "roleTextSize": 9,
     "roleFont": "GothamBold",
     "initialsTextSize": 11,
     "avatarTextGap": 10,
-    "textPaddingRight": 4,
-    "nameLabelHeight": 20,
-    "nameLabelY": 4,
-    "roleLabelHeight": 12,
-    "roleLabelY": 26,
-    "roleTextTransform": "none",
-    "avatarImagePadding": 3,
+    "textPaddingRight": 6,
+    "nameLabelHeight": 18,
+    "nameLabelY": 3,
+    "roleLabelHeight": 14,
+    "roleLabelY": 22,
+    "roleTextTransform": "upper",
+    "avatarImagePadding": 4,
     "distanceScaleEnabled": true,
     "distanceScaleNear": 10,
-    "distanceScaleFar": 60,
-    "distanceScaleMin": 0.35
+    "distanceScaleFar": 70,
+    "distanceScaleMin": 0.4
   },
   "animations": {
-    "fadeInDuration": 0.8,
+    "fadeInDuration": 0.25,
     "fadeInEasing": "Quad",
-    "cardTransparency": 0,
-    "borderTransparency": 0.6
+    "cardTransparency": 0.12,
+    "borderTransparency": 0.55
   },
   "particles": {
     "enabled": true,
@@ -768,194 +138,145 @@
     "transparency": 0.5,
     "moveDurationMin": 3,
     "moveDurationMax": 5,
-    "colors": [
-      "#B87CFF",
-      "#A064F0",
-      "#C896FF",
-      "#8C50DC",
-      "#DDB8FF"
-    ]
+    "colors": ["#B87CFF", "#A064F0", "#C896FF", "#8C50DC", "#DDB8FF"]
   },
   "roleKeywords": {
-    "owner": [
-      "owner",
-      "vip"
-    ],
-    "developer": [
-      "developer",
-      "entwickler"
-    ],
-    "moderator": [
-      "moderator",
-      "mod"
-    ],
-    "admin": [
-      "admin",
-      "administrator"
-    ],
-    "advertising": [
-      "advertising",
-      "werbung"
-    ],
-    "staff": [
-      "staff"
-    ],
-    "user": []
+    "owner": ["owner", "vip"],
+    "developer": ["developer", "entwickler"],
+    "moderator": ["moderator", "mod"],
+    "admin": ["admin", "administrator"],
+    "advertising": ["advertising", "werbung"],
+    "staff": ["staff"]
   },
   "roleUsers": {
-    "owner": [
-      "burgunDyxglow"
-    ],
-    "admin": [],
+    "owner": ["Galacticzlava2011"],
+    "admin": ["6363737299"],
     "developer": [],
     "moderator": [],
     "advertising": [],
-    "staff": [
-      "Mednicht1603",
-      "dddddddfffwrtgegq11"
-    ],
-    "user": []
+    "staff": [],
+    "user": ["Bananen_esser100", "X1_77X"]
   },
   "roleLabels": {
-    "galaxyggdelin": "TL SUPPORTER",
-    "brutix777": "TL SUPPORTER",
-    "burgundyxglow": "TL OWNER"
+    "6363737299": "TL ADMIN",
+    "Galacticzlava2011": "TL OWNER"
   },
   "displayNames": {
-    "burgundyxglow": "telelumi",
-    "brutix777": "Brutix",
-    "galaxyggdelin": "Deylin"
+    "6363737299": "CengiZ",
+    "Galacticzlava2011": "telelumi",
+    "Bananen_esser100": "Cid",
+    "X1_77X": "91v0"
   },
   "roleDisplayNames": {},
   "userColorOverrides": {
-    "burgundyxglow": {
-      "__enabled": false
+    "Bananen_esser100": {
+      "__enabled": true,
+      "avatarBg": "transparent",
+      "bg": "transparent",
+      "roleText": "#ffffff",
+      "border": "#404040",
+      "divider": "#000000",
+      "avatarText": "transparent"
+    },
+    "X1_77X": {
+      "avatarBg": "transparent",
+      "bg": "transparent",
+      "__enabled": true
     }
   },
-  "userGradientOverrides": {},
+  "userGradientOverrides": {
+    "Bananen_esser100": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": ["#8B0000", "#000000"],
+        "transparency": [0, 0],
+        "rotation": 90,
+        "offset": [0, 0]
+      }
+    },
+    "X1_77X": {
+      "cardGradient": {
+        "enabled": true,
+        "type": "Linear",
+        "colors": ["#54258d", "#1b1b64"],
+        "transparency": [0, 0],
+        "rotation": 223,
+        "offset": [0, 0]
+      }
+    }
+  },
   "gradients": {
     "cardGradient": {
       "enabled": false,
       "type": "Linear",
-      "colors": [
-        "#B87CFF",
-        "#1A1A22"
-      ],
-      "transparency": [
-        0,
-        0
-      ],
+      "colors": ["#B87CFF", "#1A1A22"],
+      "transparency": [0, 0],
       "rotation": 90,
-      "offset": [
-        0,
-        0
-      ]
+      "offset": [0, 0]
     },
     "avatarGradient": {
       "enabled": false,
       "type": "Linear",
-      "colors": [
-        "#B87CFF",
-        "#160E1E"
-      ],
-      "transparency": [
-        0,
-        0
-      ],
+      "colors": ["#B87CFF", "#160E1E"],
+      "transparency": [0, 0],
       "rotation": 180,
-      "offset": [
-        0,
-        0
-      ]
+      "offset": [0, 0]
     },
     "nameGradient": {
       "enabled": false,
       "type": "Linear",
-      "colors": [
-        "#FFFFFF",
-        "#B87CFF"
-      ],
-      "transparency": [
-        0,
-        0
-      ],
+      "colors": ["#FFFFFF", "#B87CFF"],
+      "transparency": [0, 0],
       "rotation": 0,
-      "offset": [
-        0,
-        0
-      ]
+      "offset": [0, 0]
     },
     "roleGradient": {
       "enabled": false,
       "type": "Linear",
-      "colors": [
-        "#B87CFF",
-        "#8850CC"
-      ],
-      "transparency": [
-        0,
-        0
-      ],
+      "colors": ["#B87CFF", "#8850CC"],
+      "transparency": [0, 0],
       "rotation": 0,
-      "offset": [
-        0,
-        0
-      ]
+      "offset": [0, 0]
     },
     "borderGradient": {
       "enabled": false,
       "type": "Linear",
-      "colors": [
-        "#B87CFF",
-        "#AA64FF"
-      ],
-      "transparency": [
-        0,
-        0
-      ],
+      "colors": ["#B87CFF", "#AA64FF"],
+      "transparency": [0, 0],
       "rotation": 0,
-      "offset": [
-        0,
-        0
-      ]
+      "offset": [0, 0]
     }
   },
   "profilePictures": {
     "owner": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
-      "file": "assets/ROLE-ICONS/TL-telelumi.png"
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-telelumi.png",
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
     },
     "user": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TLUSER-ROLE.png",
+      "url": "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TLUSER-ROLE.png",
       "file": "assets/ROLE-ICONS/TLUSER-ROLE.png"
     },
     "staff": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
-      "file": "assets/ROLE-ICONS/TL-ROLE-LOGO.png"
+      "url": "",
+      "file": "assets/TL-ROLE-PICS/TL-ROLE-LOGO.png"
     },
     "admin": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
-      "file": ""
-    },
-    "developer": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
-      "file": ""
-    },
-    "advertising": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
-      "file": ""
-    },
-    "moderator": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
-      "file": ""
+      "file": "assets/ROLE-ICONS/TL-STAFF.png"
     }
   },
   "customAvatars": {
-    "burgundyxglow": {
-      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/TL-STAFF.png",
+    "Bananen_esser100": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/Cid.png",
       "file": "",
-      "strokeStart": "",
-      "strokeEnd": ""
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
+    },
+    "X1_77X": {
+      "url": "https://raw.githubusercontent.com/TLMenu/TLASSETS/refs/heads/main/ROLE-ICONS/91v0.png",
+      "file": "",
+      "strokeStart": "#FFFFFF",
+      "strokeEnd": "#000000"
     }
   }
 }
