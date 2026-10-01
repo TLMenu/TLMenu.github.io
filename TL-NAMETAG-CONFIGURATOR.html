@@ -6,7 +6,8 @@
 <title>Nametag Configurator — TLMenu</title>
 <meta name="description" content="Visual editor for the TLMenu Nametag system. Configure colors, layout, animations and more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&family=Montserrat:wght@400;500;700;800;900&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ── RESET & BASE ── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -376,22 +377,40 @@ select option { background: var(--bg3); color: var(--t1); }
 .preview-theme-btn:active { transform: scale(0.95); }
 .preview-theme-btn.player-active:not(.active) { color: var(--acc); background: rgba(56,224,210,0.08); box-shadow: inset 0 0 0 1px rgba(56,224,210,0.24); }
 
-/* Nametag Preview Element */
-.nt-preview-wrap { position: relative; z-index: 2; margin-bottom: 28px; padding: 22px; border-radius: var(--radius-lg); overflow: hidden; background: radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 72%); border: 1px solid rgba(255,255,255,0.08); box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
+/* Nametag Preview Element — 1:1 Pixel-Accurate Roblox BillboardGui Simulation */
+.nt-preview-wrap { position: relative; z-index: 2; margin-bottom: 24px; padding: 28px; border-radius: var(--radius-lg); overflow: hidden; background: radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 72%); border: 1px solid rgba(255,255,255,0.08); box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; min-height: 120px; transition: background 0.3s ease, border-color 0.3s ease; }
 .nt-grid-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; border-radius: inherit; overflow: hidden; }
 .nt-grid-bg::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 22px 22px; opacity: 0.24; }
 .nt-grid-bg::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(12,16,24,0) 0%, rgba(12,16,24,0.62) 100%); }
-.nt-preview { z-index: 2; }
-.nt-preview { border-radius: 10px; overflow: hidden; display: flex; align-items: stretch; box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08), 0 0 30px rgba(47,224,192,0.08); transition: all 0.32s cubic-bezier(0.4,0,0.2,1); position: relative; transform: scale(1.12); }
-.nt-preview:hover { transform: scale(1.145); box-shadow: 0 28px 78px rgba(0,0,0,0.62), 0 0 0 1px rgba(255,255,255,0.11), 0 0 40px rgba(47,224,192,0.12); }
-.nt-av { display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 8px 0 0 8px; overflow: hidden; position: relative; }
-.nt-av-inner { width: calc(100% - 6px); height: calc(100% - 6px); border-radius: 5px; overflow: hidden; display: flex; align-items: center; justify-content: center; font-family: var(--head); font-weight: 700; }
-.nt-divider { width: 1px; align-self: stretch; margin: 20% 0; }
+
+.preview.env-sky { background: linear-gradient(180deg, #3d84d6 0%, #68a7f0 55%, #9ecbfb 100%) !important; }
+.preview.env-sky .nt-preview-wrap { background: rgba(255,255,255,0.18) !important; border-color: rgba(255,255,255,0.3) !important; }
+.preview.env-sky .nt-grid-bg::before { background-image: linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px); opacity: 0.4; }
+.preview.env-studio { background: #1e2026 !important; }
+.preview.env-studio .nt-preview-wrap { background: #262931 !important; border-color: #383d49 !important; }
+.preview.env-studio .nt-grid-bg::before { background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px); opacity: 0.55; }
+
+.nt-preview { position: relative; z-index: 2; overflow: hidden; display: block; box-sizing: border-box; box-shadow: 0 14px 44px rgba(0,0,0,0.55), 0 0 24px rgba(0,0,0,0.3); transition: transform 0.22s cubic-bezier(0.4,0,0.2,1), box-shadow 0.22s ease; transform-origin: center center; }
+.nt-preview:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 32px rgba(56,224,210,0.14); }
+
+.nt-av { position: absolute; left: 0; top: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; box-sizing: border-box; }
+.nt-av-inner { position: absolute; overflow: hidden; display: flex; align-items: center; justify-content: center; font-family: var(--head); font-weight: 700; box-sizing: border-box; }
+.nt-divider { position: absolute; pointer-events: none; }
 .nt-content { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-.nt-name, .nt-role { position: absolute; white-space: nowrap; transition: all 0.2s ease; overflow: hidden; text-overflow: ellipsis; }
-.nt-name { font-family: var(--head); font-weight: 700; letter-spacing: -0.01em; }
-.nt-role { font-family: var(--head); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.9; }
-.nt-border { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+.nt-name, .nt-role { position: absolute; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; box-sizing: border-box; }
+.nt-name { letter-spacing: -0.01em; }
+.nt-role { letter-spacing: 0.06em; opacity: 0.95; }
+.nt-border { position: absolute; inset: 0; pointer-events: none; box-sizing: border-box; }
+
+/* Environment toolbar */
+.preview-env-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; width: 100%; max-width: 520px; z-index: 2; }
+.preview-env-chips { display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,0.5); padding: 3px 6px; border-radius: 8px; border: 1px solid var(--line); }
+.preview-env-chip-title { font-size: 10.5px; font-family: var(--mono); color: var(--t3); margin-right: 4px; margin-left: 2px; }
+.preview-chip { background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-family: var(--head); color: var(--t2); cursor: pointer; transition: all 0.16s ease; }
+.preview-chip:hover { color: var(--t1); background: rgba(255,255,255,0.06); }
+.preview-chip.active { background: rgba(56,224,210,0.15); border-color: rgba(56,224,210,0.35); color: var(--acc); font-weight: 600; }
+
+.layout-group-title { font-family: var(--head); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--acc); padding: 12px 0 4px; margin-top: 10px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
 
 /* Particles */
 .nt-particles { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
@@ -666,6 +685,19 @@ body.modal-open { overflow: hidden; }
 
     <div class="preview">
       <div class="preview-grid-bg" aria-hidden="true"></div>
+      <div class="preview-env-toolbar">
+        <div class="preview-env-chips">
+          <span class="preview-env-chip-title">Roblox View:</span>
+          <button type="button" class="preview-chip active" id="chipDark" onclick="setPreviewEnv('dark')">🌙 Night</button>
+          <button type="button" class="preview-chip" id="chipSky" onclick="setPreviewEnv('sky')">☀️ Daylight</button>
+          <button type="button" class="preview-chip" id="chipStudio" onclick="setPreviewEnv('studio')">⬛ Studio</button>
+        </div>
+        <div class="preview-env-chips">
+          <span class="preview-env-chip-title">Scale:</span>
+          <button type="button" class="preview-chip" id="chip1x" onclick="setPreviewScale(1)">1:1 Exact</button>
+          <button type="button" class="preview-chip active" id="chipZoom" onclick="setPreviewScale(1.35)">1.35x Zoom</button>
+        </div>
+      </div>
       <div class="preview-theme-btns" id="previewThemeBtns"></div>
       <div class="nt-preview-wrap">
         <div class="nt-preview" id="ntPreview">
@@ -732,81 +764,63 @@ const DEFAULTS = {
   enabled: true,
   targetUser: "",
   themes: {
-    user:       { bg:"#1A1A22", avatarBg:"#1F1F2C", avatarText:"#A0A0C0", divider:"#A0A0C0", border:"#A0A0B4", nameText:"#E6E6F0", roleText:"#7878A0", bgGradient:false, bgGradientType:"linear", bgGradientColors:["#1A1A22","#0E0E18"], bgGradientAngle:0 },
-    admin:      { bg:"#220E0E", avatarBg:"#2A1212", avatarText:"#FF6464", divider:"#FF6464", border:"#DC5050", nameText:"#FF8C8C", roleText:"#C83C3C", bgGradient:false, bgGradientType:"linear", bgGradientColors:["#220E0E","#150808"], bgGradientAngle:0 },
-    owner:      { bg:"#160E1E", avatarBg:"#1B1226", avatarText:"#B87CFF", divider:"#B87CFF", border:"#AA64FF", nameText:"#DDB8FF", roleText:"#8850CC", bgGradient:false, bgGradientType:"linear", bgGradientColors:["#160E1E","#0D0814"], bgGradientAngle:0 },
-    developer:  { bg:"#0C1428", avatarBg:"#101A34", avatarText:"#64B4FF", divider:"#64B4FF", border:"#50A0F0", nameText:"#8CD2FF", roleText:"#3C82DC", bgGradient:false, bgGradientType:"linear", bgGradientColors:["#0C1428","#060A18"], bgGradientAngle:0 },
-    advertising:{ bg:"#1C0E24", avatarBg:"#24122E", avatarText:"#C878FF", divider:"#C878FF", border:"#B464F0", nameText:"#E6AAFF", roleText:"#A050D2", bgGradient:false, bgGradientType:"linear", bgGradientColors:["#1C0E24","#100818"], bgGradientAngle:0 },
-    moderator:  { bg:"#221C0A", avatarBg:"#2A220C", avatarText:"#FFC83C", divider:"#FFC83C", border:"#F0B428", nameText:"#FFDC64", roleText:"#DCA01E", bgGradient:false, bgGradientType:"linear", bgGradientColors:["#221C0A","#141006"], bgGradientAngle:0 },
-    staff:      { bg:"#0A1C10", avatarBg:"#0C2A14", avatarText:"#4ADE80", divider:"#4ADE80", border:"#22C55E", nameText:"#6EEAA0", roleText:"#16A34A", bgGradient:false, bgGradientType:"linear", bgGradientColors:["#0A1C10","#061008"], bgGradientAngle:0 }
+    user:        { bg:"#101218", avatarBg:"#171A24", avatarText:"#9CA3AF", divider:"#4B5563", border:"#374151", nameText:"#F3F4F6", roleText:"#9CA3AF", bgGradient:false, bgGradientType:"Linear", bgGradientColors:["#141722","#0C0E14"], bgGradientAngle:90 },
+    admin:       { bg:"#180A0C", avatarBg:"#260F13", avatarText:"#F87171", divider:"#EF4444", border:"#DC2626", nameText:"#FEE2E2", roleText:"#F87171", bgGradient:false, bgGradientType:"Linear", bgGradientColors:["#240D10","#100507"], bgGradientAngle:90 },
+    owner:       { bg:"#12091A", avatarBg:"#1B0D29", avatarText:"#C084FC", divider:"#A855F7", border:"#9333EA", nameText:"#F3E8FF", roleText:"#C084FC", bgGradient:false, bgGradientType:"Linear", bgGradientColors:["#1C0E2B","#0D0614"], bgGradientAngle:90 },
+    developer:   { bg:"#081324", avatarBg:"#0E1E38", avatarText:"#60A5FA", divider:"#38BDF8", border:"#2563EB", nameText:"#E0F2FE", roleText:"#60A5FA", bgGradient:false, bgGradientType:"Linear", bgGradientColors:["#0C1C35","#040A15"], bgGradientAngle:90 },
+    advertising: { bg:"#18081A", avatarBg:"#280D2C", avatarText:"#F472B6", divider:"#EC4899", border:"#DB2777", nameText:"#FCE7F3", roleText:"#F472B6", bgGradient:false, bgGradientType:"Linear", bgGradientColors:["#230A26","#0E0410"], bgGradientAngle:90 },
+    moderator:   { bg:"#171106", avatarBg:"#261C0A", avatarText:"#FBBF24", divider:"#F59E0B", border:"#D97706", nameText:"#FEF3C7", roleText:"#FBBF24", bgGradient:false, bgGradientType:"Linear", bgGradientColors:["#221A08","#0E0B03"], bgGradientAngle:90 },
+    staff:       { bg:"#07170E", avatarBg:"#0D2517", avatarText:"#34D399", divider:"#10B981", border:"#059669", nameText:"#D1FAE5", roleText:"#34D399", bgGradient:false, bgGradientType:"Linear", bgGradientColors:["#0B2114","#040F09"], bgGradientAngle:90 }
   },
-  layout: { billboardWidth:240, billboardHeight:44, studsOffsetY:3.4, avatarWidth:44, cornerRadius:8, innerCornerRadius:5, borderThickness:1, dividerWidth:1, dividerHeightPct:0.6, dividerTransparency:0.75, nameTextSize:13, nameFont:"GothamBold", roleTextSize:9, roleFont:"GothamBold", initialsTextSize:11, avatarTextGap:10, textPaddingRight:4, nameLabelHeight:20, nameLabelY:4, roleLabelHeight:12, roleLabelY:26, roleTextTransform:"upper", avatarImagePadding:3, distanceScaleEnabled:true, distanceScaleNear:10, distanceScaleFar:60, distanceScaleMin:0.35 },
-  animations: { fadeInDuration:0.3, fadeInEasing:"Quad", cardTransparency:0.1, borderTransparency:0.7 },
-  particles: { enabled:true, count:4, minSize:2, maxSize:4, transparency:0.5, moveDurationMin:3.0, moveDurationMax:5.0, colors:["#B87CFF","#A064F0","#C896FF","#8C50DC","#DDB8FF"] },
-  roleKeywords: { owner:["owner","vip"], developer:["developer","entwickler"], moderator:["moderator","mod"], admin:["admin","administrator"], advertising:["advertising","werbung"], staff:["staff"] },
-  roleUsers: { owner:[], admin:[], developer:[], moderator:[], advertising:[], staff:[], user:[] },
+  layout: {
+    billboardWidth: 230, billboardHeight: 42, studsOffsetY: 3.5,
+    avatarWidth: 42, cornerRadius: 11, innerCornerRadius: 8,
+    borderThickness: 1, dividerWidth: 1, dividerHeightPct: 0.5,
+    dividerTransparency: 0.78, nameTextSize: 13, nameFont: "GothamBold",
+    roleTextSize: 9, roleFont: "GothamBold", initialsTextSize: 11,
+    avatarTextGap: 10, textPaddingRight: 6,
+    nameLabelHeight: 18, nameLabelY: 3,
+    roleLabelHeight: 14, roleLabelY: 22,
+    roleTextTransform: "upper", avatarImagePadding: 4,
+    distanceScaleEnabled: true, distanceScaleNear: 10, distanceScaleFar: 70, distanceScaleMin: 0.4
+  },
+  animations: { fadeInDuration: 0.25, fadeInEasing: "Quad", cardTransparency: 0.12, borderTransparency: 0.55 },
+  particles: { enabled: true, count: 4, minSize: 2, maxSize: 4, transparency: 0.5, moveDurationMin: 3.0, moveDurationMax: 5.0, colors: ["#B87CFF", "#A064F0", "#C896FF", "#8C50DC", "#DDB8FF"] },
+  roleKeywords: { owner: ["owner", "vip"], developer: ["developer", "entwickler"], moderator: ["moderator", "mod"], admin: ["admin", "administrator"], advertising: ["advertising", "werbung"], staff: ["staff"] },
+  roleUsers: { owner: [], admin: [], developer: [], moderator: [], advertising: [], staff: [], user: [] },
   roleLabels: {},
   displayNames: {},
   roleDisplayNames: {},
   userColorOverrides: {},
   userGradientOverrides: {},
   gradients: {
-    cardGradient:    { enabled:false, type:"Linear", colors:["#B87CFF","#1A1A22"], transparency:[0,0], rotation:90, offset:[0,0] },
-    avatarGradient:  { enabled:false, type:"Linear", colors:["#B87CFF","#160E1E"], transparency:[0,0], rotation:180, offset:[0,0] },
-    nameGradient:    { enabled:false, type:"Linear", colors:["#FFFFFF","#B87CFF"], transparency:[0,0], rotation:0, offset:[0,0] },
-    roleGradient:    { enabled:false, type:"Linear", colors:["#B87CFF","#8850CC"], transparency:[0,0], rotation:0, offset:[0,0] },
-    borderGradient:  { enabled:false, type:"Linear", colors:["#B87CFF","#AA64FF"], transparency:[0,0], rotation:0, offset:[0,0] }
+    cardGradient:    { enabled: false, type: "Linear", colors: ["#B87CFF", "#1A1A22"], transparency: [0, 0], rotation: 90, offset: [0, 0] },
+    avatarGradient:  { enabled: false, type: "Linear", colors: ["#B87CFF", "#160E1E"], transparency: [0, 0], rotation: 180, offset: [0, 0] },
+    nameGradient:    { enabled: false, type: "Linear", colors: ["#FFFFFF", "#B87CFF"], transparency: [0, 0], rotation: 0, offset: [0, 0] },
+    roleGradient:    { enabled: false, type: "Linear", colors: ["#B87CFF", "#8850CC"], transparency: [0, 0], rotation: 0, offset: [0, 0] },
+    borderGradient:  { enabled: false, type: "Linear", colors: ["#B87CFF", "#AA64FF"], transparency: [0, 0], rotation: 0, offset: [0, 0] }
   },
   profilePictures: {
-    owner:{ url:"https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-telelumi.png", file:"assets/ROLE-ICONS/TL-telelumi.png" },
-    user:{ url:"https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TLUSER-ROLE.png", file:"assets/ROLE-ICONS/TLUSER-ROLE.png" },
-    staff:{ url:"", file:"assets/ROLE-ICONS/TL-ROLE-LOGO.png" }
+    owner: { url: "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-telelumi.png", file: "assets/ROLE-ICONS/TL-telelumi.png" },
+    user:  { url: "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TLUSER-ROLE.png", file: "assets/ROLE-ICONS/TLUSER-ROLE.png" },
+    staff: { url: "", file: "assets/ROLE-ICONS/TL-ROLE-LOGO.png" }
   },
   customAvatars: {
-    usxirr:{ url:"https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-Oso.png", file:"assets/ROLE-ICONS/TL-Usxirr.png", strokeStart:"#9A7211", strokeEnd:"#000000" }
+    usxirr: { url: "https://raw.githubusercontent.com/telelumi/telelumi.github.io/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-Oso.png", file: "assets/ROLE-ICONS/TL-Usxirr.png", strokeStart: "#9A7211", strokeEnd: "#000000" }
   }
 };
 
-const THEME_COLORS = ["bg","avatarBg","avatarText","divider","border","nameText","roleText"];
-const THEME_LABELS = { bg:"Background", avatarBg:"Avatar BG", avatarText:"Avatar Text", divider:"Divider", border:"Border", nameText:"Name", roleText:"Role" };
-const THEME_NAMES = ["user","admin","owner","developer","advertising","moderator","staff"];
-const EASING_OPTIONS = ["Quad","Linear","Sine","Expo","Back","Bounce","Elastic"];
-const FONT_OPTIONS = ["GothamBold","Gotham","GothamBlack","SourceSans","SourceSansBold","Highway","Ubuntu","UbuntuBold","Cartoon","Code","CartoonBold","ArialBold","Arial"];
+const THEME_COLORS = ["bg", "avatarBg", "avatarText", "divider", "border", "nameText", "roleText"];
+const THEME_LABELS = { bg: "Background", avatarBg: "Avatar BG", avatarText: "Avatar Text", divider: "Divider", border: "Border", nameText: "Name", roleText: "Role" };
+const THEME_NAMES = ["user", "admin", "owner", "developer", "advertising", "moderator", "staff"];
+const EASING_OPTIONS = ["Quad", "Linear", "Sine", "Expo", "Back", "Bounce", "Elastic"];
+const FONT_OPTIONS = ["GothamBold", "Gotham", "GothamBlack", "SourceSans", "SourceSansBold", "Highway", "Ubuntu", "UbuntuBold", "Cartoon", "Code", "ArialBold", "Arial"];
 
+// Roblox UIGradient is exclusively Linear (Rotation + Offset + ColorSequence + NumberSequence)
 const GRADIENT_TYPES = {
-  linear:      { label:"Linear Gradient",      angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})` },
-  radial:      { label:"Radial Gradient",      angle:false, render:(c)=>`radial-gradient(circle at center, ${c.join(", ")})` },
-  conic:       { label:"Conic Gradient",       angle:true,  render:(c,a)=>`conic-gradient(from ${a}deg at center, ${c.join(", ")}, ${c[0]})` },
-  angular:     { label:"Angular Gradient",     angle:true,  render:(c,a)=>`conic-gradient(from ${a}deg at center, ${c.join(", ")})` },
-  mesh:        { label:"Mesh Gradient",        angle:false, render:(c)=>`radial-gradient(at 20% 25%, ${c[0]} 0%, transparent 55%), radial-gradient(at 80% 20%, ${c[1]||c[0]} 0%, transparent 55%), radial-gradient(at 50% 85%, ${c[2]||c[0]} 0%, transparent 55%), linear-gradient(135deg, ${c.join(", ")})` },
-  color:       { label:"Color Gradient",       angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})` },
-  blend:       { label:"Gradient Blend",       angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})` },
-  colorblend:  { label:"Color Blend",          angle:false, render:(c)=>`radial-gradient(circle at 30% 30%, ${c.join(", ")})` },
-  duotone:     { label:"Duotone Gradient",     angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c[0]} 0%, ${c[c.length-1]} 100%)` },
-  multicolor:  { label:"Multicolor Gradient",  angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})` },
-  smooth:      { label:"Smooth Gradient",      angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, smooth:true },
-  soft:        { label:"Soft Gradient",        angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, soft:true },
-  glass:       { label:"Glass Gradient",       angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, glass:true },
-  neon:        { label:"Neon Gradient",        angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, glow:true },
-  metallic:    { label:"Metallic Gradient",    angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, metallic:true },
-  iridescent:  { label:"Iridescent Gradient",  angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, shimmer:true },
-  holographic: { label:"Holographic Gradient", angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, shimmer:true, glow:true },
-  aurora:      { label:"Aurora Gradient",      angle:false, render:(c)=>`radial-gradient(ellipse at 30% 0%, ${c[0]} 0%, transparent 60%), radial-gradient(ellipse at 70% 100%, ${c[2]||c[1]||c[0]} 0%, transparent 60%), linear-gradient(180deg, ${c.join(", ")})` },
-  sunset:      { label:"Sunset Gradient",      angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})` },
-  spectrum:    { label:"Spectrum Gradient",    angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})` },
-  liquid:      { label:"Liquid Gradient",      angle:false, render:(c)=>`radial-gradient(at 25% 30%, ${c[0]} 0%, transparent 50%), radial-gradient(at 75% 70%, ${c[2]||c[1]||c[0]} 0%, transparent 50%), linear-gradient(160deg, ${c.join(", ")})` },
-  dynamic:     { label:"Dynamic Gradient",     angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, animated:true },
-  fluid:       { label:"Fluid Gradient",       angle:false, render:(c)=>`radial-gradient(at 30% 20%, ${c[0]} 0%, transparent 55%), radial-gradient(at 70% 80%, ${c[2]||c[1]||c[0]} 0%, transparent 55%), linear-gradient(145deg, ${c.join(", ")})`, animated:true },
-  chromatic:   { label:"Chromatic Gradient",   angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, shimmer:true },
-  ombre:       { label:"Ombre",                angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})` },
-  fade:        { label:"Fade",                 angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c[0]}, transparent)` },
-  transition:  { label:"Color Transition",     angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})` },
-  overlay:     { label:"Gradient Overlay",     angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, soft:true },
-  gradmesh:    { label:"Gradient Mesh",        angle:false, render:(c)=>`radial-gradient(at 15% 20%, ${c[0]} 0%, transparent 50%), radial-gradient(at 85% 15%, ${c[1]||c[0]} 0%, transparent 50%), radial-gradient(at 50% 90%, ${c[2]||c[0]} 0%, transparent 50%)` },
-  flow:        { label:"Gradient Flow",        angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, animated:true },
-  wave:        { label:"Gradient Wave",        angle:true,  render:(c,a)=>`linear-gradient(${a}deg, ${c.join(", ")})`, animated:true, soft:true }
+  linear: { label: "Linear (Roblox UIGradient)", angle: true }
 };
-const GRADIENT_TYPE_KEYS = Object.keys(GRADIENT_TYPES);
+const GRADIENT_TYPE_KEYS = ["linear"];
 
 const STORAGE_KEY = "tl-nametag-config";
 const UI_STATE_KEY = "tl-nametag-ui";
@@ -994,27 +1008,28 @@ function buildColorGrid() {
   const gradSection = `
     <div class="full-width" style="border-top: 1px solid var(--line); padding-top: 16px; margin-top: 8px;">
       <div class="toggle-wrap">
-        <span class="toggle-label">Background gradient enabled</span>
+        <span class="toggle-label">Card Background Linear UIGradient</span>
         <div class="toggle ${theme.bgGradient?'on':''}" onclick="config.themes['${activeTheme}'].bgGradient=!config.themes['${activeTheme}'].bgGradient; toggleSwitch(this); buildColorGrid(); updatePreview()"><div class="toggle-knob"></div></div>
       </div>
       ${theme.bgGradient ? `
-        <div class="field">
-          <label class="field-label">Gradient Type</label>
-          <select onchange="config.themes['${activeTheme}'].bgGradientType=this.value; buildColorGrid(); updatePreview()">
-            ${GRADIENT_TYPE_KEYS.map(k => `<option value="${k}" ${theme.bgGradientType===k?'selected':''}>${GRADIENT_TYPES[k].label}</option>`).join("")}
-          </select>
+        <div style="font-size: 11px; color: var(--acc); font-family: var(--mono); margin-bottom: 10px;">
+          ✓ 1:1 In-Game Roblox Linear UIGradient
         </div>
         ${colorPickersHtml}
-        ${colors.length < 3 ? `<button class="btn-add" onclick="addGradColor('${activeTheme}')">+ Add color</button>` : ''}
-        ${typeDef.angle ? `
+        ${colors.length < 4 ? `<button class="btn-add" onclick="addGradColor('${activeTheme}')">+ Add color stop</button>` : ''}
         <div class="field" style="margin-top:14px;">
-          <label class="field-label">Angle (degrees)</label>
+          <label class="field-label">Gradient Rotation (${theme.bgGradientAngle || 0}°)</label>
+          <div style="display:flex; gap:6px; margin-bottom:8px;">
+            <button type="button" class="btn-icon" style="flex:1; width:auto; height:26px; font-size:10px; font-family:var(--mono);" onclick="config.themes['${activeTheme}'].bgGradientAngle=0; buildColorGrid(); updatePreview();">0° (L→R)</button>
+            <button type="button" class="btn-icon" style="flex:1; width:auto; height:26px; font-size:10px; font-family:var(--mono);" onclick="config.themes['${activeTheme}'].bgGradientAngle=90; buildColorGrid(); updatePreview();">90° (T→B)</button>
+            <button type="button" class="btn-icon" style="flex:1; width:auto; height:26px; font-size:10px; font-family:var(--mono);" onclick="config.themes['${activeTheme}'].bgGradientAngle=45; buildColorGrid(); updatePreview();">45° (Diag)</button>
+            <button type="button" class="btn-icon" style="flex:1; width:auto; height:26px; font-size:10px; font-family:var(--mono);" onclick="config.themes['${activeTheme}'].bgGradientAngle=180; buildColorGrid(); updatePreview();">180° (R→L)</button>
+          </div>
           <div class="slider-wrap">
-            <input type="range" min="0" max="360" step="1" value="${theme.bgGradientAngle}" oninput="config.themes['${activeTheme}'].bgGradientAngle=parseInt(this.value); this.nextElementSibling.textContent=this.value+'°'; updatePreview()">
-            <span class="slider-val">${theme.bgGradientAngle}°</span>
+            <input type="range" min="0" max="360" step="1" value="${theme.bgGradientAngle || 0}" oninput="config.themes['${activeTheme}'].bgGradientAngle=parseInt(this.value); this.nextElementSibling.textContent=this.value+'°'; updatePreview()">
+            <span class="slider-val">${theme.bgGradientAngle || 0}°</span>
           </div>
         </div>
-        ` : ''}
       ` : ''}
     </div>
   `;
@@ -1025,7 +1040,7 @@ function buildColorGrid() {
 function addGradColor(theme) {
   const t = config.themes[theme];
   if (!t.bgGradientColors) t.bgGradientColors = [t.bg, t.bg];
-  if (t.bgGradientColors.length >= 3) return;
+  if (t.bgGradientColors.length >= 4) return;
   t.bgGradientColors.push(t.bgGradientColors[t.bgGradientColors.length-1]);
   buildColorGrid(); updatePreview();
 }
@@ -1036,23 +1051,31 @@ function removeGradColor(theme, idx) {
   buildColorGrid(); updatePreview();
 }
 
+function robloxGradientToCss(colors, rotation, transparencies) {
+  const rot = (rotation !== undefined && rotation !== null) ? Number(rotation) : 0;
+  // Roblox UIGradient.Rotation: 0 deg points left to right.
+  // CSS linear-gradient: 90 deg points left to right.
+  const cssAngle = ((rot + 90) % 360 + 360) % 360;
+  let cs = (Array.isArray(colors) && colors.length > 0) ? colors : ["#ffffff", "#000000"];
+  if (cs.length === 1) cs = [cs[0], cs[0]];
+  const stops = cs.map((col, i) => {
+    const pct = (i / Math.max(1, cs.length - 1)) * 100;
+    const tr = (Array.isArray(transparencies) && transparencies[i] !== undefined) ? Number(transparencies[i]) : 0;
+    const rgba = hexToRgba(col, 1 - tr);
+    return `${rgba} ${pct.toFixed(1)}%`;
+  });
+  return `linear-gradient(${cssAngle}deg, ${stops.join(", ")})`;
+}
+
 function renderGradientCss(theme) {
-  const typeDef = GRADIENT_TYPES[theme.bgGradientType] || GRADIENT_TYPES.linear;
   const colors = theme.bgGradientColors && theme.bgGradientColors.length >= 2 ? theme.bgGradientColors : [theme.bg, theme.bg];
-  return typeDef.render(colors, theme.bgGradientAngle || 0);
+  return robloxGradientToCss(colors, theme.bgGradientAngle !== undefined ? theme.bgGradientAngle : (theme.bgGradientRotation || 90), [0, 0]);
 }
 
 function renderCustomGradientCss(g) {
   if (!g || !g.colors || g.colors.length === 0) return null;
-  const typeKey = (g.type || "linear").toLowerCase();
-  const typeDef = GRADIENT_TYPES[typeKey] || GRADIENT_TYPES.linear;
   const colors = g.colors.length >= 2 ? g.colors : [g.colors[0], g.colors[0]];
-  const withAlpha = colors.map((col, i) => {
-    const tr = (g.transparency || [])[i];
-    if (tr === undefined || tr === null || tr <= 0) return col;
-    return hexToRgba(col, 1 - tr);
-  });
-  return typeDef.render(withAlpha, g.rotation || 0);
+  return robloxGradientToCss(colors, g.rotation || 0, g.transparency || [0, 0]);
 }
 
 function hexToRgba(hex, alpha) {
@@ -1072,19 +1095,40 @@ function buildLayout() {
   const c = document.getElementById("layoutBody");
   const l = config.layout;
   c.innerHTML = `
-    <div class="field"><label class="field-label">Width (px)</label><div class="slider-wrap"><input type="range" min="150" max="400" value="${l.billboardWidth}" oninput="config.layout.billboardWidth=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.billboardWidth}px</span></div></div>
-    <div class="field"><label class="field-label">Height (px)</label><div class="slider-wrap"><input type="range" min="30" max="80" value="${l.billboardHeight}" oninput="config.layout.billboardHeight=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.billboardHeight}px</span></div></div>
+    <div class="layout-group-title">📐 Geometry & Frame</div>
+    <div class="field"><label class="field-label">Width (px)</label><div class="slider-wrap"><input type="range" min="160" max="320" value="${l.billboardWidth}" oninput="config.layout.billboardWidth=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.billboardWidth}px</span></div></div>
+    <div class="field"><label class="field-label">Height (px)</label><div class="slider-wrap"><input type="range" min="30" max="64" value="${l.billboardHeight}" oninput="config.layout.billboardHeight=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.billboardHeight}px</span></div></div>
     <div class="field"><label class="field-label">Corner Radius (px)</label><div class="slider-wrap"><input type="range" min="0" max="24" value="${l.cornerRadius}" oninput="config.layout.cornerRadius=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.cornerRadius}px</span></div></div>
-    <div class="field"><label class="field-label">Avatar Inner Corner Radius (px)</label><div class="slider-wrap"><input type="range" min="0" max="20" value="${l.innerCornerRadius}" oninput="config.layout.innerCornerRadius=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.innerCornerRadius}px</span></div></div>
-    <div class="field"><label class="field-label">Border Thickness (px)</label><div class="slider-wrap"><input type="range" min="0" max="5" value="${l.borderThickness}" oninput="config.layout.borderThickness=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.borderThickness}px</span></div></div>
+    <div class="field"><label class="field-label">Border Stroke Thickness (px)</label><div class="slider-wrap"><input type="range" min="0" max="4" value="${l.borderThickness}" oninput="config.layout.borderThickness=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.borderThickness}px</span></div></div>
+    <div class="field"><label class="field-label">In-Game Studs Offset Y (Above Head)</label><div class="slider-wrap"><input type="range" min="1.5" max="6" step="0.1" value="${l.studsOffsetY}" oninput="config.layout.studsOffsetY=+this.value; this.nextElementSibling.textContent=this.value+' studs'; saveConfigSoon()"><span class="slider-val">${l.studsOffsetY} studs</span></div></div>
+
+    <div class="layout-group-title">👤 Avatar Pill & Icon</div>
+    <div class="field"><label class="field-label">Avatar Pill Width (px)</label><div class="slider-wrap"><input type="range" min="28" max="60" value="${l.avatarWidth||42}" oninput="config.layout.avatarWidth=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.avatarWidth||42}px</span></div></div>
+    <div class="field"><label class="field-label">Inner Corner Radius (px)</label><div class="slider-wrap"><input type="range" min="0" max="18" value="${l.innerCornerRadius||8}" oninput="config.layout.innerCornerRadius=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.innerCornerRadius||8}px</span></div></div>
+    <div class="field"><label class="field-label">Image Inset / Padding (px)</label><div class="slider-wrap"><input type="range" min="0" max="8" value="${l.avatarImagePadding!==undefined?l.avatarImagePadding:3}" oninput="config.layout.avatarImagePadding=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.avatarImagePadding!==undefined?l.avatarImagePadding:3}px</span></div></div>
+    <div class="field"><label class="field-label">Initials Fallback Size (px)</label><div class="slider-wrap"><input type="range" min="8" max="18" value="${l.initialsTextSize||11}" oninput="config.layout.initialsTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.initialsTextSize||11}px</span></div></div>
+
+    <div class="layout-group-title">⚡ Vertical Divider</div>
     <div class="field"><label class="field-label">Divider Width (px)</label><div class="slider-wrap"><input type="range" min="0" max="4" value="${l.dividerWidth}" oninput="config.layout.dividerWidth=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.dividerWidth}px</span></div></div>
-    <div class="field"><label class="field-label">Divider Height (%)</label><div class="slider-wrap"><input type="range" min="0.2" max="1" step="0.05" value="${l.dividerHeightPct}" oninput="config.layout.dividerHeightPct=+this.value; this.nextElementSibling.textContent=Math.round(this.value*100)+'%'; updatePreview()"><span class="slider-val">${Math.round(l.dividerHeightPct*100)}%</span></div></div>
+    <div class="field"><label class="field-label">Divider Height (% of Card)</label><div class="slider-wrap"><input type="range" min="0.2" max="1" step="0.05" value="${l.dividerHeightPct}" oninput="config.layout.dividerHeightPct=+this.value; this.nextElementSibling.textContent=Math.round(this.value*100)+'%'; updatePreview()"><span class="slider-val">${Math.round(l.dividerHeightPct*100)}%</span></div></div>
     <div class="field"><label class="field-label">Divider Transparency</label><div class="slider-wrap"><input type="range" min="0" max="1" step="0.05" value="${l.dividerTransparency}" oninput="config.layout.dividerTransparency=+this.value; this.nextElementSibling.textContent=this.value; updatePreview()"><span class="slider-val">${l.dividerTransparency}</span></div></div>
-    <div class="field"><label class="field-label">Name Font Size</label><div class="slider-wrap"><input type="range" min="8" max="24" value="${l.nameTextSize}" oninput="config.layout.nameTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.nameTextSize}px</span></div></div>
-    <div class="field"><label class="field-label">Role Font Size</label><div class="slider-wrap"><input type="range" min="6" max="18" value="${l.roleTextSize}" oninput="config.layout.roleTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.roleTextSize}px</span></div></div>
+
+    <div class="layout-group-title">🔤 Name Label</div>
     <div class="field"><label class="field-label">Name Font</label><select onchange="config.layout.nameFont=this.value; updatePreview()">${FONT_OPTIONS.map(f=>`<option value="${f}" ${l.nameFont===f?'selected':''}>${f}</option>`).join('')}</select></div>
+    <div class="field"><label class="field-label">Name Font Size (px)</label><div class="slider-wrap"><input type="range" min="8" max="22" value="${l.nameTextSize}" oninput="config.layout.nameTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.nameTextSize}px</span></div></div>
+    <div class="field"><label class="field-label">Name Y Position (px)</label><div class="slider-wrap"><input type="range" min="-2" max="16" value="${l.nameLabelY!==undefined?l.nameLabelY:4}" oninput="config.layout.nameLabelY=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.nameLabelY!==undefined?l.nameLabelY:4}px</span></div></div>
+    <div class="field"><label class="field-label">Name Box Height (px)</label><div class="slider-wrap"><input type="range" min="12" max="26" value="${l.nameLabelHeight||18}" oninput="config.layout.nameLabelHeight=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.nameLabelHeight||18}px</span></div></div>
+
+    <div class="layout-group-title">🏷️ Role Label</div>
     <div class="field"><label class="field-label">Role Font</label><select onchange="config.layout.roleFont=this.value; updatePreview()">${FONT_OPTIONS.map(f=>`<option value="${f}" ${l.roleFont===f?'selected':''}>${f}</option>`).join('')}</select></div>
+    <div class="field"><label class="field-label">Role Font Size (px)</label><div class="slider-wrap"><input type="range" min="6" max="16" value="${l.roleTextSize}" oninput="config.layout.roleTextSize=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.roleTextSize}px</span></div></div>
+    <div class="field"><label class="field-label">Role Y Position (px)</label><div class="slider-wrap"><input type="range" min="14" max="36" value="${l.roleLabelY!==undefined?l.roleLabelY:24}" oninput="config.layout.roleLabelY=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.roleLabelY!==undefined?l.roleLabelY:24}px</span></div></div>
+    <div class="field"><label class="field-label">Role Box Height (px)</label><div class="slider-wrap"><input type="range" min="8" max="20" value="${l.roleLabelHeight||12}" oninput="config.layout.roleLabelHeight=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.roleLabelHeight||12}px</span></div></div>
     <div class="field"><label class="field-label">Role Text Transform</label><select onchange="config.layout.roleTextTransform=this.value; updatePreview()"><option value="upper" ${l.roleTextTransform==='upper'?'selected':''}>UPPERCASE</option><option value="none" ${l.roleTextTransform==='none'?'selected':''}>As Typed</option><option value="lower" ${l.roleTextTransform==='lower'?'selected':''}>lowercase</option></select></div>
+
+    <div class="layout-group-title">↔️ Margins & Offsets</div>
+    <div class="field"><label class="field-label">Avatar-to-Text Gap (px)</label><div class="slider-wrap"><input type="range" min="4" max="20" value="${l.avatarTextGap||10}" oninput="config.layout.avatarTextGap=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.avatarTextGap||10}px</span></div></div>
+    <div class="field"><label class="field-label">Right Margin Padding (px)</label><div class="slider-wrap"><input type="range" min="2" max="20" value="${l.textPaddingRight||6}" oninput="config.layout.textPaddingRight=+this.value; this.nextElementSibling.textContent=this.value+'px'; updatePreview()"><span class="slider-val">${l.textPaddingRight||6}px</span></div></div>
   `;
 }
 
@@ -1163,23 +1207,19 @@ function buildGradients() {
           <div class="toggle ${g.enabled?'on':''}" onclick="${ref}.enabled=!${ref}.enabled; toggleSwitch(this); updatePreview(); buildGradients();"><div class="toggle-knob"></div></div>
         </div>
         ${g.enabled ? `
-          <div class="field" style="margin-bottom:8px;">
-            <label class="field-label">Type</label>
-            <select style="padding:6px 10px; font-size:11.5px;" onchange="${ref}.type=this.value; updatePreview()">
-              <option value="Linear" ${g.type==='Linear'?'selected':''}>Linear</option>
-              <option value="Radial" ${g.type==='Radial'?'selected':''}>Radial</option>
-            </select>
+          <div style="font-size: 11px; color: var(--acc); font-family: var(--mono); margin-bottom: 8px;">
+            ✓ 1:1 In-Game Roblox Linear UIGradient
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
             <div class="field" style="margin:0;">
-              <label class="field-label">Color 1</label>
+              <label class="field-label">Color 1 (Start)</label>
               <div class="color-pick" style="padding:3px;">
                 <input type="color" value="${g.colors[0]||'#B87CFF'}" onchange="${ref}.colors[0]=this.value; this.nextElementSibling.value=this.value; updatePreview()">
                 <input type="text" class="hex" value="${g.colors[0]||'#B87CFF'}" onchange="${ref}.colors[0]=this.value; this.previousElementSibling.value=this.value; updatePreview()">
               </div>
             </div>
             <div class="field" style="margin:0;">
-              <label class="field-label">Color 2</label>
+              <label class="field-label">Color 2 (End)</label>
               <div class="color-pick" style="padding:3px;">
                 <input type="color" value="${g.colors[1]||'#1A1A22'}" onchange="${ref}.colors[1]=this.value; this.nextElementSibling.value=this.value; updatePreview()">
                 <input type="text" class="hex" value="${g.colors[1]||'#1A1A22'}" onchange="${ref}.colors[1]=this.value; this.previousElementSibling.value=this.value; updatePreview()">
@@ -1187,7 +1227,13 @@ function buildGradients() {
             </div>
           </div>
           <div class="field" style="margin-bottom:4px;">
-            <label class="field-label">Rotation (${g.rotation}°)</label>
+            <label class="field-label">Rotation Angle (${g.rotation}°)</label>
+            <div style="display:flex; gap:4px; margin-bottom:6px;">
+              <button type="button" class="btn-icon" style="flex:1; width:auto; height:24px; font-size:9.5px; font-family:var(--mono);" onclick="${ref}.rotation=0; buildGradients(); updatePreview();">0° (L→R)</button>
+              <button type="button" class="btn-icon" style="flex:1; width:auto; height:24px; font-size:9.5px; font-family:var(--mono);" onclick="${ref}.rotation=90; buildGradients(); updatePreview();">90° (T→B)</button>
+              <button type="button" class="btn-icon" style="flex:1; width:auto; height:24px; font-size:9.5px; font-family:var(--mono);" onclick="${ref}.rotation=45; buildGradients(); updatePreview();">45° (Diag)</button>
+              <button type="button" class="btn-icon" style="flex:1; width:auto; height:24px; font-size:9.5px; font-family:var(--mono);" onclick="${ref}.rotation=180; buildGradients(); updatePreview();">180° (R→L)</button>
+            </div>
             <div class="slider-wrap">
               <input type="range" min="0" max="360" value="${g.rotation}" oninput="${ref}.rotation=+this.value; this.nextElementSibling.textContent=this.value+'°'; updatePreview()">
               <span class="slider-val">${g.rotation}°</span>
@@ -1622,10 +1668,52 @@ function buildPreviewThemeBtns() {
   `).join('');
 }
 
-// ── LIVE PREVIEW ──
+// ── LIVE PREVIEW & 1:1 ROBLOX ENGINE SIMULATION ──
+let currentPreviewEnv = "dark";
+let currentPreviewScale = 1.35;
+
+function setPreviewEnv(env) {
+  currentPreviewEnv = env;
+  const p = document.querySelector(".preview");
+  if (p) {
+    p.classList.remove("env-dark", "env-sky", "env-studio");
+    p.classList.add("env-" + env);
+  }
+  document.getElementById("chipDark")?.classList.toggle("active", env === "dark");
+  document.getElementById("chipSky")?.classList.toggle("active", env === "sky");
+  document.getElementById("chipStudio")?.classList.toggle("active", env === "studio");
+}
+
+function setPreviewScale(sc) {
+  currentPreviewScale = sc;
+  const nt = document.getElementById("ntPreview");
+  if (nt) nt.style.transform = `scale(${sc})`;
+  document.getElementById("chip1x")?.classList.toggle("active", sc === 1);
+  document.getElementById("chipZoom")?.classList.toggle("active", sc !== 1);
+}
+
 function gradCssRoblox(g) {
-  // Roblox UIGradient rotation 0 = left→right; CSS 90deg = left→right
-  return renderCustomGradientCss(Object.assign({}, g, { rotation: (g.rotation || 0) + 90 }));
+  return renderCustomGradientCss(g);
+}
+
+function getCssFontForRoblox(fName) {
+  switch (fName) {
+    case "GothamBold": return { family: "'Geist', 'Montserrat', sans-serif", weight: "700", style: "normal" };
+    case "Gotham": return { family: "'Geist', 'Montserrat', sans-serif", weight: "400", style: "normal" };
+    case "GothamMedium": return { family: "'Geist', 'Montserrat', sans-serif", weight: "500", style: "normal" };
+    case "GothamBlack": return { family: "'Geist', 'Montserrat', sans-serif", weight: "900", style: "normal" };
+    case "GothamLight": case "GothamThin": return { family: "'Geist', 'Montserrat', sans-serif", weight: "300", style: "normal" };
+    case "SourceSansBold": case "SourceSansSemibold": return { family: "'Source Sans 3', sans-serif", weight: "700", style: "normal" };
+    case "SourceSans": case "SourceSansLight": return { family: "'Source Sans 3', sans-serif", weight: "400", style: "normal" };
+    case "Ubuntu": return { family: "'Ubuntu', sans-serif", weight: "400", style: "normal" };
+    case "UbuntuBold": return { family: "'Ubuntu', sans-serif", weight: "700", style: "normal" };
+    case "Arial": return { family: "Arial, sans-serif", weight: "400", style: "normal" };
+    case "ArialBold": return { family: "Arial, sans-serif", weight: "700", style: "normal" };
+    case "Code": return { family: "'Geist Mono', monospace", weight: "600", style: "normal" };
+    case "Highway": case "SciFi": return { family: "'Geist', sans-serif", weight: "800", style: "normal" };
+    case "Cartoon": case "CartoonBold": return { family: "'Fredoka', 'Comic Sans MS', sans-serif", weight: "700", style: "normal" };
+    default: return { family: "'Geist', sans-serif", weight: "700", style: "normal" };
+  }
 }
 
 function updatePreview() {
@@ -1689,59 +1777,101 @@ function updatePreview() {
   } else {
     ntPreview.style.background = bg;
   }
-  ntPreview.style.opacity = 1 - a.cardTransparency;
+  ntPreview.style.opacity = 1 - (a.cardTransparency !== undefined ? a.cardTransparency : 0.05);
   ntPreview.style.width = l.billboardWidth + "px";
   ntPreview.style.height = l.billboardHeight + "px";
   ntPreview.style.borderRadius = l.cornerRadius + "px";
+  ntPreview.style.transform = `scale(${currentPreviewScale})`;
 
-  ntBorder.style.border = `${l.borderThickness}px solid ${border}`;
+  // Border (Roblox UIStroke simulation)
+  ntBorder.style.position = "absolute";
+  ntBorder.style.inset = "0px";
+  ntBorder.style.borderWidth = (l.borderThickness !== undefined ? l.borderThickness : 1) + "px";
+  ntBorder.style.borderStyle = "solid";
+  ntBorder.style.borderColor = border;
   ntBorder.style.borderRadius = l.cornerRadius + "px";
-  ntBorder.style.opacity = 1 - a.borderTransparency;
+  ntBorder.style.opacity = 1 - (a.borderTransparency !== undefined ? a.borderTransparency : 0.25);
 
-  ntAv.style.width = l.avatarWidth + "px";
+  // Avatar frame & inner image
+  const avWidth = l.avatarWidth || 42;
+  const avPad = (l.avatarImagePadding !== undefined ? l.avatarImagePadding : 3);
+  const innerRad = (l.innerCornerRadius !== undefined ? l.innerCornerRadius : 8);
+
+  ntAv.style.position = "absolute";
+  ntAv.style.left = "0px";
+  ntAv.style.top = "0px";
+  ntAv.style.width = avWidth + "px";
+  ntAv.style.height = l.billboardHeight + "px";
+  ntAv.style.borderRadius = `${l.cornerRadius}px 0 0 ${l.cornerRadius}px`;
   ntAv.style.background = avatarBg;
 
   if (!avUrl && config.profilePictures && config.profilePictures[effectiveRole] && config.profilePictures[effectiveRole].url) {
     avUrl = config.profilePictures[effectiveRole].url;
   }
 
+  ntAvInner.style.position = "absolute";
+  ntAvInner.style.left = avPad + "px";
+  ntAvInner.style.top = avPad + "px";
+  ntAvInner.style.width = Math.max(0, avWidth - avPad * 2) + "px";
+  ntAvInner.style.height = Math.max(0, l.billboardHeight - avPad * 2) + "px";
+  ntAvInner.style.borderRadius = innerRad + "px";
+  ntAvInner.style.overflow = "hidden";
+
   if (avUrl) {
-    ntAvInner.innerHTML = `<img src="${avUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:${l.innerCornerRadius}px;" onerror="this.outerHTML='<span style=\\'color:${avatarText}\\'>TL</span>'">`;
+    ntAvInner.innerHTML = `<img src="${avUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:${innerRad}px;" onerror="this.outerHTML='<span style=\\'color:${avatarText}; font-weight:700; font-size:${l.initialsTextSize||11}px;\\'>TL</span>'">`;
   } else {
     const initials = (nameText || "TL").slice(0, 2).toUpperCase();
-    ntAvInner.innerHTML = `<span style="color:${avatarText}; font-size:${l.initialsTextSize||11}px;">${initials}</span>`;
+    ntAvInner.innerHTML = `<span style="color:${avatarText}; font-size:${l.initialsTextSize||11}px; font-weight:700;">${initials}</span>`;
   }
-  ntAvInner.style.borderRadius = l.innerCornerRadius + "px";
 
-  ntDivider.style.width = l.dividerWidth + "px";
+  // Divider (Roblox Frame: Position = (0, avW, (1-hPct)/2, 0), Size = (0, divW, hPct, 0))
+  const divPct = (l.dividerHeightPct !== undefined ? l.dividerHeightPct : 0.5);
+  const divH = Math.round(l.billboardHeight * divPct);
+  const divY = Math.round((l.billboardHeight - divH) / 2);
+
+  ntDivider.style.position = "absolute";
+  ntDivider.style.left = avWidth + "px";
+  ntDivider.style.width = (l.dividerWidth !== undefined ? l.dividerWidth : 1) + "px";
+  ntDivider.style.height = divH + "px";
+  ntDivider.style.top = divY + "px";
   ntDivider.style.background = divider;
-  ntDivider.style.opacity = 1 - l.dividerTransparency;
-  ntDivider.style.margin = `${(1 - l.dividerHeightPct) * 50}% 0`;
+  ntDivider.style.opacity = 1 - (l.dividerTransparency !== undefined ? l.dividerTransparency : 0.75);
 
+  // Text Elements
   let finalRoleText = roleText;
   if (l.roleTextTransform === "upper") finalRoleText = roleText.toUpperCase();
   else if (l.roleTextTransform === "lower") finalRoleText = roleText.toLowerCase();
 
-  const leftOffset = (l.avatarWidth || 44) + (l.avatarTextGap || 10);
-  const rightOffset = l.textPaddingRight || 4;
+  const leftOffset = avWidth + (l.avatarTextGap !== undefined ? l.avatarTextGap : 10);
+  const rightOffset = (l.textPaddingRight !== undefined ? l.textPaddingRight : 6);
 
+  const nFont = getCssFontForRoblox(l.nameFont || "GothamBold");
   nameDisplay.textContent = nameText;
   nameDisplay.style.color = nameColor;
-  nameDisplay.style.fontSize = l.nameTextSize + "px";
+  nameDisplay.style.fontFamily = nFont.family;
+  nameDisplay.style.fontWeight = nFont.weight;
+  nameDisplay.style.fontStyle = nFont.style;
+  nameDisplay.style.fontSize = (l.nameTextSize || 13) + "px";
   nameDisplay.style.left = leftOffset + "px";
   nameDisplay.style.right = rightOffset + "px";
-  nameDisplay.style.top = (l.nameLabelY || 4) + "px";
-  nameDisplay.style.height = (l.nameLabelHeight || 20) + "px";
+  nameDisplay.style.top = (l.nameLabelY !== undefined ? l.nameLabelY : 4) + "px";
+  nameDisplay.style.height = (l.nameLabelHeight || 18) + "px";
+  nameDisplay.style.lineHeight = (l.nameLabelHeight || 18) + "px";
 
+  const rFont = getCssFontForRoblox(l.roleFont || "GothamBold");
   roleDisplay.textContent = finalRoleText;
   roleDisplay.style.color = roleColor;
-  roleDisplay.style.fontSize = l.roleTextSize + "px";
+  roleDisplay.style.fontFamily = rFont.family;
+  roleDisplay.style.fontWeight = rFont.weight;
+  roleDisplay.style.fontStyle = rFont.style;
+  roleDisplay.style.fontSize = (l.roleTextSize || 9) + "px";
   roleDisplay.style.left = leftOffset + "px";
   roleDisplay.style.right = rightOffset + "px";
-  roleDisplay.style.top = (l.roleLabelY || 26) + "px";
+  roleDisplay.style.top = (l.roleLabelY !== undefined ? l.roleLabelY : 24) + "px";
   roleDisplay.style.height = (l.roleLabelHeight || 12) + "px";
+  roleDisplay.style.lineHeight = (l.roleLabelHeight || 12) + "px";
 
-  // Per-role target gradients (only this role's own settings; explicit per-player colors win)
+  // Target gradients
   const tg = (k, ovKey) => {
     const g = theme.gradients && theme.gradients[k];
     return (g && g.enabled && !(colorOverrides && colorOverrides[ovKey])) ? gradCssRoblox(g) : null;
